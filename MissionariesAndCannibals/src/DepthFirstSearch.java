@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -47,10 +48,11 @@ public class DepthFirstSearch {
       /*
        * Function used to add all possible leaves on a branch
        */
-      boolean newLeaf(Queue<State> queue, State state){
+      boolean newLeaf(Queue<State> queue){
     	  
-    	  if (state.boat == "R"){
+    	  if (this.boat == "R"){
     		// Add all possible numbers to the queue if the boat is on the right side
+    		
     	  }else{
     		// Add all possible numbers to the queue if the boat is on the left side
     	  }
@@ -66,8 +68,10 @@ public class DepthFirstSearch {
    */
    DepthFirstSearch(){
 
-
-	   State state = new State(0, 0, 0, 0, "L");	    
+	   Queue<State> queue = new LinkedList();
+	   State state = new State(0, 0, 0, 0, "L");	
+	   state.newLeaf(queue);
+	       
 	   
 	   
    }
