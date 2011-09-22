@@ -77,13 +77,16 @@ public class DepthFirstSearch {
 		 /*
 	  * 
 	  */
-	  void testAddState(Stack<State> stack){
+	  boolean isValid(){
 		  // If we have no violated any rules then we can push a new state onto the queue
 		  if ((this.rightCannibals <= this.rightMissionaries) && (this.leftCannibals <= this.leftMissionaries) &&
 			  (this.rightCannibals >= 0) && (this.rightMissionaries >= 0) && 
 			  (this.leftCannibals >= 0) && (this.leftMissionaries >= 0)){
-		  }
-	  }
+			  return true;
+		  }     	
+		  
+		  return false;
+	  }  
 	  /*
 	   * Function used to see if the solution has been found.
 	   */
@@ -96,13 +99,48 @@ public class DepthFirstSearch {
       }
       
       boolean newNode(Stack<State> stack){
-    	  stack.add(moveOneMissionary());		 
-    	  stack.add(moveTwoMissionaries()); 
-    	  stack.add(moveOneCannabal());
-    	  stack.add(moveTwoCannabals());
-    	  stack.add( moveOneCannabelOneMissionary());
-    	  return false;
+ 
+    	  while(stack.peek().isValid()){
+    	     stack.add(moveOneMissionary());
+             if (stack.peek().isSolution()){
+            	 return true;
+             }
+    	  }
+    	  stack.pop();
+
+    	  while(stack.peek().isValid()){
+             stack.add(moveTwoMissionaries()); 
+    	     if (stack.peek().isSolution()){
+         	    return true;
+             }
+    	  }
+    	  stack.pop();
     	  
+    	  while(stack.peek().isValid()){
+    		 stack.add(moveOneCannabal()); 
+     	     if (stack.peek().isSolution()){
+          	    return true;
+             }
+     	  }
+     	  stack.pop();
+     	  
+     	 while(stack.peek().isValid()){
+     		 stack.add(moveTwoCannabals()); 
+    	     if (stack.peek().isSolution()){
+         	    return true;
+             }
+    	  }
+    	  stack.pop();
+    	  
+    	  while(stack.peek().isValid()){
+    		 stack.add(moveOneCannabelOneMissionary()); 
+     	     if (stack.peek().isSolution()){
+          	    return true;
+             }
+     	  }
+     	  stack.pop();
+     	  
+    	  return false;   	  
       }
   }
   
