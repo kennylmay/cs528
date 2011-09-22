@@ -99,13 +99,17 @@ public class DepthFirstSearch {
       }
       
       boolean newNode(Stack<State> stack){
- 
-    	  while(stack.peek().isValid()){
-    	     stack.add(moveOneMissionary());
-             if (stack.peek().isSolution()){
-            	 return true;
-             }
-    	  }
+
+    	  stack.add(moveOneMissionary());
+          if (stack.peek().isSolution()){
+             return true;
+          }
+          if (stack.peek().isValid()) {
+        	  if (newNode(stack)) {
+        		  return true;
+        	  }
+          }
+          
     	  stack.pop();
 
     	  while(stack.peek().isValid()){
