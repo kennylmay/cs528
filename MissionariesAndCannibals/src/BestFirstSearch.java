@@ -65,7 +65,6 @@ class State {
 		LinkedList<State> ret = new LinkedList<State>();
 
 		// Get the boat direction
-		int dir;
 		int[] moves;
 		if (boats == 1)
 			moves = rightMoves;
@@ -83,8 +82,7 @@ class State {
 						|| (i + mis > totalMissionaries || j + can > totalCannibals)) {
 					continue;
 				}
-				State childState = new State(i + mis, j + can,
-						moves == leftMoves ? 1 : 0, this);
+				State childState = new State(i + mis, j + can, moves == leftMoves ? 1 : 0, this);
 				if (childState.isValid() && childState.otherSide().isValid()) {
 					ret.add(childState);
 				}
@@ -122,7 +120,7 @@ public class BestFirstSearch {
 
 		LinkedList<State> open = new LinkedList<State>();
 		HashMap<String, State> closed = new HashMap<String, State>();
-		StateSort cmp = new StateSort();
+		HeuristicSort cmp = new HeuristicSort();
 
 		// Add initial state
 		open.add(new State(mis, can, boats, null));
@@ -159,12 +157,10 @@ public class BestFirstSearch {
 				- State.goal.boats;
 	}
 
-	class StateSort implements Comparator<State> {
-
+	class HeuristicSort implements Comparator<State> {
 		@Override
 		public int compare(State a, State b) {
 			return Heuristic(a).compareTo(Heuristic(b));
 		}
-
 	}
 }
