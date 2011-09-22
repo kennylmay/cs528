@@ -1,4 +1,3 @@
-import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -15,18 +14,70 @@ public class DepthFirstSearch {
 	  int leftMissionaries;
 	  String boat;
 
-	  /*
-	   * Defines the state that the missionaries and cannibals can be in.
-	   */
-	  State(int lcann, int rcann, int lmiss, int rmiss, String bt){
+	 State(int lcann, int rcann, int lmiss, int rmiss, String bt){
 		  rightCannibals = rcann;
 		  leftCannibals = lcann;
 		  rightMissionaries = rmiss;
 		  leftMissionaries = lmiss;
 		  boat = bt;
-	  }
+	 }
+	  
+	 void moveOneMissionary(){
+		if (this.boat == "R"){
+			this.rightMissionaries--;
+			this.leftMissionaries++;
+		}else{
+			this.rightMissionaries++;
+			this.leftMissionaries--;
+		}
+	 }
+	 
+	 void moveTwoMissionaries(){
+		 if (this.boat == "R"){
+			this.rightMissionaries-=2;
+			this.leftMissionaries+=2;
+		 }else{
+			this.rightMissionaries-=2;
+			this.leftMissionaries+=2;
+		 }
+	 }
+	 
+	 void moveOneCannabal(){
+		 if (this.boat == "R"){
+			this.rightCannibals--;
+			this.leftCannibals++;
+		 }else{
+			this.rightCannibals++;
+			this.leftCannibals--;
+		 }
+	 }
+	 
+	 void moveTwoCannabals(){
+		 if (this.boat == "R"){
+			this.rightCannibals-=2;
+			this.leftCannibals+=2;
+		 }else{
+			this.rightCannibals-=2;
+			this.rightCannibals+=2;
+		 }
+	 }
+	 
+	 void moveOneCannabelOneMissionary(){
+		 if (this.boat == "R"){
+			this.rightMissionaries--;
+			this.leftMissionaries++;
+			this.rightCannibals--;
+			this.leftCannibals++;
+		 }else{
+			this.rightMissionaries++;
+			this.leftMissionaries--;
+			this.rightCannibals++;
+			this.leftCannibals--;
+		 }
+	 }
+	  
 	 /*
-	  * Function used to add a new leaf to the tree, but only if its valid.
+	  * 
 	  */
 	  void testAddState(Queue<State> queue, State state){
 		  // If we have no violated any rules then we can push a new state onto the queue
@@ -45,14 +96,10 @@ public class DepthFirstSearch {
     	  }
       }
       
-      /*
-       * Function used to add all possible leaves on a branch
-       */
-      boolean newLeaf(Queue<State> queue){
+      boolean newLeaf(Queue<State> queue, State state){
     	  
-    	  if (this.boat == "R"){
+    	  if (state.boat == "R"){
     		// Add all possible numbers to the queue if the boat is on the right side
-    		
     	  }else{
     		// Add all possible numbers to the queue if the boat is on the left side
     	  }
@@ -63,15 +110,10 @@ public class DepthFirstSearch {
   }
   
 
-  /*
-   * Actual algorithm used to search for a correct state.
-   */
    DepthFirstSearch(){
 
-	   Queue<State> queue = new LinkedList();
-	   State state = new State(0, 0, 0, 0, "L");	
-	   state.newLeaf(queue);
-	       
+
+	   State state = new State(0, 0, 0, 0, "L");	    
 	   
 	   
    }
