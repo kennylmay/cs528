@@ -121,34 +121,38 @@ public class DepthFirstSearch {
 			}
 		}
 
-		State newNode() {
+		State newNode(Stack<State> stack) {
 			State state;
 
 			state = moveOneMissionary();
-			if (state.isValid()) {
+			if (state.isValid() && state.isUnique(state, stack)) {
+                stack.push(state);
 				return state;
 			}
 
 			state = moveTwoMissionaries();
-			if (state.isValid()) {
+			if (state.isValid() && state.isUnique(state, stack)) {
+				stack.push(state);
 				return state;
 			}
 
 			state = moveOneCannabal();
-			if (state.isValid()) {
+			if (state.isValid() && state.isUnique(state, stack)) {
+				stack.push(state);
 				return state;
 			}
 
 			state = moveTwoCannabals();
-			if (state.isValid()) {
+			if (state.isValid() && state.isUnique(state, stack)) {
+				stack.push(state);
 				return state;
 			}
 
 			state = moveOneCannabelOneMissionary();
-			if (state.isValid()) {
+			if (state.isValid() && state.isUnique(state, stack)) {
+				stack.push(state);
 				return state;
 			}
-			
 		  return null;
 		}
 
@@ -194,7 +198,10 @@ public class DepthFirstSearch {
 			if (stack.peek().isSolution()) {
 				System.out.println("Found Solution");
 			} else {
-				stack.add(state.newNode());
+				if (state.newNode(stack) == null){
+					stack.pop();
+				}
+	          
 			}
 			if (stack.isEmpty()) {
 				System.out.println("No Solution Found");
