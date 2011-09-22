@@ -1,7 +1,5 @@
 import java.util.*;
 
-import DepthFirstSearch.State;
-
 
 /**
  * @author kenny
@@ -25,68 +23,54 @@ public class DepthFirstSearch {
 		  boat = bt;
 	 }
 	  
-	 void moveOneMissionary(){
+	 State moveOneMissionary(){
+		State state;
 		if (this.boat == "R"){
-			this.rightMissionaries--;
-			this.leftMissionaries++;
-			this.boat="L";
+			state = new State(this.leftCannibals, this.leftMissionaries + 1, this.rightCannibals, this.rightMissionaries - 1,"L");
 		}else{
-			this.rightMissionaries++;
-			this.leftMissionaries--;
-			this.boat="R";
+			state = new State(this.leftCannibals, this.leftMissionaries - 1, this.rightCannibals, this.rightMissionaries + 1,"R");
 		}
+		return state;
 	 }
 	 
-	 void moveTwoMissionaries(){
+	 State moveTwoMissionaries(){
+		 State state;
 		 if (this.boat == "R"){
-			this.rightMissionaries-=2;
-			this.leftMissionaries+=2;
-			this.boat="L";
+			 state = new State(this.leftCannibals, this.leftMissionaries + 2, this.rightCannibals, this.rightMissionaries - 2,"L");
 		 }else{
-			this.rightMissionaries-=2;
-			this.leftMissionaries+=2;
-			this.boat="R";
+			 state = new State(this.leftCannibals, this.leftMissionaries - 2, this.rightCannibals, this.rightMissionaries + 2,"R");
 		 }
+		 return state;
 	 }
 	 
-	 void moveOneCannabal(){
+	 State moveOneCannabal(){
+		 State state;
 		 if (this.boat == "R"){
-			this.rightCannibals--;
-			this.leftCannibals++;
-			this.boat="L";
+			 state = new State(this.leftCannibals + 1, this.leftMissionaries, this.rightCannibals - 1, this.rightMissionaries,"L");
 		 }else{
-			this.rightCannibals++;
-			this.leftCannibals--;
-			this.boat="R";
+			 state = new State(this.leftCannibals - 1, this.leftMissionaries, this.rightCannibals + 1, this.rightMissionaries,"R");
 		 }
+		 return state;
 	 }
 	 
-	 void moveTwoCannabals(){
+	 State moveTwoCannabals(){
+		 State state;
 		 if (this.boat == "R"){
-			this.rightCannibals-=2;
-			this.leftCannibals+=2;
-			this.boat="L";
+			 state = new State(this.leftCannibals + 2, this.leftMissionaries, this.rightCannibals - 2, this.rightMissionaries,"L");
 		 }else{
-			this.rightCannibals-=2;
-			this.rightCannibals+=2;
-			this.boat="R";
+			 state = new State(this.leftCannibals - 2, this.leftMissionaries, this.rightCannibals + 2, this.rightMissionaries,"R");
 		 }
+		 return state;
 	 }
 	 
-	 void moveOneCannabelOneMissionary(){
+	 State moveOneCannabelOneMissionary(){
+		 State state;
 		 if (this.boat == "R"){
-			this.rightMissionaries--;
-			this.leftMissionaries++;
-			this.rightCannibals--;
-			this.leftCannibals++;
-			this.boat="L";
+			 state = new State(this.leftCannibals + 1, this.leftMissionaries + 1, this.rightCannibals - 1, this.rightMissionaries - 1,"L");
 		 }else{
-			this.rightMissionaries++;
-			this.leftMissionaries--;
-			this.rightCannibals++;
-			this.leftCannibals--;
-			this.boat="R";
+			 state = new State(this.leftCannibals - 1, this.leftMissionaries - 1, this.rightCannibals + 1, this.rightMissionaries + 1,"R");
 		 }
+		 return state;
 	 }
 	  
 	 
@@ -112,11 +96,11 @@ public class DepthFirstSearch {
       }
       
       boolean newNode(Stack<State> stack){
-    	     moveOneMissionary();		 
-    		 moveTwoMissionaries(); 
-    		 moveOneCannabal();
-    		 moveTwoCannabals();
-    		 moveOneCannabelOneMissionary();
+    	  stack.add(moveOneMissionary());		 
+    	  stack.add(moveTwoMissionaries()); 
+    	  stack.add(moveOneCannabal());
+    	  stack.add(moveTwoCannabals());
+    	  stack.add( moveOneCannabelOneMissionary());
     	  return false;
     	  
       }
