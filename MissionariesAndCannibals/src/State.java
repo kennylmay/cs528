@@ -57,8 +57,11 @@ class State {
 	public final int boats;
 	public final State parent;
 
-	
-	public boolean isValid() {
+
+	//Returns true if no missionaries will not be eaten at this state.
+	public boolean missionariesAreSafe() {
+		//Check the start side
+		
 		// If there are any missionaries, they must be equal to or greater than
 		// the cannibals
 		if (mis > 0) {
@@ -66,14 +69,19 @@ class State {
 				return false;
 			}
 		}
+		
+		//Check the other side
+		if((totalMissionaries - mis) > 0) {
+			if( (totalMissionaries - mis) < (totalCannibals - can)) {
+               return false;				
+			}
+		}
+		
+		//They are safe.
 		return true;
 	}
-
-	//Returns the "other side" of a given state. 
-	public State otherSide() {
-		return new State(totalMissionaries - mis, totalCannibals - can,
-				Math.abs(boats - 1), null);
-	}
+	
+	
 
 	//Used to check for equality
 	@Override
@@ -129,9 +137,9 @@ class State {
 				//Create the candidate state. 
 				State childState = new State(i + mis, j + can, moves == leftMoves ? 1 : 0, this);
 				
-				//Check if missionaries are going to die on either side of the river.
-				if (childState.isValid() && childState.otherSide().isValid()) {
-					//Both sides are good. Add it as a successor.
+				//Check if missionaries are going to die 
+				if (childState.missionariesAreSafe()) {
+					// Add it as a successor.
 					ret.add(childState);
 				}
 			}

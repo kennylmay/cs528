@@ -10,7 +10,7 @@ public class BestFirstSearch {
 	static void exec() {
        
         //Set the starting state
-        State start = new State(3, 3, 1, null);
+        State start = new State(State.totalMissionaries, State.totalCannibals, 1, null);
         
         //Run the BFS algorithm
   		State s = instance.bfs(start);
@@ -45,7 +45,6 @@ public class BestFirstSearch {
 
 			// Pop front of open
 			State n = open.poll();
-
 			
 			// Put it into closed
 			closed.put(n.toString(), n);
