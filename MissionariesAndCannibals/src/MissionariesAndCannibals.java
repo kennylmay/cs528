@@ -8,6 +8,7 @@ public class MissionariesAndCannibals {
 	
 		//Set the parameters for total missionaries, total cannibals, and boat capacity. 
         State.setParameters(3, 3, 2);
+		new DepthFirstSearch();
 		
         //Run BFS
 		BestFirstSearch.exec();

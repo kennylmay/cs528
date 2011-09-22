@@ -97,8 +97,8 @@ public class DepthFirstSearch {
 		boolean isValid() {
 			// If we have no violated any rules then we can push a new state
 			// onto the queue
-			if ((this.rightCannibals <= this.rightMissionaries)
-					&& (this.leftCannibals <= this.leftMissionaries)
+			if ((this.rightCannibals <= this.rightMissionaries || this.rightMissionaries == 0)
+					&& (this.leftCannibals <= this.leftMissionaries || this.leftMissionaries == 0)
 					&& (this.rightCannibals >= 0)
 					&& (this.rightMissionaries >= 0)
 					&& (this.leftCannibals >= 0)
@@ -113,7 +113,7 @@ public class DepthFirstSearch {
 		 * Function used to see if the solution has been found.
 		 */
 		boolean isSolution() {
-			if (this.leftCannibals == 3 && this.leftMissionaries == 3
+			if (this.leftCannibals == 0 && this.leftMissionaries == 0
 					&& this.boat == "R") {
 				return true;
 			} else {
@@ -121,34 +121,35 @@ public class DepthFirstSearch {
 			}
 		}
 
-		State newNode(Stack<State> stack) {
+		State newNode() {
 			State state;
 
 			state = moveOneMissionary();
-			if (state.isValid() && state.isUnique(state, stack)) {
+			if (state.isValid()) {
 				return state;
 			}
 
 			state = moveTwoMissionaries();
-			if (state.isValid() && state.isUnique(state, stack)) {
+			if (state.isValid()) {
 				return state;
 			}
 
 			state = moveOneCannabal();
-			if (state.isValid() && state.isUnique(state, stack)) {
+			if (state.isValid()) {
 				return state;
 			}
 
 			state = moveTwoCannabals();
-			if (state.isValid() && state.isUnique(state, stack)) {
+			if (state.isValid()) {
 				return state;
 			}
 
 			state = moveOneCannabelOneMissionary();
-			if (state.isValid() && state.isUnique(state, stack)) {
+			if (state.isValid()) {
 				return state;
 			}
-			return null;
+			
+		  return null;
 		}
 
 		private boolean isUnique(State state, Stack<State> stack) {
@@ -193,9 +194,7 @@ public class DepthFirstSearch {
 			if (stack.peek().isSolution()) {
 				System.out.println("Found Solution");
 			} else {
-				if (state.newNode(stack) != null) {
-					stack.add(state);
-				}
+				stack.add(state.newNode());
 			}
 			if (stack.isEmpty()) {
 				System.out.println("No Solution Found");
