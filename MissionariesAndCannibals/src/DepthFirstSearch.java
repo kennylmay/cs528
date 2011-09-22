@@ -1,4 +1,7 @@
-import java.util.Queue;
+import java.util.*;
+
+import DepthFirstSearch.State;
+
 
 /**
  * @author kenny
@@ -14,7 +17,7 @@ public class DepthFirstSearch {
 	  int leftMissionaries;
 	  String boat;
 
-	 State(int lcann, int rcann, int lmiss, int rmiss, String bt){
+	 State(int lcann, int lmiss,int rcann, int rmiss, String bt){
 		  rightCannibals = rcann;
 		  leftCannibals = lcann;
 		  rightMissionaries = rmiss;
@@ -26,9 +29,11 @@ public class DepthFirstSearch {
 		if (this.boat == "R"){
 			this.rightMissionaries--;
 			this.leftMissionaries++;
+			this.boat="L";
 		}else{
 			this.rightMissionaries++;
 			this.leftMissionaries--;
+			this.boat="R";
 		}
 	 }
 	 
@@ -36,9 +41,11 @@ public class DepthFirstSearch {
 		 if (this.boat == "R"){
 			this.rightMissionaries-=2;
 			this.leftMissionaries+=2;
+			this.boat="L";
 		 }else{
 			this.rightMissionaries-=2;
 			this.leftMissionaries+=2;
+			this.boat="R";
 		 }
 	 }
 	 
@@ -46,9 +53,11 @@ public class DepthFirstSearch {
 		 if (this.boat == "R"){
 			this.rightCannibals--;
 			this.leftCannibals++;
+			this.boat="L";
 		 }else{
 			this.rightCannibals++;
 			this.leftCannibals--;
+			this.boat="R";
 		 }
 	 }
 	 
@@ -56,9 +65,11 @@ public class DepthFirstSearch {
 		 if (this.boat == "R"){
 			this.rightCannibals-=2;
 			this.leftCannibals+=2;
+			this.boat="L";
 		 }else{
 			this.rightCannibals-=2;
 			this.rightCannibals+=2;
+			this.boat="R";
 		 }
 	 }
 	 
@@ -68,42 +79,44 @@ public class DepthFirstSearch {
 			this.leftMissionaries++;
 			this.rightCannibals--;
 			this.leftCannibals++;
+			this.boat="L";
 		 }else{
 			this.rightMissionaries++;
 			this.leftMissionaries--;
 			this.rightCannibals++;
 			this.leftCannibals--;
+			this.boat="R";
 		 }
 	 }
 	  
-	 /*
+	 
+		 /*
 	  * 
 	  */
-	  void testAddState(Queue<State> queue, State state){
+	  void testAddState(Stack<State> stack){
 		  // If we have no violated any rules then we can push a new state onto the queue
-		  if ((state.rightCannibals <= state.rightMissionaries) && (state.leftCannibals <= state.leftMissionaries) &&
-			  (state.rightCannibals >= 0) && (state.rightMissionaries >= 0)){
+		  if ((this.rightCannibals <= this.rightMissionaries) && (this.leftCannibals <= this.leftMissionaries) &&
+			  (this.rightCannibals >= 0) && (this.rightMissionaries >= 0) && 
+			  (this.leftCannibals >= 0) && (this.leftMissionaries >= 0)){
 		  }
 	  }
 	  /*
 	   * Function used to see if the solution has been found.
 	   */
-      boolean isSolution(State state){
-    	  if(state.leftCannibals == 3 && state.leftMissionaries == 3 && state.boat == "R"){
+      boolean isSolution(){
+    	  if(this.leftCannibals == 3 && this.leftMissionaries == 3 && this.boat == "R"){
     		  return true;
     	  }else{
     		  return false;
     	  }
       }
       
-      boolean newLeaf(Queue<State> queue, State state){
-    	  
-    	  if (state.boat == "R"){
-    		// Add all possible numbers to the queue if the boat is on the right side
-    	  }else{
-    		// Add all possible numbers to the queue if the boat is on the left side
-    	  }
-    	  
+      boolean newNode(Stack<State> stack){
+    	     moveOneMissionary();		 
+    		 moveTwoMissionaries(); 
+    		 moveOneCannabal();
+    		 moveTwoCannabals();
+    		 moveOneCannabelOneMissionary();
     	  return false;
     	  
       }
@@ -112,8 +125,11 @@ public class DepthFirstSearch {
 
    DepthFirstSearch(){
 
-
-	   State state = new State(0, 0, 0, 0, "L");	    
+       Stack<State> stack = new Stack<State>();
+	   State state = new State(3, 3, 0, 0, "L");
+	   stack.add(state);
+	   state.newNode(stack);
+	   
 	   
 	   
    }
