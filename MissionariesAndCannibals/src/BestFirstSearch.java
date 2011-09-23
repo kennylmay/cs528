@@ -15,7 +15,7 @@ public class BestFirstSearch {
         //Run the BFS algorithm
   		State s = instance.bfs(start);
   		
-  		//Check for not solution not found
+  		//Check for solution not found
 		if (s == State.notFound) {
 			System.out.println("Not found.");
 			return;

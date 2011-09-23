@@ -13,7 +13,7 @@ private static BreadthFirstSearch instance = new BreadthFirstSearch();
         //Run the breadth first search algorithm
   		State s = instance.breadth(start);
   		
-  		//Check for not solution not found
+  		//Check for solution not found
 		if (s == State.notFound) {
 			System.out.println("Not found.");
 			return;
