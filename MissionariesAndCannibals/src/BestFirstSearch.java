@@ -38,20 +38,21 @@ public class BestFirstSearch {
 
 		// Add initial state
 		open.add(start);
-
+        int visits = 0;
 		while (open.size() != 0) {
 			// Sort according to the heuristic function
 			Collections.sort(open, cmp);
 
 			// Pop front of open
 			State n = open.poll();
-			
+			System.out.println("Visiting [" + n.toString() + "]");
+			visits++;
 			// Put it into closed
 			closed.put(n.toString(), n);
 
 			// Check if this is the goal
 			if (n.equals(State.goal)) {
-				System.out.println("Found Goal");
+				System.out.println("BestFirstSearch Found Goal, total nodes visited: " + Integer.toString(visits));
 				return n;
 			}
 
@@ -59,7 +60,7 @@ public class BestFirstSearch {
 			for (State child : n.successors()) {
 				if (!closed.containsKey(child.toString())) {
 					//Add to open
-					open.add(child);
+					open.addLast(child);
 				}
 			}
 		}
