@@ -17,11 +17,13 @@ public class MissionariesAndCannibals {
 		System.out.println("\nStarting Breadth First Search");
 		BreadthFirstSearch.exec();
 		
-		//Run breadth first search
+		//Run depth first search
 		System.out.println("\nStarting Depth First Search");
 		DepthFirstSearch.exec();
 		
-		//TODO: run iteratively deepening depth first search
+		//Run iterative depth first search
+		System.out.println("\nStarting Iterative Depth First Search");
+		IterativeDepthFirstSearch.exec();
 		
 	}
 
