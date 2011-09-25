@@ -63,7 +63,7 @@ public class DepthFirstSearch {
 			for (State child : n.successors()) {
 				if (!closed.containsKey(child.toString())) {
 					// Add to open
-					open.addLast(child);
+					open.addFirst(child);
 				}
 			}
 		}
