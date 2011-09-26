@@ -1,10 +1,8 @@
-package missionariesAndCannibals;
-
 import java.util.LinkedList;
 import java.util.Queue;
 import java.lang.Math;
 
-public class MAndCBreadthFirstSearch {
+public class BreadthFirstSearch2 {
 
 	private class DestinationShoreState
 	{
@@ -38,12 +36,7 @@ public class MAndCBreadthFirstSearch {
 	
 	private Queue<DestinationShoreState> searchTree = new LinkedList<DestinationShoreState>();
 	private LinkedList<DestinationShoreState> triedStates = new LinkedList<DestinationShoreState>();
-	
-	public static void main(String[] args) {
-		MAndCBreadthFirstSearch searcher = new MAndCBreadthFirstSearch();
-		searcher.PerformSearch();
-	}
-	
+
 	public void PerformSearch()
 	{
 		DestinationShoreState currentSearchState = new DestinationShoreState();

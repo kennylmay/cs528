@@ -13,10 +13,6 @@ public class MissionariesAndCannibals {
         //Run best first search
 		BestFirstSearch.exec();
 		
-		//Run breadth first search
-		System.out.println("\nStarting Breadth First Search");
-		BreadthFirstSearch.exec();
-		
 		//Run depth first search
 		System.out.println("\nStarting Depth First Search");
 		DepthFirstSearch.exec();
@@ -25,6 +21,13 @@ public class MissionariesAndCannibals {
 		System.out.println("\nStarting Iterative Depth First Search");
 		IterativeDepthFirstSearch.exec();
 		
+		//Run breadth first search
+		System.out.println("\nStarting Breadth First Search");
+		BreadthFirstSearch.exec();
+				
+		System.out.println("\nStarting Breadth First Search 2");
+		BreadthFirstSearch2 searcher = new BreadthFirstSearch2();
+		searcher.PerformSearch();
 	}
 
 }
