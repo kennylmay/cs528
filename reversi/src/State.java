@@ -88,31 +88,29 @@ public class State {
 		// Check in all directions
 		for (int deltaCol = -1; deltaCol <= 1; deltaCol++) {
 			for (int deltaRow = -1; deltaRow <= 1; deltaRow++) {
+
 				// Check for one of the other players pieces.
-				if (((move.row + deltaRow) >= 0)
-						&& ((move.row + deltaRow) < boardSize)
-						&& ((move.col + deltaCol) >= 0)
-						&& ((move.col + deltaCol) < boardSize)
-						&& (this.board[move.row + deltaRow][move.col + deltaCol] == (move.player * -1))) {
+				if (onBoard(move.row + deltaRow, move.col + deltaCol) && (this.board[move.row + deltaRow][move.col + deltaCol] == (move.player * -1))) {
+					
 					// Found other players piece, now we need to check if there
 					// is one of our pieces somewhere after theirs.
-					for (int i = 1; ((move.row + (deltaRow * i) < boardSize)
-							&& (move.col + (deltaCol * i) < boardSize)
-							&& (move.row + (deltaRow * i) > 0) && (move.col
-							+ (deltaCol * i) > 0)); i++) {
-
-						if (this.board[move.row + (deltaRow * i)][move.col
-								+ (deltaCol * i)] == move.player) {
+					for (int i = 1; onBoard(move.row + (deltaRow * i), move.col + (deltaCol * i)); i++) {
+						if (this.board[move.row + (deltaRow * i)][move.col + (deltaCol * i)] == State.empty) {
+							break;
+						}
+						
+						if (this.board[move.row + (deltaRow * i)][move.col + (deltaCol * i)] == move.player) {
 							for (int j = 1; j < i; j++) {
-								this.board[move.row + (deltaRow * j)][move.col
-										+ (deltaCol * j)] = move.player;
+								this.board[move.row + (deltaRow * j)][move.col + (deltaCol * j)] = move.player;
 							}
+
+							// Stop Searching in this direction.
+							break;
 						}
 					}
 				}
 			}
 		}
-
 	}
 
 	public boolean isValidMove(Move move) {
@@ -131,20 +129,15 @@ public class State {
 					continue;
 				}
 				// Check for one of the other players pieces.
-				if (((move.row + deltaRow) >= 0)
-						&& ((move.row + deltaRow) < boardSize)
-						&& ((move.col + deltaCol) >= 0)
-						&& ((move.col + deltaCol) < boardSize)
+				if (onBoard(move.row + deltaRow, move.col + deltaCol)
 						&& (this.board[move.row + deltaRow][move.col + deltaCol] == (move.player * -1))) {
 					// Found other players piece, now we need to check if there
 					// is one of our pieces somewhere after theirs.
-					for (int i = 1; ((move.row + (deltaRow * i) < boardSize)
-							&& (move.col + (deltaCol * i) < boardSize)
-							&& (move.row + (deltaRow * i) >= 0) && (move.col
-							+ (deltaCol * i) >= 0)); i++) {
-
-						if (this.board[move.row + (deltaRow * i)][move.col
-								+ (deltaCol * i)] == move.player) {
+					for (int i = 1; onBoard(move.row + (deltaRow * i), move.col + (deltaCol * i)); i++) {
+						if (this.board[move.row + (deltaRow * i)][move.col + (deltaCol * i)] == State.empty) {
+							continue;
+						}
+						if (this.board[move.row + (deltaRow * i)][move.col + (deltaCol * i)] == move.player) {
 							return true;
 						}
 					}
@@ -170,6 +163,35 @@ public class State {
 		}
 		return movesList;
 	}
+	
+	public boolean playerHasMove(int player) {
+
+		Move tmpMove;
+
+		for (int row = 0; row < boardSize; row++) {
+			for (int col = 0; col < boardSize; col++) {
+				tmpMove = new Move(row, col, player);
+
+				if (this.isValidMove(tmpMove)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+	
+	public boolean isNotGameOver() {
+		for (int row = 0; row < boardSize; row++) {
+			for (int col = 0; col < boardSize; col++) {
+				if (this.isValidMove(new Move(row, col, State.black))
+						|| this.isValidMove(new Move(row, col, State.white))) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 	// Helper function to make it easier to copy a board into a new board array.
 	private void copyBoard(int[][] in, int[][] out) {
@@ -178,6 +200,10 @@ public class State {
 				out[i][j] = in[i][j];
 			}
 		}
+	}
+	
+	public void switchTurn() {
+		this.currentTurn *= -1;
 	}
 
 	public int getPlayerScore(int p) {
@@ -219,6 +245,15 @@ public class State {
 		}
 
 		return highMove;
+	}
+	
+	private boolean onBoard(int row, int col) {
+		
+		if ((row >= 0) && (row < boardSize) && (col >= 0) && (col < boardSize)) {
+			return true;
+		}
+		
+		return false;
 	}
 
 }
