@@ -14,18 +14,18 @@ public class Game {
 
 	static int computer = 0;
 	static int person = 1;
-	
+
 	public final int blackPlayerType;
 	public final int whitePlayerType;
-	
+
 	private State currentState = new State(State.startBoard, State.black);
-	
+
 	public Game(int blackPlayer, int whitePlayer) {
-		
+
 		blackPlayerType = blackPlayer;
 		whitePlayerType = whitePlayer;
 	}
-	
+
 	public void play() {
 
 		int currentPlayerType = 0;
@@ -47,15 +47,22 @@ public class Game {
 				} else {
 					System.out.println("O's Cannot Move!");
 				}
-				
+
 				currentState.switchTurn();
 			}
-			
+
 			if (currentPlayerType != 0) {
 
-				nextMove = currentState.getMaxMove(currentState.currentTurn);
-
-				System.out.println("The Computer " + nextMove.toString());
+				if (currentPlayerType == 1) {
+					nextMove = currentState.getMaxMove();
+					System.out.println("The Greedy Computer " + nextMove.toString());
+				} else if (currentPlayerType == 2) {
+					nextMove = currentState.getMiniMaxMove();
+					System.out.println("The MiniMax Computer " + nextMove.toString());
+				} else if (currentPlayerType == 3) {
+					nextMove = currentState.getRandomMove();
+					System.out.println("The Random Computer " + nextMove.toString());
+				} 
 
 			} else {
 
@@ -76,23 +83,26 @@ public class Game {
 			System.out.print(currentState.toString());
 
 		}
-		
+
 		// Print Out Score.
 		System.out.println("Game Over, There are no more legal moves.");
 		System.out.println("Final Score:");
-		System.out.println("X's : " + currentState.getPlayerScore(State.black));
-		System.out.println("O's : " + currentState.getPlayerScore(State.white));
+		System.out.println(playerToString(blackPlayerType) + " X's : " + currentState.getPlayerScore(State.black));
+		System.out.println(playerToString(whitePlayerType) + " O's : " + currentState.getPlayerScore(State.white));
 		System.out.println("");
-		
+
 		if (currentState.getPlayerScore(State.black) > currentState
 				.getPlayerScore(State.white)) {
-			System.out.println("X's WIN!!!!");
+			System.out.println(playerToString(blackPlayerType) + " X's WIN!!!!");
+		} else if (currentState.getPlayerScore(State.black) < currentState
+				.getPlayerScore(State.white)) {
+			System.out.println(playerToString(whitePlayerType) + " O's WIN!!!!");
 		} else {
-			System.out.println("O's WIN!!!!");
+			System.out.println("Tie Game!!!");
 		}
 	}
-	
- 	static public int promptForPlayerType() {
+
+	static public int promptForPlayerType() {
 
 		String userInput;
 		int userChoice = 0;
@@ -103,19 +113,18 @@ public class Game {
 
 		while (!goodInput) {
 			System.out.println("");
-			System.out
-					.println("What kind of player would you like?");
+			System.out.println("What kind of player would you like?");
 			System.out.println("1: Person");
-			System.out.println("2: Easy Computer");
-			//System.out.println("3: Person vs Computer");
-			//System.out.println("4: Computer vs Computer");
+			System.out.println("2: Easy Computer (Greedy)");
+			System.out.println("3: Hard Computer (MiniMax)");
+			System.out.println("4: Dumb Computer (Random)");
 			System.out.println("");
 			System.out.println("Enter choice: ");
 			try {
 				userInput = buffRead.readLine();
 				userChoice = Integer.parseInt(userInput);
 
-				if (userChoice > 0 && userChoice < 3) {
+				if (userChoice > 0 && userChoice < 5) {
 					goodInput = true;
 				} else {
 					System.out.println("Bad Choice, Try again.");
@@ -128,9 +137,9 @@ public class Game {
 				goodInput = false;
 			}
 		}
-		
-		return userChoice-1;
-		
+
+		return userChoice - 1;
+
 	}
 
 	static public Move readMove(State currentState) {
@@ -186,4 +195,24 @@ public class Game {
 
 	}
 	
+	private String playerToString(int playerType) {
+		
+		String returnString = "";
+		if (playerType != 0) {
+
+			if (playerType == 1) {
+				returnString = "Greedy Computer";
+			} else if (playerType == 2) {
+				returnString = "MiniMax Computer";
+			} else if (playerType == 3) {
+				returnString = "Random Computer";
+			}
+
+		} else {
+			returnString = "Player";
+		}
+		
+		return returnString;
+	}
+
 }

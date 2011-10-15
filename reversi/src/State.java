@@ -1,5 +1,6 @@
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class State {
 
@@ -18,19 +19,39 @@ public class State {
 	private int[][] board;
 	protected int currentTurn;
 
+	private class MoveHeur {
+		public MoveHeur(Move move, int value) {
+			super();
+			this.move = move;
+			this.value = value;
+		}
+
+		public Move move;
+		public int value;
+	}
+
+	/* @formatter:off */
 	static public int[][] startBoard = new int[][] {
-			{ 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 1, -1, 0, 0, 0 },
-			{ 0, 0, 0, -1, 1, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0 } };
+			{  0,  0,  0,  0,  0,  0,  0,  0 }, 
+			{  0,  0,  0,  0,  0,  0,  0,  0 },
+			{  0,  0,  0,  0,  0,  0,  0,  0 },
+			{  0,  0,  0,  1, -1,  0,  0,  0 },
+			{  0,  0,  0, -1,  1,  0,  0,  0 },
+			{  0,  0,  0,  0,  0,  0,  0,  0 },
+			{  0,  0,  0,  0,  0,  0,  0,  0 }, 
+			{  0,  0,  0,  0,  0,  0,  0,  0 } };
 
 	static private int[][] placeValues = new int[][] {
-			{ 100, -35, 10, 8, 8, 10, -35, 100 },
-			{ -35, -50, -4, -5, -5, -4, -50, -35 },
-			{ 10, -4, 3, 1, 1, 3, -4, 10 }, { 8, 3, 1, 5, 5, 1, -5, 8 },
-			{ 8, 3, 1, 5, 5, 1, -5, 8 }, { 10, -4, 3, 1, 1, 3, -4, 10 },
-			{ -35, -50, -4, -5, -5, -4, -50, -35 },
-			{ 100, -35, 10, 8, 8, 10, -35, 100 } };
+			{ 1000, -350,  100,   80,   80,  100,  -350, 1000 },
+			{ -350, -500,   -4,   -5,   -5,   -4,  -500, -350 },
+			{  100,   -4,    3,    1,    1,    3,    -4,  100 },
+			{   80,   -5,    1,    5,    5,    1,    -5,   80 },
+			{   80,   -5,    1,    5,    5,    1,    -5,   80 }, 
+			{  100,   -4,    3,    1,    1,    3,    -4,  100 },
+			{ -350, -500,   -4,   -5,   -5,   -4,  -500, -350 },
+			{ 1000, -350,  100,   80,   80,  100,  -350, 1000 } };
+
+	/* @formatter:on */
 
 	@Override
 	public String toString() {
@@ -90,18 +111,23 @@ public class State {
 			for (int deltaRow = -1; deltaRow <= 1; deltaRow++) {
 
 				// Check for one of the other players pieces.
-				if (onBoard(move.row + deltaRow, move.col + deltaCol) && (this.board[move.row + deltaRow][move.col + deltaCol] == (move.player * -1))) {
-					
+				if (onBoard(move.row + deltaRow, move.col + deltaCol)
+						&& (this.board[move.row + deltaRow][move.col + deltaCol] == (move.player * -1))) {
+
 					// Found other players piece, now we need to check if there
 					// is one of our pieces somewhere after theirs.
-					for (int i = 1; onBoard(move.row + (deltaRow * i), move.col + (deltaCol * i)); i++) {
-						if (this.board[move.row + (deltaRow * i)][move.col + (deltaCol * i)] == State.empty) {
+					for (int i = 1; onBoard(move.row + (deltaRow * i), move.col
+							+ (deltaCol * i)); i++) {
+						if (this.board[move.row + (deltaRow * i)][move.col
+								+ (deltaCol * i)] == State.empty) {
 							break;
 						}
-						
-						if (this.board[move.row + (deltaRow * i)][move.col + (deltaCol * i)] == move.player) {
+
+						if (this.board[move.row + (deltaRow * i)][move.col
+								+ (deltaCol * i)] == move.player) {
 							for (int j = 1; j < i; j++) {
-								this.board[move.row + (deltaRow * j)][move.col + (deltaCol * j)] = move.player;
+								this.board[move.row + (deltaRow * j)][move.col
+										+ (deltaCol * j)] = move.player;
 							}
 
 							// Stop Searching in this direction.
@@ -133,11 +159,14 @@ public class State {
 						&& (this.board[move.row + deltaRow][move.col + deltaCol] == (move.player * -1))) {
 					// Found other players piece, now we need to check if there
 					// is one of our pieces somewhere after theirs.
-					for (int i = 1; onBoard(move.row + (deltaRow * i), move.col + (deltaCol * i)); i++) {
-						if (this.board[move.row + (deltaRow * i)][move.col + (deltaCol * i)] == State.empty) {
+					for (int i = 1; onBoard(move.row + (deltaRow * i), move.col
+							+ (deltaCol * i)); i++) {
+						if (this.board[move.row + (deltaRow * i)][move.col
+								+ (deltaCol * i)] == State.empty) {
 							continue;
 						}
-						if (this.board[move.row + (deltaRow * i)][move.col + (deltaCol * i)] == move.player) {
+						if (this.board[move.row + (deltaRow * i)][move.col
+								+ (deltaCol * i)] == move.player) {
 							return true;
 						}
 					}
@@ -163,7 +192,7 @@ public class State {
 		}
 		return movesList;
 	}
-	
+
 	public boolean playerHasMove(int player) {
 
 		Move tmpMove;
@@ -180,7 +209,7 @@ public class State {
 
 		return false;
 	}
-	
+
 	public boolean isNotGameOver() {
 		for (int row = 0; row < boardSize; row++) {
 			for (int col = 0; col < boardSize; col++) {
@@ -201,7 +230,7 @@ public class State {
 			}
 		}
 	}
-	
+
 	public void switchTurn() {
 		this.currentTurn *= -1;
 	}
@@ -223,7 +252,7 @@ public class State {
 	}
 
 	// Level 2 Black Strategy.
-	public Move getMaxMove(int player) {
+	public Move getMaxMove() {
 
 		LinkedList<Move> moves = this.getValidMoves();
 		State tmpState;
@@ -235,7 +264,7 @@ public class State {
 		while (iter.hasNext()) {
 			tmpMove = iter.next();
 			tmpState = new State(this, tmpMove);
-			tmpScore = tmpState.getPlayerScore(player);
+			tmpScore = tmpState.getPlayerScore(this.currentTurn);
 
 			if (tmpScore > highScore) {
 				highScore = tmpScore;
@@ -246,14 +275,89 @@ public class State {
 
 		return highMove;
 	}
-	
+
+	public Move getRandomMove() {
+
+		Random randomGenerator = new Random();
+		LinkedList<Move> moves = this.getValidMoves();
+
+		return moves.get(randomGenerator.nextInt(moves.size()));
+	}
+
 	private boolean onBoard(int row, int col) {
-		
+
 		if ((row >= 0) && (row < boardSize) && (col >= 0) && (col < boardSize)) {
 			return true;
 		}
-		
+
 		return false;
+	}
+
+	public Move getMiniMaxMove() {
+
+		MoveHeur highMoveHeur;
+		highMoveHeur = this.miniMax(4);
+		return highMoveHeur.move;
+	}
+
+	private MoveHeur miniMax(int depth) {
+
+		LinkedList<Move> moves = this.getValidMoves();
+		State tmpState;
+		Move tmpMove;
+		Move highMove = null;
+		int highScore = Integer.MIN_VALUE;
+		int tmpScore;
+
+		Iterator<Move> iter = moves.iterator();
+
+		if (moves.isEmpty()) {
+			if (this.isNotGameOver()) {
+				return new MoveHeur(null, Integer.MIN_VALUE);
+			}
+			if (this.getPlayerScore(this.currentTurn) > this
+					.getPlayerScore(this.currentTurn * -1)) {
+				return new MoveHeur(null, Integer.MAX_VALUE);
+			}
+			return new MoveHeur(null, Integer.MIN_VALUE);
+		}
+
+		if (depth <= 0) {
+			return new MoveHeur(null, this.miniMaxHeur());
+		}
+
+		while (iter.hasNext()) {
+			tmpMove = iter.next();
+			tmpState = new State(this, tmpMove);
+			tmpScore = -tmpState.miniMax(depth - 1).value;
+
+			if (tmpScore >= highScore) {
+				highScore = tmpScore;
+				highMove = tmpMove;
+			}
+		}
+
+		return new MoveHeur(highMove, highScore);
+
+	}
+
+	private int miniMaxHeur() {
+
+		int score = 0;
+
+		for (int row = 0; row < boardSize; row++) {
+			for (int col = 0; col < boardSize; col++) {
+
+				if (this.board[row][col] == this.currentTurn) {
+					score += placeValues[row][col];
+				} else {
+					score -= placeValues[row][col];
+				}
+			}
+		}
+
+		return score;
+
 	}
 
 }
