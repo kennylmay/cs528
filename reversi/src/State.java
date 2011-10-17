@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -41,6 +42,8 @@ public class State {
 			{  0,  0,  0,  0,  0,  0,  0,  0 }, 
 			{  0,  0,  0,  0,  0,  0,  0,  0 } };
 
+	
+	// Values for each spot that are used by the minimax heuristic.
 	static private int[][] placeValues = new int[][] {
 			{ 1000, -350,  100,   80,   80,  100,  -350, 1000 },
 			{ -350, -500,   -4,   -5,   -5,   -4,  -500, -350 },
@@ -190,6 +193,14 @@ public class State {
 				}
 			}
 		}
+
+		// Shuffle the list of moves. This make it so that there is some amount
+		// of random in the moves even for the more intellegent algorithms. This
+		// is important for when multiple moves (ie. opening) have the same
+		// heuristic value. It makes it look like it's not just a computer
+		// playing.
+		Collections.shuffle(movesList);
+
 		return movesList;
 	}
 
@@ -251,7 +262,8 @@ public class State {
 		return score;
 	}
 
-	// Level 2 Black Strategy.
+	// Greedy Algorithm
+	// Always take the move that gives you the most spots on this move.
 	public Move getMaxMove() {
 
 		LinkedList<Move> moves = this.getValidMoves();
@@ -276,6 +288,10 @@ public class State {
 		return highMove;
 	}
 
+	// Random Algorithm
+	// Just take the first move that is valid.
+	// This is considered random because the getValidMoves function shuffles the
+	// moves for us.
 	public Move getRandomMove() {
 
 		Random randomGenerator = new Random();
@@ -293,6 +309,7 @@ public class State {
 		return false;
 	}
 
+	// Standard MiniMax Algorithm.
 	public Move getMiniMaxMove() {
 
 		MoveHeur highMoveHeur;

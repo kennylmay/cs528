@@ -8,7 +8,6 @@
  */
 public class reversi {
 
-		
 	/**
 	 * @param args
 	 */
@@ -21,14 +20,14 @@ public class reversi {
 
 		System.out.print("X's ");
 		blackPlayerType = Game.promptForPlayerType();
-		
+
 		System.out.print("O's ");
 		whitePlayerType = Game.promptForPlayerType();
-		
+
 		theGame = new Game(blackPlayerType, whitePlayerType);
 
 		theGame.play();
-		
+
 	}
 
 }

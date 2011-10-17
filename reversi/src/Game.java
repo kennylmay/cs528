@@ -55,14 +55,17 @@ public class Game {
 
 				if (currentPlayerType == 1) {
 					nextMove = currentState.getMaxMove();
-					System.out.println("The Greedy Computer " + nextMove.toString());
+					System.out.println("The Greedy Computer "
+							+ nextMove.toString());
 				} else if (currentPlayerType == 2) {
 					nextMove = currentState.getMiniMaxMove();
-					System.out.println("The MiniMax Computer " + nextMove.toString());
+					System.out.println("The MiniMax Computer "
+							+ nextMove.toString());
 				} else if (currentPlayerType == 3) {
 					nextMove = currentState.getRandomMove();
-					System.out.println("The Random Computer " + nextMove.toString());
-				} 
+					System.out.println("The Random Computer "
+							+ nextMove.toString());
+				}
 
 			} else {
 
@@ -87,16 +90,20 @@ public class Game {
 		// Print Out Score.
 		System.out.println("Game Over, There are no more legal moves.");
 		System.out.println("Final Score:");
-		System.out.println(playerToString(blackPlayerType) + " X's : " + currentState.getPlayerScore(State.black));
-		System.out.println(playerToString(whitePlayerType) + " O's : " + currentState.getPlayerScore(State.white));
+		System.out.println(playerToString(blackPlayerType) + " X's : "
+				+ currentState.getPlayerScore(State.black));
+		System.out.println(playerToString(whitePlayerType) + " O's : "
+				+ currentState.getPlayerScore(State.white));
 		System.out.println("");
 
 		if (currentState.getPlayerScore(State.black) > currentState
 				.getPlayerScore(State.white)) {
-			System.out.println(playerToString(blackPlayerType) + " X's WIN!!!!");
+			System.out
+					.println(playerToString(blackPlayerType) + " X's WIN!!!!");
 		} else if (currentState.getPlayerScore(State.black) < currentState
 				.getPlayerScore(State.white)) {
-			System.out.println(playerToString(whitePlayerType) + " O's WIN!!!!");
+			System.out
+					.println(playerToString(whitePlayerType) + " O's WIN!!!!");
 		} else {
 			System.out.println("Tie Game!!!");
 		}
@@ -194,9 +201,9 @@ public class Game {
 		return nextMove;
 
 	}
-	
+
 	private String playerToString(int playerType) {
-		
+
 		String returnString = "";
 		if (playerType != 0) {
 
@@ -211,7 +218,7 @@ public class Game {
 		} else {
 			returnString = "Player";
 		}
-		
+
 		return returnString;
 	}
 

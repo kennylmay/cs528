@@ -16,11 +16,11 @@ public class Move {
 		this.col = c - 1;
 		this.player = p;
 	}
-	
+
 	@Override
 	public String toString() {
 		String output = "";
-		
+
 		if (this.player == State.black) {
 			output += "X's take ";
 		} else {
@@ -28,7 +28,7 @@ public class Move {
 		}
 		output += Character.toString((char) (this.row + 'A'));
 		output += this.col + 1;
-		
+
 		return output;
 	}
 
