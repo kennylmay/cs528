@@ -1,0 +1,105 @@
+Item,Cost,Health,Mana,H. Regen,M. Regen,Armor,Resist,Damage,Power,Critical,Speed,Lifesteal,Vamp,Dodge,CDR,Tenacity,Movement*,Description
+Abyssal Scepter,2650,,,,,,57,,70,,,,,,,,,+70 Ability Power +57 Magic Resistance UNIQUE Aura: Reduces the Magic Resist of nearby enemy champions by 20.
+Aegis of the Legion,1925,270,,,,30,39,8,,,,,,,,,,+270 Health +18 Armor +24 Magic Resist UNIQUE Aura: +12 Armor / +15 Magic Resistance / +8 Damage to nearby allied units.
+Amplifying Tome,435,,,,,,,,20,,,,,,,,,+20 Ability Power
+Archangel's Staff,2855,,400,,25,,,,75,,,,,,,,,+400 Mana +25 Mana Regen per 5 sec +45 Ability Power Passive: 3% of your Max Mana is converted to Ability Power. UNIQUE Passive: Each time your Champion uses an Ability their Maximum Mana will increase by 4 Mana. This effect has a 3 second cooldown. Bonus
+Atma's Impaler,2405,,,,,45,,20,,18,,,,,,,,+45 Armor +18% Critical Strike UNIQUE Passive: 2% of your maximum health is added to your attack damage.
+Avarice Blade,750,,,,,,,,,12,,,,,,,,+12% Critical Strike UNIQUE Passive: Gain an additional 5 Gold every 10 seconds.
+B. F. Sword,1650,,,,,,,45,,,,,,,,,,+45 Attack Damage
+Banshee's Veil,2715,375,375,,,,50,,,,,,,,,,,+375 Health +375 Mana +50 Magic Resist UNIQUE Passive: Blocks one enemy ability every 45 seconds.
+Berserker's Greaves,920,,,,,,,,,,25,,,,,,23,+25% Attack Speed UNIQUE Passive: Enhanced Movement 2.
+Bilgewater Cutlass,1825,,,,,,,35,,,,15,,,,,,+35 Attack Damage +15% Life Steal UNIQUE Active: Deals 150 magic damage and slows the target champion by 50% for 3 seconds (400 range). 60 second cooldown.
+Blasting Wand,860,,,,,,,,40,,,,,,,,,+40 Ability Power
+Boots of Mobility,1000,,,,,,,,,,,,,,,,23,UNIQUE Passive: Enhanced Movement 2 Passive: When out of combat for 5 seconds the effect of these boots is increased to Enhanced Movement 5.
+Boots of Speed,350,,,,,,,,,,,,,,,,17,UNIQUE Passive: Enhanced Movement 1
+Boots of Swiftness,1000,,,,,,,,,,,,,,,,30,UNIQUE Passive: Enhanced Movement 3
+Brawler's Gloves,400,,,,,,,,,8,,,,,,,,+8% Critical Strike
+Catalyst the Protector,1325,290,325,,,,,,,,,,,,,,,+290 Health +325 Mana UNIQUE Passive: On leveling up  restores 250 Health and 200 Mana over 8 seconds.
+Chain Vest,700,,,,,45,,,,,,,,,,,,+45 Armor
+Chalice of Harmony,890,,,,15,,30,,,,,,,,,,,+30 Magic Resistance +7.5 Mana Regen per 5 sec UNIQUE Passive: Increases your Mana Regen by 1% per 1% Mana you are missing.
+Cloak and Dagger,1450,,,,,,,,,20,20,,,,,25,,+20% Attack Speed +20% Critical Strike Chance +25 Tenacity (Tenacity reduces the duration of stuns  slows  taunts  fears  silences  blinds and immobilizes. Tenacity effects do not stack)
+Cloak of Agility,830,,,,,,,,,18,,,,,,,,+18% Critical Strike
+Cloth Armor,300,,,,,18,,,,,,,,,,,,+18 Armor
+Dagger,420,,,,,,,,,,15,,,,,,,+15% Attack Speed
+Deathfire Grasp,2610,,,,10,,,,60,,,,,,15,,,+60 Ability Power +10 Mana Regen per 5 Sec UNIQUE Passive: Reduces ability cooldowns by 15%. UNIQUE Active: Deals magic damage to target champion equal to 30% of their current health (+3.5% per 100 Ability Power) with a minimum of 200 damage. 1 minute coo
+Doran's Blade,475,100,,,,,,10,,,,3,,,,,,+100 Health +10 Damage +3% Lifesteal
+Doran's Ring,475,100,,,5,,,,15,,,,,,,,,+100 Health +5 Mana Regen per 5 sec +15 Ability Power
+Doran's Shield,475,120,,8,,10,,,,,,,,,,,,+120 Health +10 Armor +8 Health Regeneration per 5
+Eleisa's Miracle,1300,,,25,20,,,,,,,,,,,25,,+25 Health Regen per 5 sec +20 Mana Regen per 5 sec +25 Tenacity (Tenacity reduces the duration of stuns  slows  taunts  fears  silences  blinds and immobilizes. Tenacity effects do not stack)
+Emblem of Valor,800,,,10,,,,,,,,17,,,,,,+17% Lifesteal UNIQUE Aura: Nearby allied Champions gain 10 Health Regen per 5 sec.
+Executioner's Calling,1600,,,,,,,,,15,,18,,,,,,+18% Lifesteal +15% Critical Strike Chance UNIQUE Passive: On hit  you cause 4 damage per second for 8 seconds. UNIQUE Active: Inflicts target enemy champion with Grievous Wound  causing 50% reduced healing and regeneration for 8 seconds. 20 second cooldo
+Faerie Charm,180,,,,3,,,,,,,,,,,,,+3 Mana Regen per 5 sec
+Fiendish Codex,1245,,,,7,,,,30,,,,,,10,,,+30 Ability Power +7 Mana Regeneration per 5 UNIQUE Passive: Reduces ability cooldowns by 10%.
+Force of Nature,2610,,,57.5,,,76,,,,,,,,,,8,+76 Magic Resist +40 Health Regen per 5 sec +8% Movement Speed UNIQUE Passive: Restores 0.35% of your champion's health every second.
+Frozen Heart,2925,,500,,,99,,,,,,,,,20,,,+99 Armor +500 Mana UNIQUE Passive: Reduces ability cooldowns by 20% and reduces the attack speed of nearby enemies by 20%.
+Frozen Mallet,3250,700,,,,,,20,,,,,,,,,,+700 Health +20 Attack Damage UNIQUE Passive: Your attacks reduce your target's Movement Speed by 40% for 2.5 seconds (30% for ranged attacks).
+Giant's Belt,1110,430,,,,,,,,,,,,,,,,+430 Health
+Glacial Shroud,1525,,425,,,45,,,,,,,,,15,,,+425 Mana +45 Armor UNIQUE Passive: Reduces ability cooldowns by 15%.
+Guardian Angel,2600,,,,,68,38,,,,,,,,,,,+68 Armor +38 Magic Resistance UNIQUE Passive: Revives your Champion upon death  restoring 750 Health and 375 Mana. This effect can only occur once every 5 minutes.
+Guinsoo's Rageblade,2235,,,,,,,35,93,,32,,,,,,,+35 Attack Damage +45 Ability Power UNIQUE Passive: On attack or spell cast  increases your Attack Speed by 4% and Ability Power by 6. Lasts 5 seconds (stacks up to 8 times).
+Haunting Guise,1485,200,,,,,,,25,,,,,,,,,+25 Ability Power +200 Health UNIQUE Passive: +20 Magic Penetration
+Heart of Gold,825,250,,,,,,,,,,,,,,,,+250 Health UNIQUE Passive: Generates 5 Gold every 10 seconds.
+Hexdrinker,1800,,,,,,30,35,,,,,,,,,,+35 Attack Damage +30 Magic Resistance UNIQUE Passive: If you would take Magic Damage that would leave you at less than 30% of your Maximum Health  you first gain a shield that absorbs 300 Magic Damage for 4 seconds. 60 second cooldown.
+Hextech Gunblade,3625,,,,,,,60,75,,,20,25,,,,,+60 Attack Damage +75 Ability Power +20% Life Steal +25% Spell Vamp UNIQUE Active: Deals 300 magic damage and slows the target champion by 50% for 3 seconds (700 range). 60 second cooldown.
+Hextech Revolver,1200,,,,,,,,40,,,,15,,,,,+40 Ability Power UNIQUE Passive: +15% Spell Vamp
+Infinity Edge,3830,,,,,,,80,,25,,,,,,,,+80 Attack Damage +25% Critical Strike UNIQUE Passive: Critical hits now deal 250% damage instead of 200%.
+Ionian Boots of Lucidity,1050,,,,,,,,,,,,,,15,,23,UNIQUE Passive: Reduces ability cooldowns by 15%. UNIQUE Passive: Enhanced Movement 2.
+Kage's Lucky Pick,765,,,,,,,,25,,,,,,,,,+25 Ability Power UNIQUE Passive: Gain an additional 5 Gold every 10 seconds.
+Kindlegem,850,200,,,,,,,,,,,,,10,,,+200 Health UNIQUE Passive: Reduces ability cooldowns by 10%
+Last Whisper,2290,,,,,,,40,,,,,,,,,,+40 Attack Damage UNIQUE Passive: +40% Armor Penetration
+Leviathan,1275,180,,,,,,,,,,,,,,,,+180 Health UNIQUE Passive: Your champion gains 32 health per stack  receiving 2 stacks for a kill or 1 stack for an assist. This effect can stack 20 times; you lose a third of your stacks if you die. At 20 stacks  your champion takes 15% less damage.
+Lichbane,3470,,350,,,,30,,80,,,,,,,,7,+350 Mana +80 Ability Power +30 Magic Resist +7% Movement Speed UNIQUE Passive: 100% chance when an ability is used that your next physical attack deals an additional 100% of your Ability Power in damage. This effect has a 2 second cooldown.
+Long Sword,415,,,,,,,10,,,,,,,,,,+10 Attack Damage
+Madred's Bloodrazor,3800,,,,,25,,70,,,40,,,,,,,+30 Attack Damage +40% Attack Speed +25 Armor UNIQUE Passive: On hit  deals Magic Damage equal to 4% of the target's maximum Health.
+Madred's Razor,1000,,,,,23,,15,,,,,,,,,,+15 Damage +23 Armor UNIQUE Passive: 15% chance on hitting a minion or monster to deal 500 bonus magic damage.
+Malady,1825,,,,,,,20,25,,50,,,,,,,+25 Ability Power +50% Attack Speed UNIQUE Passive: Your physical attacks shred your target  dealing 20 magic damage and lowering their magic resistance by 6. Magic resistance reduction stacks up to 4 times.
+Mana Manipulator,475,,,,7.2,,,,,,,,,,,,,UNIQUE Aura: Restores 7.2 Mana per 5 seconds to yourself and nearby friendly Champions.
+Manamune,2110,,350,,7,,,30,,,,,,,,,,+350 Mana +7 Mana Regen per 5 sec +20 Attack Damage UNIQUE Passive: 2% of your max mana is converted to attack damage. UNIQUE Passive: Each time you attack  you gain one maximum mana (3 second cooldown.) Each time you use an ability  you gain 4 maximum ma
+Mejai's Soulstealer,1235,,,,,,,,20,,,,,,,,,+20 Ability Power UNIQUE Passive: Your champion gains 8 ability power per stack  receiving 2 stacks for a kill or 1 stack for an assist. This effect can stack 20 times; you lose a third of your stacks if you die. At 20 stacks  your champion's cooldowns ar
+Meki Pendant,390,,,,7,,,,,,,,,,,,,+7 Mana regen per 5 sec
+Mercury's Treads,1200,,,,,,25,,,,,,,,,35,23,+25 Magic Resist +35 Tenacity UNIQUE Passive: Enhanced Movement 2 (Tenacity reduces the duration of stuns  slows  taunts  fears  silences  blinds and immobilizes. Tenacity effects do not stack)
+Moonflair Spellblade,1200,,,,,,,,50,,,,,,,25,,+50 Ability Power +25 Tenacity (Tenacity reduces the duration of stuns  slows  taunts  fears  sleeps  silences  blinds and immobilizes. Tenacity effects do not stack)
+Morello's Evil Tome,2350,,,,12,,,,75,,,,,,20,,,+75 Ability Power +12 Mana Regeneration per 5 UNIQUE Passive: Reduces ability cooldowns by 20%.
+Nashor's Tooth,2885,,,,10,,,,55,,50,,,,25,,,+50% Attack Speed +55 Ability Power +10 Mana Regeneration per 5 UNIQUE Passive: Reduces ability cooldowns by 25%
+Needlessly Large Rod,1600,,,,,,,,80,,,,,,,,,+80 Ability Power
+Negatron Cloak,740,,,,,,48,,,,,,,,,,,+48 Magic Resistance
+Phantom Dancer,2895,,,,,,,,,30,55,,,,,,15,+55% Attack Speed +30% Critical Strike +15% Movement Speed
+Philosopher's Stone,800,,,18,8,,,,,,,,,,,,,+18 Health Regen per 5 sec +8 Mana Regen per 5 sec UNIQUE Passive: Gain an additional 5 Gold every 10 seconds.
+Pick Axe,925,,,,,,,25,,,,,,,,,,+25 Attack Damage
+Quicksilver Sash,1440,,,,,,56,,,,,,,,,,,+56 Magic Resistance Active: Removes all debuffs from your character. 90 second cooldown.
+Rabadon's Deathcap,3600,,,,,,,,182,,,,,,,,,+140 Ability Power UNIQUE Passive: Increases Ability Power by 30%
+Randuin's Omen,3075,300,,25,,75,,,,,,,,,5,,,+350 Health +75 Armor +25 Health Regen per 5 sec. UNIQUE Passive: 5% Cooldown Reduction and 20% chance on being hit to slow the attacker's movement and attack speeds by 35% for 3 seconds. UNIQUE Active: Slows movement speeds and attack speeds of surroundi
+Recurve Bow,1050,,,,,,,,,,40,,,,,,,+40% Attack Speed
+Regrowth Pendant,435,,,15,,,,,,,,,,,,,,+15 Health Regen per 5 sec
+Rejuvenation Bead,250,,,8,,,,,,,,,,,,,,+8 Health Regen per 5 sec
+Rod of Ages (Base),3035,450,525,,,,,,60,,,,,,,,,+450 Health +525 Mana +60 Ability Power Passive: Your Champion gains 18 Health  20 Mana  and 2 Ability Power every 1 min. Bonuses cap at +180 Health  +200 Mana  and +20 Ability Power. UNIQUE Passive: On leveling up  restores 250 Health and 200 Mana over 8
+Ruby Crystal,475,180,,,,,,,,,,,,,,,,+180 Health
+Rylai's Scepter,3105,500,,,,,,,80,,,,,,,,,+500 Health +80 Ability Power UNIQUE Passive: Dealing spell damage slows the target's Movement Speed by 35% for 1.5 seconds (15% for multi-target and damage-over-time spells).
+Sapphire Crystal,400,,200,,,,,,,,,,,,,,,+200 Mana
+Sheen,1260,,250,,,,,,25,,,,,,,,,+250 Mana +25 Ability Power UNIQUE Passive: When an ability is used  your base damage is increased by 100% for your next attack. This effect has a 2 second cooldown.
+Shurelya's Reverie,2200,330,,30,15,,,,,,,,,,15,,,+330 Health +30 Health Regen per 5 sec +15 Mana Regen per 5 sec UNIQUE Passive: Reduces ability cooldowns by 15% UNIQUE Active: Nearby champions gain 40% movement speed for 3 seconds (60 second cooldown)
+Sorcerer's Shoes,1100,,,,,,,,,,,,,,,,23,+20 Magic Penetration UNIQUE Passive: Enhanced Movement 2
+Soul Shroud,2285,520,,,12,,,,,,,,,,10,,,+520 Health UNIQUE Aura: Gives nearby Champions 12 Mana per 5 and 10% reduced Cooldowns.
+Spirit Visage,1550,250,,,,,30,,,,,,,,10,,,+30 Magic Resistance +250 Health UNIQUE Passive: Reduces ability cooldowns by 10% and increases your healing and regeneration effects on yourself by 15%.
+Stark's Fervor,2550,,,30,,,,,,,40,20,,,,,,+20% Attack Speed UNIQUE Aura: Gives nearby allied champions 20% Lifesteal  20% Attack Speed  and 30 Health per 5 seconds regenerated. Reduces the Armor of nearby enemy champions by 20.
+Stinger,1140,,,,,,,,,,40,,,,10,,,+40% Attack Speed UNIQUE Passive: Reduces ability cooldowns by 10%.
+Sunfire Cape,2610,450,,,,45,,,,,,,,,,,,+450 Health +45 Armor UNIQUE Passive: Deals 35 magic damage per second to nearby enemies.
+Sword of the Divine,1970,,,,,,,25,,,60,,,,,,,+60% Attack Speed UNIQUE Passive: Every fourth attack deals 100 extra Magic Damage. UNIQUE Active: Your attacks cannot be dodged and you gain 30 Armor Penetration for 8 seconds.
+Sword of the Occult,1369,,,,,,,10,,,,,,,,,,+10 Attack Damage UNIQUE Passive: Your champion gains 5 damage per stack  receiving 2 stacks for a kill or 1 stack for an assist. This effect can stack 20 times; you lose a third of your stacks if you die. At 20 stacks  your champion's movement speed is i
+Tear of the Goddess,995,,350,,7,,,,,,,,,,,,,+350 Mana +7 Mana Regen per 5 sec UNIQUE Passive: Each time your Champion uses an Ability their Maximum Mana will increase by 4 Mana  up to a maximum of twice in a six second period; bonuses cap at +1000 Mana.
+The Black Cleaver,3065,,,,,,,55,,,30,,,,,,,+55 Attack Damage +30% Attack Speed UNIQUE Passive: Physical attacks reduce your target's Armor by 15 for 5 seconds (maximum 3 stacks).
+The Bloodthirster,3200,,,,,,,60,,,,15,,,,,,+60 Attack Damage +15% Lifesteal Passive: Gain an additional 1 Physical Damage and 0.25% Lifesteal per kill. Maximum of +40 Damage and 10% Lifesteal. Bonuses are lost upon death.
+The Brutalizer,1337,,,,,,,25,,,,,,,10,,,+25 Attack Damage UNIQUE Passive: Reduces ability cooldowns by 10% and +15 Armor Penetration.
+Thornmail,2000,,,,,100,,,,,,,,,,,,+100 Armor UNIQUE Passive: On being hit by standard attacks  returns 30% of damage taken as magic damage.
+Tiamat,2070,,,15,5,,,50,,,,,,,,,,+50 Attack Damage +15 Health Regen per 5 sec +5 Mana Regen per 5 sec Passive: Your attacks splash  dealing 50% area of effect damage around the target (35% for ranged attacks).
+Trinity Force,4070,250,250,,,,,30,30,15,30,,,,,,12,+30 Damage  +30 Ability Power  +30% Attack Speed  +15% Crit Chance  +12% Move Speed  +250 Health  +250 Mana  UNIQUE Passive: 25% chance on hit to slow the target by 35% for 2.5 seconds; on cast  your next attack deals bonus damage equal to 150% of your ba
+Vampiric Scepter,450,,,,,,,,,,,12,,,,,,+12% Lifesteal
+Void Staff,2295,,,,,,,,70,,,,,,,,,+70 Ability Power UNIQUE Passive: +40% Magic Penetration
+Warden's Mail,1350,,,20,,50,,,,,,,,,,,,+50 Armor +20 Health Regen per 5 sec Passive: 20% chance on being hit to slow the attacker's movement and attack speeds by 35% for 3 seconds.
+Warmog's Armor,3000,920,,30,,,,,,,,,,,,,,+920 Health +30 Health Regen per 5 sec Passive: Permanently gain 4.5 Health and .15 Health Regen per 5 sec per minion kill. Champion kills and assists grant 45 Health and 1.5 Health Regen per 5 sec. Bonuses cap at +450 Health  and +15 Health Regen per 5.
+Will of the Ancients,2100,,,,,,,,80,,,,25,,,,,+50 Ability Power UNIQUE Aura: Gives nearby allied champions +30 Ability Power and 25% Spell Vamp
+Wit's End,2000,,,,,,30,42,,,40,,,,,,,+40% Attack Speed +30 Magic Resistance UNIQUE Passive: Your attacks deal 42 bonus magic damage. UNIQUE Passive: Your attacks increase your Magic Resist by 5 for 5 seconds (stacks up to 4 times).
+Wriggle's Lantern,1600,,,,,30,,23,,,,14,,,,,,+23 Damage +30 Armor +18% Lifesteal UNIQUE Passive: 20% chance on hitting a minion or monster to deal 500 bonus magic damage. UNIQUE Active: Places an invisible ward with 1100 range sight that lasts for 3 minutes. 3 minute cooldown.
+Youmuu's Ghostblade,2687,,,,,,,30,,15,,,,,15,,,+30 Attack Damage +15% Critical Chance UNIQUE Passive: +20 Armor Penetration 15% Cooldown Reduction UNIQUE Active: You gain +20% movespeed and +50% attack speed for 4 seconds. Attacking enemy units with melee attacks increases the duration by 2 to a maxim
+Zeal,1195,,,,,,,,,10,20,,,,,,8,+20% Attack Speed +10% Critical Strike +8% Movement Speed
+Zhonya's Hourglass,3100,,,,,50,,,100,,,,,,,,,+100 Ability Power +50 Armor UNIQUE Active: Places your champion into Stasis for 2 seconds  rendering you invulnerable and untargetable but unable to take any actions. 90 second cooldown.
