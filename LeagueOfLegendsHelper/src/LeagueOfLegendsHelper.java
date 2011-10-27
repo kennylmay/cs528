@@ -13,8 +13,6 @@ public class LeagueOfLegendsHelper {
 	public static HashMap<String, HashMap<String, Object>> items = getFactBase();
 	
 	
-	
-	
 	//Parse the CSV file into HashMap of items. These are the facts used by the expert system.
 	public static HashMap<String, HashMap<String, Object>>  getFactBase() {
 		String csvPath = LeagueOfLegendsHelper.class.getResource("LoL_Items_CSV.csv").getPath();
@@ -37,8 +35,8 @@ public class LeagueOfLegendsHelper {
 				}
 				System.out.println("");
 				
-				//The name of the item is field 1
-				ret.put((String)item.get(fieldNames[1]), item);
+				//The name of the item is field 0
+				ret.put((String)item.get(fieldNames[0]), item);
 			}
 			return ret;
 			
@@ -55,9 +53,6 @@ public class LeagueOfLegendsHelper {
 		
 		//Never gets here
 		return null;
-		
-		
-		
 		
 	}
 	
