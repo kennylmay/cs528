@@ -5,7 +5,7 @@ public class Rule {
 	public LinkedList<Rule> subRules = new LinkedList<Rule>();
 	public Fact fact;
 	
-	//a  is true if all it's subrules are true
+	//A rule is true if all it's subrules are true
 	boolean eval(LoLItem item) {
 	  for(Rule g: subRules) {
 		  if(g.eval(item) == false) {
