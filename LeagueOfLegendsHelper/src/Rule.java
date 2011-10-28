@@ -75,6 +75,22 @@ public class Rule {
 			this.attributeName = attributeName;
 		}
 	}
+	
+	public Rule Not(Rule r) {
+		return new _Not(r);
+	}
+	public class _Not extends Rule {
+		private Rule r;
+		public _Not(Rule r) {
+			this.r = r;
+		}
+		
+		public boolean eval(LoLItem item) {
+			//Flip the value of r.eval
+			return !r.eval(item);
+		}
+	}
+	
 	//////////////////////////////////////////////////////////////
 	//Base Rules
 	//////////////////////////////////////////////////////////////
@@ -85,6 +101,8 @@ public class Rule {
 	Rule hasArmor = new Rule(ItemHas("Armor"));
 	Rule hasMagicResist = new Rule(ItemHas("Resist"));
 	Rule hasAttackDamage = new Rule(ItemHas("Damage"));
+	Rule hasArmorPen = new Rule(ItemHas("ArmorPen"));
+	Rule hasMagicPen = new Rule(ItemHas("MagicPen"));
 	Rule hasAbilityPower = new Rule(ItemHas("AbilityPower"));
 	Rule hasCritChance = new Rule(ItemHas("Critical"));
 	Rule hasMovementSpeed = new Rule(ItemHas("Movement"));
@@ -99,9 +117,11 @@ public class Rule {
     /////////////////////////////////////////////////////////////
 	//Higher order rules
 	/////////////////////////////////////////////////////////////
-	Rule isTanky = new OrRule(hasHealth, hasHealthRegen, hasArmor, hasMagicResist, hasDodge, hasTenacity);
-	
-	
+	Rule isTanky = new OrRule(hasHealth, hasHealthRegen, hasArmor, hasMagicResist, hasDodge, hasTenacity, hasLifeSteal, hasSpellVamp);
+	Rule isMage = new OrRule(hasMana, hasManaRegen, hasSpellVamp, hasMagicPen, hasMana, hasCDR);
+	Rule isADCarry = new OrRule(hasAttackDamage, hasCritChance, hasAttackSpeed);
+	Rule isBurstMage = new Rule(Not(isADCarry), isMage);
+
 	
 	
 }
