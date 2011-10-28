@@ -87,7 +87,7 @@ public class LeagueOfLegendsHelper {
 		
 		
 		while(iter.hasNext()) {
-			currentKey = iter.next().getKey().toString();
+			currentKey = iter.next().getKey();
 			
 			if (hasAttribute(currentKey, Attribute)) {
 				ret.add(currentKey);
