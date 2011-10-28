@@ -59,11 +59,8 @@ public class LeagueOfLegendsHelper {
 	static boolean hasAttribute(String Item, String Attribute){
 	  HashMap<String, Object> ret = new HashMap<String, Object>();
 	  ret = items.get(Item);
-	  Object obj = ret.get(Attribute); 
-	  String atts = obj.toString();
-	  
-	  if (atts != null){
-		  System.out.println("|" + atts + "|");
+	  Object obj = ret.get(Attribute);   
+	  if (!obj.toString().isEmpty()){
 		  return true;
 	  }
 	  
