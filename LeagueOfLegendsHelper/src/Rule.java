@@ -32,10 +32,32 @@ public class Rule {
 		}
 	}
 	
-	
 	public Rule(Fact f) {
 		fact = f;
 	}
+
+	
+    public class OrRule extends Rule {
+    	
+    	public OrRule(Rule  ... theSubRules) {
+    		for(Rule r: theSubRules) {
+    			subRules.add(r);
+    		}
+    	}
+    	@Override
+    	public boolean eval(LoLItem item) {
+    		//Or rules are true if any of the subrules are true
+    		  for(Rule g: subRules) {
+    			  if(g.eval(item) == true) {
+    				  return true;
+    			  }
+    		  }
+    		  return false;
+    	}
+    	
+    	private OrRule() {} ;
+    	
+    }
 	
 	//Facts
 	public _ItemHas ItemHas(String attributeName) {
@@ -44,7 +66,6 @@ public class Rule {
 	
 	
 	public class _ItemHas implements Fact {
-
 		private  String attributeName;
 		@Override
 		public boolean eval(LoLItem item) {
@@ -53,7 +74,6 @@ public class Rule {
 		public _ItemHas(String attributeName) {
 			this.attributeName = attributeName;
 		}
-
 	}
 	//////////////////////////////////////////////////////////////
 	//Base Rules
@@ -71,11 +91,15 @@ public class Rule {
 	Rule hasLifeSteal = new Rule(ItemHas("LifeSteal"));
 	Rule hasSpellVamp = new Rule(ItemHas("SpellVamp"));
 	Rule hasDodge = new Rule(ItemHas("SpellVamp"));
+	Rule hasCDR = new Rule(ItemHas("CDR"));
+	Rule hasTenacity = new Rule(ItemHas("Tenacity"));
+	Rule hasAttackSpeed = new Rule(ItemHas("AttackSpeed"));
 	
 	
-	
-	
-
+    /////////////////////////////////////////////////////////////
+	//Higher order rules
+	/////////////////////////////////////////////////////////////
+	Rule isTanky = new OrRule(hasHealth, hasHealthRegen, hasArmor, hasMagicResist, hasDodge, hasTenacity);
 	
 	
 	
