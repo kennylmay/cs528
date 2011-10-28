@@ -4,6 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map.Entry;
 
 
 
@@ -56,11 +60,42 @@ public class LeagueOfLegendsHelper {
 		
 	}
 	
+	/**
+	 * 
+	 * @param Item Name of the item to check for attribute.
+	 * @param Attribute Name of the attribute to check for.
+	 * @return True if the attribute value is not empty. 
+	 */
 	static boolean hasAttribute(String Item, String Attribute){
 
 	  // Return true if the item has the attribute and the attribute is not empty.
 	  return !items.get(Item).get(Attribute).toString().isEmpty();
 
+	}
+	
+	/**
+	 * 
+	 * @param Attribute Attribute to search all items for.
+	 * @return List of Item names that have the requested Attribute
+	 */
+	static public List<String> getAttributeItems(String Attribute) {
+		
+		Iterator<Entry<String, HashMap<String, Object>>> iter = items.entrySet().iterator();
+		LinkedList<String> ret = new LinkedList<String>();
+		
+		String currentKey;
+		
+		
+		while(iter.hasNext()) {
+			currentKey = iter.next().getKey().toString();
+			
+			if (hasAttribute(currentKey, Attribute)) {
+				ret.add(currentKey);
+			}
+		}
+		
+		return ret;
+		
 	}
 	
 	
@@ -70,6 +105,8 @@ public class LeagueOfLegendsHelper {
 	public static void main(String[] args) {
 		System.out.println(hasAttribute("Long Sword", "Damage"));
 		System.out.println(hasAttribute("Phantom Dancer", "Damage"));
+		
+		System.out.println(getAttributeItems("Damage").toString());
 	}
 
 }
