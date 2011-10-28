@@ -36,9 +36,12 @@ public class LeagueOfLegendsHelper {
 			while ((line = in.readLine()) != null) {
 				LoLItem item = new LoLItem();
 				String[] fields = line.split(",");
-				for (int i = 0; i < fields.length; i++) {
-					// System.out.print(fieldNames[i] + " is " + fields[i] +
-					// ", ");
+
+				for(int i=0; i< fields.length; i ++) {
+					if(fields[i] == null || fields[i].equals("")) {
+						continue;
+					}
+
 					item.put(fieldNames[i], fields[i]);
 				}
 
@@ -120,9 +123,8 @@ public class LeagueOfLegendsHelper {
 	 */
 	static boolean hasAttribute(String Item, String Attribute) {
 
-		// Return true if the item has the attribute and the attribute is not
-		// empty.
-		return !items.get(Item).get(Attribute).toString().isEmpty();
+	  // Return true if the item has the attribute and the attribute is not empty.
+	  return !items.get(Item).containsKey(Attribute);
 
 	}
 
@@ -173,9 +175,29 @@ public class LeagueOfLegendsHelper {
 	 */
 	public static void main(String[] args) {
 
-		LanguageProcessor user = new LanguageProcessor();
-		String meaning = user.askQuestion();
-		System.out.println(meaning);
-		JOptionPane.showMessageDialog(null, getAttributeItems(meaning).toString());
+		//LanguageProcessor user = new LanguageProcessor();
+		//String meaning = user.askQuestion();
+		//System.out.println(meaning);
+		//JOptionPane.showMessageDialog(null, getAttributeItems(meaning).toString());
+		
+		Rules rules = new Rules();
+
+		for(String s: items.keySet()) {
+			LoLItem item = items.get(s);
+			if(rules.isADCarry.eval(item)) {
+				System.out.println("Is AD carry: " + s);
+			}
+
+
+		}
+		for(String s: items.keySet()) {
+			LoLItem item = items.get(s);
+			if(rules.isBurstMage.eval(item)) {
+				System.out.println("Is burst mage: " + s);
+			}
+
+		}
+		
+		
 	}
 }

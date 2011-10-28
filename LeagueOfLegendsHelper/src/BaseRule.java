@@ -1,4 +1,4 @@
 
-public interface Fact {
+public interface BaseRule {
   boolean eval(LoLItem item);
 }
