@@ -57,16 +57,12 @@ public class LeagueOfLegendsHelper {
 	}
 	
 	static boolean hasAttribute(String Item, String Attribute){
-	  HashMap<String, Object> ret = new HashMap<String, Object>();
-	  ret = items.get(Item);
-	  Object obj = ret.get(Attribute);   
-	  if (!obj.toString().isEmpty()){
-		  return true;
-	  }
-	  
-	  return false;
+
+	  // Return true if the item has the attribute and the attribute is not empty.
+	  return !items.get(Item).get(Attribute).toString().isEmpty();
 
 	}
+	
 	
 	/**
 	 * @param args
