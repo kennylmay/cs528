@@ -30,7 +30,7 @@ public class LeagueOfLegendsHelper {
 				HashMap<String, Object> item = new HashMap<String,Object>();
 				String[] fields = line.split(",");
 				for(int i=0; i< fields.length; i ++) {
-					System.out.print(fieldNames[i] + " is " + fields[i] + ", ");
+			//		System.out.print(fieldNames[i] + " is " + fields[i] + ", ");
 					item.put(fieldNames[i], fields[i]);
 				}
 				System.out.println("");
@@ -56,13 +56,27 @@ public class LeagueOfLegendsHelper {
 		
 	}
 	
+	static boolean hasAttribute(String Item, String Attribute){
+	  HashMap<String, Object> ret = new HashMap<String, Object>();
+	  ret = items.get(Item);
+	  Object obj = ret.get(Attribute); 
+	  String atts = obj.toString();
+	  
+	  if (atts != null){
+		  System.out.println("|" + atts + "|");
+		  return true;
+	  }
+	  
+	  return false;
+
+	}
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		System.out.println(hasAttribute("Long Sword", "Damage"));
+		System.out.println(hasAttribute("Phantom Dancer", "Damage"));
 	}
 
 }
