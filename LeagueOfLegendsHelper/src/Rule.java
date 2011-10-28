@@ -121,6 +121,8 @@ public class Rule {
 	Rule isMage = new OrRule(hasMana, hasManaRegen, hasSpellVamp, hasMagicPen, hasMana, hasCDR);
 	Rule isADCarry = new OrRule(hasAttackDamage, hasCritChance, hasAttackSpeed);
 	Rule isBurstMage = new Rule(Not(isADCarry), isMage);
+	Rule isTankyMage = new Rule(isTanky, isMage);
+	Rule isADAPHybrid = new Rule(isADCarry, isMage);
 
 	
 	
