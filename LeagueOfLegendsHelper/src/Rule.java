@@ -22,7 +22,7 @@ public class Rule {
 	
 	
 	//Rules can only be constructed in two ways: with a set of subrules or with a fact.
-	private Rule() {
+	public Rule() {
 		
 	}
 	
@@ -94,35 +94,34 @@ public class Rule {
 	//////////////////////////////////////////////////////////////
 	//Base Rules
 	//////////////////////////////////////////////////////////////
-	Rule hasHealth = new Rule(ItemHas("Health"));
-	Rule hasMana = new Rule(ItemHas("Mana"));
-	Rule hasHealthRegen = new Rule(ItemHas("HealthRegen"));
-	Rule hasManaRegen = new Rule(ItemHas("ManaRegen"));
-	Rule hasArmor = new Rule(ItemHas("Armor"));
-	Rule hasMagicResist = new Rule(ItemHas("Resist"));
-	Rule hasAttackDamage = new Rule(ItemHas("Damage"));
-	Rule hasArmorPen = new Rule(ItemHas("ArmorPen"));
-	Rule hasMagicPen = new Rule(ItemHas("MagicPen"));
-	Rule hasAbilityPower = new Rule(ItemHas("AbilityPower"));
-	Rule hasCritChance = new Rule(ItemHas("Critical"));
-	Rule hasMovementSpeed = new Rule(ItemHas("Movement"));
-	Rule hasLifeSteal = new Rule(ItemHas("LifeSteal"));
-	Rule hasSpellVamp = new Rule(ItemHas("SpellVamp"));
-	Rule hasDodge = new Rule(ItemHas("SpellVamp"));
-	Rule hasCDR = new Rule(ItemHas("CDR"));
-	Rule hasTenacity = new Rule(ItemHas("Tenacity"));
-	Rule hasAttackSpeed = new Rule(ItemHas("AttackSpeed"));
+	public Rule hasHealth = new Rule(ItemHas("Health"));
+	public Rule hasMana = new Rule(ItemHas("Mana"));
+	public Rule hasHealthRegen = new Rule(ItemHas("HealthRegen"));
+	public Rule hasManaRegen = new Rule(ItemHas("ManaRegen"));
+	public Rule hasArmor = new Rule(ItemHas("Armor"));
+	public Rule hasMagicResist = new Rule(ItemHas("Resist"));
+	public Rule hasAttackDamage = new Rule(ItemHas("Damage"));
+	public Rule hasMagicPen = new Rule(ItemHas("MagicPen"));
+	public Rule hasAbilityPower = new Rule(ItemHas("AbilityPower"));
+	public Rule hasCritChance = new Rule(ItemHas("Critical"));
+	public Rule hasMovementSpeed = new Rule(ItemHas("Movement"));
+	public Rule hasLifeSteal = new Rule(ItemHas("LifeSteal"));
+	public Rule hasSpellVamp = new Rule(ItemHas("SpellVamp"));
+	public Rule hasDodge = new Rule(ItemHas("Dodge"));
+	public Rule hasCDR = new Rule(ItemHas("CDR"));
+	public Rule hasTenacity = new Rule(ItemHas("Tenacity"));
+	public Rule hasAttackSpeed = new Rule(ItemHas("AttackSpeed"));
 	
-	
+
     /////////////////////////////////////////////////////////////
 	//Higher order rules
 	/////////////////////////////////////////////////////////////
-	Rule isTanky = new OrRule(hasHealth, hasHealthRegen, hasArmor, hasMagicResist, hasDodge, hasTenacity, hasLifeSteal, hasSpellVamp);
-	Rule isMage = new OrRule(hasMana, hasManaRegen, hasSpellVamp, hasMagicPen, hasMana, hasCDR);
-	Rule isADCarry = new OrRule(hasAttackDamage, hasCritChance, hasAttackSpeed);
-	Rule isBurstMage = new Rule(Not(isADCarry), isMage);
-	Rule isTankyMage = new Rule(isTanky, isMage);
-	Rule isADAPHybrid = new Rule(isADCarry, isMage);
+	public Rule isTanky = new OrRule(hasHealth, hasHealthRegen, hasArmor, hasMagicResist, hasDodge, hasTenacity, hasLifeSteal, hasSpellVamp);
+	public Rule isMage = new OrRule(hasMana, hasManaRegen, hasSpellVamp, hasMagicPen, hasMana, hasCDR);
+	public Rule isADCarry = new OrRule(hasAttackDamage, hasCritChance, hasAttackSpeed);
+	public Rule isBurstMage = new Rule(Not(isADCarry), isMage);
+	public Rule isTankyMage = new Rule(isTanky, isMage);
+	public Rule isADAPHybrid = new Rule(isADCarry, isMage);
 
 	
 	
