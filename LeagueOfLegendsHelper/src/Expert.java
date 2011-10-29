@@ -72,10 +72,7 @@ public class Expert {
 	
 	
     private static String counterFor(String attr) {
-    	if(attr.equals("Health")) {
-    		return "Damage";
-    	}
-    	else if(attr.equals("Armor")) {
+    	if(attr.equals("Armor")) {
     		return "ArmorPenetration";
     	}
     	
@@ -107,7 +104,6 @@ public class Expert {
     	else if(attr.equals("CDR")) {
     		return "MagicResist";
     	}
-
     	
     	//There is no counter for this attribute.
     	return "";
