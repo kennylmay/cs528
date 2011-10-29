@@ -1,15 +1,15 @@
 
-public class OrRule extends Rule {
+public class OrItemRule extends ItemRule {
 	
-	public OrRule(Rule  ... theSubRules) {
-		for(Rule r: theSubRules) {
+	public OrItemRule(ItemRule  ... theSubRules) {
+		for(ItemRule r: theSubRules) {
 			subRules.add(r);
 		}
 	}
 	@Override
 	public boolean eval(LoLItem item) {
 		//Or rules are true if any of the subrules are true
-		  for(Rule g: subRules) {
+		  for(ItemRule g: subRules) {
 			  if(g.eval(item) == true) {
 				  return true;
 			  }
@@ -17,6 +17,6 @@ public class OrRule extends Rule {
 		  return false;
 	}
 	
-	private OrRule() {} ;
+	private OrItemRule() {} ;
 	
 }

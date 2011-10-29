@@ -1,13 +1,13 @@
 import java.util.LinkedList;
 
 
-public class Rule {
-	public LinkedList<Rule> subRules = new LinkedList<Rule>();
-	public BaseRule fact;
+public class ItemRule {
+	public LinkedList<ItemRule> subRules = new LinkedList<ItemRule>();
+	public ItemBaseRule baseRule;
 	
 	//A rule is true if all it's subrules are true
 	boolean eval(LoLItem item) {
-	  for(Rule g: subRules) {
+	  for(ItemRule g: subRules) {
 		  if(g.eval(item) == false) {
 			  return false;
 		  }
@@ -15,30 +15,30 @@ public class Rule {
 	  
 	  //If no subrules, then this is a base case. Check the fact.
 	  if(subRules.size() == 0) {
-		  return fact.eval(item);
+		  return baseRule.eval(item);
 	  }
 	  return true;
 	}
 	
 	
-	//Rules can only be constructed in two ways: with a set of subrules or with a fact.
-	public Rule() {
+	//Rules can only be constructed in two ways: with a set of subrules or with a base rule.
+	public ItemRule() {
 		
 	}
 	
-	public Rule(Rule ... theSubRules) {
-		for(Rule r: theSubRules) {
+	public ItemRule(ItemRule ... theSubRules) {
+		for(ItemRule r: theSubRules) {
 			subRules.add(r);
 		}
 	}
 	
-	public Rule(BaseRule f) {
-		fact = f;
+	public ItemRule(ItemBaseRule f) {
+		baseRule = f;
 	}
 
 	
     //Base Rules
-	public class _ItemHas implements BaseRule {
+	public class _ItemHas implements ItemBaseRule {
 		private  String attributeName;
 		@Override
 		public boolean eval(LoLItem item) {
@@ -50,9 +50,9 @@ public class Rule {
 	}
 	
 
-	public class _Not extends Rule {
-		private Rule r;
-		public _Not(Rule r) {
+	public class _Not extends ItemRule {
+		private ItemRule r;
+		public _Not(ItemRule r) {
 			this.r = r;
 		}
 		

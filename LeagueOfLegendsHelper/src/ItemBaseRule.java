@@ -1,4 +1,4 @@
 
-public interface BaseRule {
+public interface ItemBaseRule {
   boolean eval(LoLItem item);
 }

@@ -180,7 +180,7 @@ public class LeagueOfLegendsHelper {
 		System.out.println(meaning);
 		JOptionPane.showMessageDialog(null, getAttributeItems(meaning).toString());
 		
-		Rules rules = new Rules();
+		ItemRules rules = new ItemRules();
 
 		for(String s: items.keySet()) {
 			LoLItem item = items.get(s);
