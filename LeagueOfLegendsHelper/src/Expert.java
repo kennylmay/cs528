@@ -45,6 +45,8 @@ public class Expert {
 		  //Another example, if the player is support, don't care about the ability power VS magic pen disparity.
 		
 
+		//If any disparateProperties still exist, try to find items that fit the player's core properties and
+		//satisfy some of the disparateProperties.
 		
 		
 		
@@ -96,21 +98,11 @@ public class Expert {
 	
 	
     private static String counterFor(String attr) {
-    	if(attr.equals("Armor")) {
-    		return "ArmorPenetration";
-    	}    	
-    	else if(attr.equals("ArmorPenetration")) {
-    		return "Armor";
-    	}
-    	else if(attr.equals("AbilityPower")) {
+
+    	if(attr.equals("AbilityPower")) {
     		return "MagicResist";    		
     	}
-    	else if(attr.equals("MagicResist")) {
-    		return "MagicPenetration";
-    	}
-    	else if(attr.equals("MagicPenetration")) {
-    		return "MagicResist";
-    	}
+
     	else if(attr.equals("Critical")) {
     		return "Armor";
     	}
