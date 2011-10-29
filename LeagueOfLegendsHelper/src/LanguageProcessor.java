@@ -102,12 +102,13 @@ public class LanguageProcessor {
 		} else {
 			boolean correctList = false;
 			LinkedList<String> itemList = splitList(userInput);
-			while (correctList == false) {
+			while (!correctList && !userInput.isEmpty()) {
 				for (String item : itemList) {
 					if (!items.containsKey(item)) {
 						correctList = false;
+						System.out.println(item);
 						userInput = JOptionPane.showInputDialog(" I don’t recognize the item "+ item + 
-																"\n Do you have any items? If so, list them.");
+																"\n Do you have any items? If so, list them comma seperated.");
 						break;
 					}else{
 						correctList = true;
@@ -126,12 +127,12 @@ public class LanguageProcessor {
 		} else {
 			boolean correctList = false;
 			LinkedList<String> itemList = splitList(userInput);
-			while (correctList == false) {
+			while (!correctList && !userInput.isEmpty()) {
 				for (String item : itemList) {
 					if (!items.containsKey(item)) {
 						correctList = false;
 						userInput = JOptionPane.showInputDialog(" I don’t recognize the item "+ item + 
-																"\n Does your opponent have any items? If so, list them.");
+																"\n Does your opponent have any items? If so, list themcomma seperated.");
 						break;
 					}else{
 						correctList = true;
@@ -152,12 +153,9 @@ public class LanguageProcessor {
 	 */
 	private LinkedList<String> splitList(String list) {
 		LinkedList<String> items = new LinkedList<String>();
-		list = list.replaceAll("'", "");
-		list = list.replaceAll(".", "");
-		list = list.replaceAll(",", "");
-		list = list.replaceAll(",[a-Z][A-Z]", " ");
-		String splitList[] = list.split(" ");
+		String splitList[] = list.split(",");
 		for (String item : splitList) {
+			item = item.trim();
 			items.add(item);
 		}
 		return items;
