@@ -19,6 +19,9 @@ public class LeagueOfLegendsHelper {
 
 	public static HashMap<String, LoLItem> items = getFactBase();
 	public static HashMap<String, String[]> itemTree = getItemTree();
+	
+	// Cost for one unit of each attribute.
+	public static HashMap<String, Object> attrCost = getAttrCosts();
 
 	// Parse the CSV file into HashMap of items. These are the facts used by the
 	// expert system.
@@ -65,6 +68,202 @@ public class LeagueOfLegendsHelper {
 		// Never gets here
 		return null;
 
+	}
+
+	private static HashMap<String, Object> getAttrCosts() {
+
+		HashMap<String, Object> ret = new HashMap<String, Object>();
+		LoLItem tmpItem = null;
+		
+		double costSum = 0;
+		double pointSum = 0;
+		double costPerPoint = 0;
+		
+		// Heath - Using Basic items Ruby Crystal & Giants Belt
+		tmpItem = items.get("Ruby Crystal");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("Health").toString());
+		
+		tmpItem = items.get("Giant's Belt");
+		costSum += Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum += Integer.getInteger(tmpItem.get("Health").toString());
+		
+		costPerPoint = costSum / pointSum;
+		ret.put("Health", costPerPoint);
+		
+		
+		// Mana - Using Sapphire Crystal for Base Item
+		tmpItem = items.get("Sapphire Crystal");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("Mana").toString());
+		
+		costPerPoint = costSum / pointSum;
+		ret.put("Mana", costPerPoint);
+		
+		
+		// Health Regen
+		tmpItem = items.get("Rejuvenation Bead");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("HealthRegen").toString());
+		
+		tmpItem = items.get("Regrowth Pendant");
+		costSum += Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum += Integer.getInteger(tmpItem.get("HealthRegen").toString());
+		
+		costPerPoint = costSum / pointSum;
+		ret.put("HealthRegen", costPerPoint);
+		
+		
+		// Mana Regen
+		tmpItem = items.get("Faerie Charm");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("ManaRegen").toString());
+		
+		tmpItem = items.get("Meki Pendant");
+		costSum += Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum += Integer.getInteger(tmpItem.get("ManaRegen").toString());
+		
+		costPerPoint = costSum / pointSum;
+		ret.put("ManaRegen", costPerPoint);
+		
+		// Armor
+		tmpItem = items.get("Chain Vest");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("Armor").toString());
+		
+		tmpItem = items.get("Cloth Armor");
+		costSum += Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum += Integer.getInteger(tmpItem.get("Armor").toString());
+		
+		costPerPoint = costSum / pointSum;
+		ret.put("Armor", costPerPoint);
+		
+		
+		// Magic Resist
+		tmpItem = items.get("Null-Magic Mantle");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("Resist").toString());
+		
+		tmpItem = items.get("Negatron Cloak");
+		costSum += Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum += Integer.getInteger(tmpItem.get("Resist").toString());
+		
+		costPerPoint = costSum / pointSum;
+		ret.put("Resist", costPerPoint);
+
+		
+		// Attack Damage
+		tmpItem = items.get("B. F. Sword");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("Damage").toString());
+		
+		tmpItem = items.get("Long Sword");
+		costSum += Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum += Integer.getInteger(tmpItem.get("Damage").toString());
+		
+		tmpItem = items.get("Pickaxe");
+		costSum += Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum += Integer.getInteger(tmpItem.get("Damage").toString());
+		
+		costPerPoint = costSum / pointSum;
+		ret.put("Damage", costPerPoint);
+		
+		
+		// Ability Power
+		tmpItem = items.get("Amplifying Tome");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("AbilityPower").toString());
+
+		tmpItem = items.get("Blasting Wand");
+		costSum += Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum += Integer.getInteger(tmpItem.get("AbilityPower").toString());
+		
+		tmpItem = items.get("Needlessly Large Rod");
+		costSum += Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum += Integer.getInteger(tmpItem.get("AbilityPower").toString());
+		
+		costPerPoint = costSum / pointSum;
+		ret.put("AbilityPower", costPerPoint);
+		
+		
+		// Critical Strike
+		tmpItem = items.get("Brawler's Gloves");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("Critical").toString());
+
+		tmpItem = items.get("Cloak of Agility");
+		costSum += Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum += Integer.getInteger(tmpItem.get("Critical").toString());
+
+		costPerPoint = costSum / pointSum;
+		ret.put("Critical", costPerPoint);
+		
+		
+		// Attack Speed
+		tmpItem = items.get("Dagger");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("AttackSpeed").toString());
+
+		tmpItem = items.get("Recurve Bow");
+		costSum += Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum += Integer.getInteger(tmpItem.get("AttackSpeed").toString());
+
+		costPerPoint = costSum / pointSum;
+		ret.put("AttackSpeed", costPerPoint);
+		
+		
+		//Life Steal
+		tmpItem = items.get("Vampiric Scepter");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("Lifesteal").toString());
+
+		costPerPoint = costSum / pointSum;
+		ret.put("Lifesteal", costPerPoint);
+		
+		
+		// Spell Vamp
+		tmpItem = items.get("Hextech Revolver");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("SpellVamp").toString());
+
+		costPerPoint = costSum / pointSum;
+		ret.put("SpellVamp", costPerPoint);
+		
+		// Dodge
+		tmpItem = items.get("Ninja Tabi");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("Dodge").toString());
+
+		costPerPoint = costSum / pointSum;
+		ret.put("Dodge", costPerPoint);
+
+		
+		// Cool Down Reduction
+		tmpItem = items.get("Ionian Boots of Lucidity");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("CDR").toString());
+
+		costPerPoint = costSum / pointSum;
+		ret.put("CDR", costPerPoint);
+
+		
+		// Tenacity
+		tmpItem = items.get("Moonflair Spellblade");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("Tenacity").toString());
+
+		costPerPoint = costSum / pointSum;
+		ret.put("Tenacity", costPerPoint);
+		
+		// Movement
+		tmpItem = items.get("Boots of Speed");
+		costSum = Integer.getInteger(tmpItem.get("Cost").toString());
+		pointSum = Integer.getInteger(tmpItem.get("Movement").toString());
+
+		costPerPoint = costSum / pointSum;
+		ret.put("Movement", costPerPoint);
+		
+		return ret;
 	}
 
 	// Parse the CSV file into HashMap of items. This will be used to
