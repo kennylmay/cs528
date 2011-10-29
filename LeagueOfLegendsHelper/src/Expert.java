@@ -1,3 +1,5 @@
+import java.util.Collections;
+import java.util.List;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -10,6 +12,9 @@ public class Expert {
 		//Translate the currently possessed items of both players into statistical data. This will be used for heuristics later.
 		PlayerStats playerStats = PlayerStats.calculateStats( (LinkedList<LoLItem>) caseData.get("playerItems"));
 		PlayerStats opponentStats = PlayerStats.calculateStats((LinkedList<LoLItem>) caseData.get("opponentItems"));
+		
+		System.out.println("Player: " + playerStats);
+		System.out.println("Opponent: " + opponentStats);
 		
 		//Get the core attributes for each player's role		
 		HashSet<String> playerCore   = coreAttributesFor( (ChampionRole) caseData.get("playerChampionRole"));
@@ -38,7 +43,12 @@ public class Expert {
 				disparateProperties.add(new Pair< Pair<String,String>, Integer>(p, opponentValForAttr - playerValForCounter));
 			}
 		}
-		System.out.println(disparateProperties);
+		
+		for(Pair< Pair<String, String>, Integer> prop : disparateProperties) {
+			System.out.println("Lacking in " + prop.first.first + " vs  " + prop.first.second + " by " + prop.second  + " units");	
+		}
+		
+		
 		//Apply exceptions here. Remove any disparity from the disparity list that we don't care about. 
 		  //For instance, if the opponent is a support character, don't care about the ability power/cdr/magic pen VS magic resist disparity.
 		  //Another example, if the opponent is a mage, don't care about the attack damage/attack speed/ crit chance VS armor disparity. 
@@ -47,6 +57,38 @@ public class Expert {
 
 		//If any disparateProperties still exist, try to find items that fit the player's core properties and
 		//satisfy some of the disparateProperties.
+		
+		//Choose the biggest disparity
+		ItemRule disparityRule = null;
+		int max = Integer.MIN_VALUE;
+		Pair< Pair<String, String>, Integer> biggest = null;
+		for(Pair< Pair<String, String>, Integer> prop : disparateProperties) {
+		  if(prop.second > max) {
+			  prop.second = max;
+			  biggest = prop;
+		  }
+		}
+		
+		LinkedList <LoLItem> startingSet = new LinkedList<LoLItem>();
+		//If a disparity exists, select the set of items that compensate for this disparity
+		if(biggest != null) {
+		  List<String> names = LeagueOfLegendsHelper.getAttributeItems(biggest.first.second);
+		  Collections.sort(names);
+		  
+		  
+		  for(String s : names) {
+			  startingSet.add(itemData.get(s));
+		  }
+		}
+		
+		ItemRules rules = new ItemRules();
+		for(LoLItem item : startingSet) {
+			if(rules.isFighter.eval(item)) {
+				System.out.println("Possible item: " + item.get("Item"));	
+			}
+		}
+		
+		
 		
 		
 		

@@ -20,6 +20,7 @@ public class LeagueOfLegendsHelper {
 	public static HashMap<String, LoLItem> items = getFactBase();
 	public static HashMap<String, String[]> itemTree = getItemTree();
 
+
 	// Parse the CSV file into HashMap of items. These are the facts used by the
 	// expert system.
 	public static HashMap<String, LoLItem> getFactBase() {
@@ -126,7 +127,7 @@ public class LeagueOfLegendsHelper {
 	static boolean hasAttribute(String Item, String Attribute) {
 
 	  // Return true if the item has the attribute and the attribute is not empty.
-	  return !items.get(Item).containsKey(Attribute);
+	  return items.get(Item).containsKey(Attribute);
 
 	}
 
@@ -183,14 +184,14 @@ public class LeagueOfLegendsHelper {
 		//ItemRules rules = new ItemRules();
 
 		CaseData cd = new CaseData();
-		LinkedList<LoLItem> tst = new LinkedList<LoLItem>();
-		for(String str : items.keySet()) {
-			tst.add(items.get(str));
-		}
+		LinkedList<LoLItem> myItems = new LinkedList<LoLItem>();
+		LinkedList<LoLItem> theirItems = new LinkedList<LoLItem>();
 		
-		cd.put("playerItems", tst);
-		cd.put("opponentItems", tst);
-		cd.put("playerChampionRole", Expert.ChampionRole.Assasin);
+		myItems.add(items.get("Doran's Blade"));
+		theirItems.add(items.get("Rabadon's Deathcap"));
+		cd.put("playerItems", myItems);
+		cd.put("opponentItems", theirItems);
+		cd.put("playerChampionRole", Expert.ChampionRole.Fighter);
 		cd.put("opponentChampionRole", Expert.ChampionRole.Mage);
 		
 

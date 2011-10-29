@@ -57,7 +57,7 @@ public class PlayerStats extends HashMap<String, Object> {
 		ps.put("CDR", cdr);
 		ps.put("Tenacity", tenacity);
 		ps.put("Movement", movement);
-		System.out.println(ps);
+		
 		return ps;
 	}
 	
