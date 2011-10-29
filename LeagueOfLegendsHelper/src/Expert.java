@@ -103,6 +103,9 @@ public class Expert {
     		return "MagicResist";    		
     	}
 
+    	else if(attr.equals("Damage")) {
+    		return "Armor";
+    	}
     	else if(attr.equals("Critical")) {
     		return "Armor";
     	}
