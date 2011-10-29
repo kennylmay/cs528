@@ -48,11 +48,11 @@ public class LanguageProcessor {
 			caseData.put("playerChampionRole", ChampionRole.Assasin);
 		} else if (userInput.equalsIgnoreCase("tank")) {
 			caseData.put("playerChampionRole", ChampionRole.Tank);
-		} else if (userInput.equalsIgnoreCase("tank")) {
+		} else if (userInput.equalsIgnoreCase("mage")) {
 			caseData.put("playerChampionRole", ChampionRole.Mage);
-		} else if (userInput.equalsIgnoreCase("tank")) {
+		} else if (userInput.equalsIgnoreCase("figher")) {
 			caseData.put("playerChampionRole", ChampionRole.Fighter);
-		} else if (userInput.equalsIgnoreCase("tank")) {
+		} else if (userInput.equalsIgnoreCase("support")) {
 			caseData.put("playerChampionRole", ChampionRole.Support);
 		}
 
@@ -72,11 +72,11 @@ public class LanguageProcessor {
 			caseData.put("opponentChampionRole", ChampionRole.Assasin);
 		} else if (userInput.equalsIgnoreCase("tank")) {
 			caseData.put("opponentChampionRole", ChampionRole.Tank);
-		} else if (userInput.equalsIgnoreCase("tank")) {
+		} else if (userInput.equalsIgnoreCase("mage")) {
 			caseData.put("opponentChampionRole", ChampionRole.Mage);
-		} else if (userInput.equalsIgnoreCase("tank")) {
+		} else if (userInput.equalsIgnoreCase("fighter")) {
 			caseData.put("opponentChampionRole", ChampionRole.Fighter);
-		} else if (userInput.equalsIgnoreCase("tank")) {
+		} else if (userInput.equalsIgnoreCase("support")) {
 			caseData.put("opponentChampionRole", ChampionRole.Support);
 		}
 
