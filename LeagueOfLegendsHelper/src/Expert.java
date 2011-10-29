@@ -67,21 +67,43 @@ public class Expert {
 	
 	//This function returns the core attributes for a type of champ; for example, a Fighter would have attack damage, armor, armor pen, health, etc
 	public static HashSet<String> coreAttributesFor(ChampionRole c) {
-		return null;
+		HashSet<String> attr = new HashSet<String>();
+		if(c == ChampionRole.Assasin){
+			attr.add("ArmorPenetration");
+			attr.add("Critical");
+			attr.add("Damage");						
+		}else if(c == ChampionRole.Tank){
+			attr.add("Armor");
+			attr.add("Health");
+			attr.add("MagicResist");
+		}else if(c == ChampionRole.Mage){
+			attr.add("AbilityPower");
+			attr.add("MagicPenetration");
+			attr.add("CDR");
+			attr.add("SpellVamp");
+		}else if(c == ChampionRole.Fighter){
+			attr.add("AttackSpeed");
+			attr.add("Critical");
+			attr.add("Damage");
+			attr.add("LifeSteal");	
+		}else if(c == ChampionRole.Support){
+			attr.add("AbilityPower");
+			attr.add("CDR");
+			attr.add("SpellVamp");			
+		}
+		return attr;
 	}
 	
 	
     private static String counterFor(String attr) {
     	if(attr.equals("Armor")) {
     		return "ArmorPenetration";
-    	}
-    	
+    	}    	
     	else if(attr.equals("ArmorPenetration")) {
     		return "Armor";
     	}
     	else if(attr.equals("AbilityPower")) {
-    		return "MagicResist";
-    		
+    		return "MagicResist";    		
     	}
     	else if(attr.equals("MagicResist")) {
     		return "MagicPenetration";
@@ -104,10 +126,9 @@ public class Expert {
     	else if(attr.equals("CDR")) {
     		return "MagicResist";
     	}
-    	
+
     	//There is no counter for this attribute.
-    	return "";
-    	
+    	return "";    	
     	
     }
     

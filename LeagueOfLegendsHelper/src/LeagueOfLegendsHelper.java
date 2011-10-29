@@ -175,10 +175,8 @@ public class LeagueOfLegendsHelper {
 	 */
 	public static void main(String[] args) {
 
-		LanguageProcessor user = new LanguageProcessor();
-		String meaning = user.askQuestion();
-		System.out.println(meaning);
-		JOptionPane.showMessageDialog(null, getAttributeItems(meaning).toString());
+		LanguageProcessor user = new LanguageProcessor(items);
+		user.askQuestion();
 		
 		ItemRules rules = new ItemRules();
 
