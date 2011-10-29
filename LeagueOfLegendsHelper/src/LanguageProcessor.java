@@ -30,8 +30,8 @@ public class LanguageProcessor {
 
 		// Determine what kind of Champion the player is.
 		String userInput = JOptionPane
-				.showInputDialog("Hi I’m here to help you choose your next LoL item. \n"
-						+ "I’m going to ask a few questions.  \n"
+				.showInputDialog("Hi I'm here to help you choose your next LoL item. \n"
+						+ "I'm going to ask a few questions.  \n"
 						+ "What is the role of your champion? \n"
 						+ "Choose one of: [Assassin, Tank, Mage, Fighter, Support]");
 
@@ -86,7 +86,7 @@ public class LanguageProcessor {
 
 			userInput = JOptionPane
 					.showInputDialog("How much gold can you spend?\n"
-							+ " If you don’t care about the amount of gold, say 0.");
+							+ " If you don't care about the amount of gold, say 0.");
 			try {
 				money = Integer.parseInt(userInput);
 				caseData.put("Gold", money);
@@ -107,7 +107,7 @@ public class LanguageProcessor {
 					if (!items.containsKey(item)) {
 						correctList = false;
 						System.out.println(item);
-						userInput = JOptionPane.showInputDialog(" I don’t recognize the item "+ item + 
+						userInput = JOptionPane.showInputDialog(" I don't recognize the item "+ item + 
 																"\n Do you have any items? If so, list them comma seperated.");
 						break;
 					}else{
@@ -131,7 +131,7 @@ public class LanguageProcessor {
 				for (String item : itemList) {
 					if (!items.containsKey(item)) {
 						correctList = false;
-						userInput = JOptionPane.showInputDialog(" I don’t recognize the item "+ item + 
+						userInput = JOptionPane.showInputDialog(" I don't recognize the item "+ item + 
 																"\n Does your opponent have any items? If so, list themcomma seperated.");
 						break;
 					}else{
