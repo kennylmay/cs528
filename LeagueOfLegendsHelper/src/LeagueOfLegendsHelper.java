@@ -179,11 +179,8 @@ public class LeagueOfLegendsHelper {
 	public static void main(String[] args) {
 
 		LanguageProcessor user = new LanguageProcessor(items);
-	//	user.askQuestion();
-		
-		//ItemRules rules = new ItemRules();
-
-		CaseData cd = new CaseData();
+		CaseData cd = user.askQuestion();
+		/*
 		LinkedList<LoLItem> myItems = new LinkedList<LoLItem>();
 		LinkedList<LoLItem> theirItems = new LinkedList<LoLItem>();
 		
@@ -193,7 +190,7 @@ public class LeagueOfLegendsHelper {
 		cd.put("opponentItems", theirItems);
 		cd.put("playerChampionRole", Expert.ChampionRole.Fighter);
 		cd.put("opponentChampionRole", Expert.ChampionRole.Mage);
-		
+		*/
 
 		Expert.suggestNextItem(cd, items, itemTree);
 		

@@ -8,10 +8,6 @@ public class LanguageProcessor {
 	Vector<String> uselessWords = new Vector<String>();
 	HashMap<String, LoLItem> items;
 
-	public enum ChampionRole {
-		Assasin, Tank, Mage, Fighter, Support
-	};
-
 	/**
 	 * Only setup the word lists in the constructor.
 	 */
@@ -45,15 +41,15 @@ public class LanguageProcessor {
 		}
 
 		if (userInput.equalsIgnoreCase("assassin")) {
-			caseData.put("playerChampionRole", ChampionRole.Assasin);
+			caseData.put("playerChampionRole", Expert.ChampionRole.Assasin);
 		} else if (userInput.equalsIgnoreCase("tank")) {
-			caseData.put("playerChampionRole", ChampionRole.Tank);
+			caseData.put("playerChampionRole", Expert.ChampionRole.Tank);
 		} else if (userInput.equalsIgnoreCase("mage")) {
-			caseData.put("playerChampionRole", ChampionRole.Mage);
+			caseData.put("playerChampionRole", Expert.ChampionRole.Mage);
 		} else if (userInput.equalsIgnoreCase("figher")) {
-			caseData.put("playerChampionRole", ChampionRole.Fighter);
+			caseData.put("playerChampionRole", Expert.ChampionRole.Fighter);
 		} else if (userInput.equalsIgnoreCase("support")) {
-			caseData.put("playerChampionRole", ChampionRole.Support);
+			caseData.put("playerChampionRole", Expert.ChampionRole.Support);
 		}
 
 		// Determine the kind of Champion the opponent is.
@@ -69,15 +65,15 @@ public class LanguageProcessor {
 		}
 
 		if (userInput.equalsIgnoreCase("assassin")) {
-			caseData.put("opponentChampionRole", ChampionRole.Assasin);
+			caseData.put("opponentChampionRole", Expert.ChampionRole.Assasin);
 		} else if (userInput.equalsIgnoreCase("tank")) {
-			caseData.put("opponentChampionRole", ChampionRole.Tank);
+			caseData.put("opponentChampionRole", Expert.ChampionRole.Tank);
 		} else if (userInput.equalsIgnoreCase("mage")) {
-			caseData.put("opponentChampionRole", ChampionRole.Mage);
+			caseData.put("opponentChampionRole", Expert.ChampionRole.Mage);
 		} else if (userInput.equalsIgnoreCase("fighter")) {
-			caseData.put("opponentChampionRole", ChampionRole.Fighter);
+			caseData.put("opponentChampionRole", Expert.ChampionRole.Fighter);
 		} else if (userInput.equalsIgnoreCase("support")) {
-			caseData.put("opponentChampionRole", ChampionRole.Support);
+			caseData.put("opponentChampionRole", Expert.ChampionRole.Support);
 		}
 
 		// Determine how much money the player has
@@ -106,7 +102,6 @@ public class LanguageProcessor {
 				for (String item : itemList) {
 					if (!items.containsKey(item)) {
 						correctList = false;
-						System.out.println(item);
 						userInput = JOptionPane.showInputDialog(" I don't recognize the item "+ item + 
 																"\n Do you have any items? If so, list them comma seperated.");
 						break;
@@ -116,7 +111,11 @@ public class LanguageProcessor {
 				}
 			}
 
-			caseData.put("playerItems", splitList(userInput));
+			LinkedList<LoLItem> lolItems = new LinkedList<LoLItem>();
+			for(String item : itemList){
+				lolItems.add(items.get(item));
+			}
+			caseData.put("playerItems", lolItems);
 		}
 
 		// Determine if the opponent has any items.
@@ -138,8 +137,12 @@ public class LanguageProcessor {
 						correctList = true;
 					}
 				}
+			}LinkedList<LoLItem> lolItems = new LinkedList<LoLItem>();
+			for(String item : itemList){
+				lolItems.add(items.get(item));
 			}
-			caseData.put("opponentItems", splitList(userInput));
+			
+			caseData.put("opponentItems", lolItems);
 		}
 
 		return caseData;
