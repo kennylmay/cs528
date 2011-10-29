@@ -30,10 +30,12 @@ public class ItemRules {
 	/////////////////////////////////////////////////////////////
 	public ItemRule isTanky = new OrItemRule(hasHealth, hasHealthRegen, hasArmor, hasMagicResist, hasDodge, hasTenacity, hasLifeSteal, hasSpellVamp);
 	public ItemRule isMage = new OrItemRule(hasMana, hasManaRegen, hasSpellVamp, hasMagicPen, hasMana, hasCDR);
-	public ItemRule isADCarry = new OrItemRule(hasAttackDamage, hasCritChance, hasAttackSpeed);
-	public ItemRule isBurstMage = new ItemRule(Not(isADCarry), isMage);
-	public ItemRule isTankyMage = new ItemRule(isTanky, isMage);
-	public ItemRule isADAPHybrid = new ItemRule(isADCarry, isMage);
+	public ItemRule isFighter = new OrItemRule(hasAttackDamage, hasCritChance, hasAttackSpeed, hasTenacity);
+	public ItemRule isSupport = new OrItemRule(hasHealth, hasMana, hasMagicResist, hasTenacity, hasManaRegen, hasHealthRegen, hasCDR);
+	
+	//public ItemRule isBurstMage = new ItemRule(Not(isADCarry), isMage);
+	//public ItemRule isTankyMage = new ItemRule(isTanky, isMage);
+	//public ItemRule isADAPHybrid = new ItemRule(isADCarry, isMage);
 
 	private ItemRule Not(ItemRule r) {
 		return new ItemRule().new _Not(r);

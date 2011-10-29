@@ -3,6 +3,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,6 +33,8 @@ public class LeagueOfLegendsHelper {
 			String headerLine = in.readLine();
 			String[] fieldNames = headerLine.split(",");
 
+			
+			
 			String line;
 			while ((line = in.readLine()) != null) {
 				LoLItem item = new LoLItem();
@@ -45,7 +48,6 @@ public class LeagueOfLegendsHelper {
 					item.put(fieldNames[i], fields[i]);
 				}
 
-				// The name of the item is field 0
 				ret.put((String) item.get(fieldNames[0]), item);
 			}
 			return ret;
@@ -176,26 +178,23 @@ public class LeagueOfLegendsHelper {
 	public static void main(String[] args) {
 
 		LanguageProcessor user = new LanguageProcessor(items);
-		user.askQuestion();
+	//	user.askQuestion();
 		
-		ItemRules rules = new ItemRules();
+		//ItemRules rules = new ItemRules();
 
-		for(String s: items.keySet()) {
-			LoLItem item = items.get(s);
-			if(rules.isADCarry.eval(item)) {
-				System.out.println("Is AD carry: " + s);
-			}
-
-
-		}
-		for(String s: items.keySet()) {
-			LoLItem item = items.get(s);
-			if(rules.isBurstMage.eval(item)) {
-				System.out.println("Is burst mage: " + s);
-			}
-
+		CaseData cd = new CaseData();
+		LinkedList<LoLItem> tst = new LinkedList<LoLItem>();
+		for(String str : items.keySet()) {
+			tst.add(items.get(str));
 		}
 		
+		cd.put("playerItems", tst);
+		cd.put("opponentItems", tst);
+		cd.put("playerChampionRole", Expert.ChampionRole.Assasin);
+		cd.put("opponentChampionRole", Expert.ChampionRole.Mage);
+		
+
+		Expert.suggestNextItem(cd, items, itemTree);
 		
 	}
 }

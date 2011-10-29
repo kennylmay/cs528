@@ -1,4 +1,4 @@
-Item,Cost,Health,Mana,HealthRegen,ManaRegen,Armor,Resist,Damage,AbilityPower,Critical,AttackSpeed,Lifesteal,SpellVamp,Dodge,CDR,Tenacity,Movement*,Description
+Item,Cost,Health,Mana,HealthRegen,ManaRegen,Armor,Resist,Damage,AbilityPower,Critical,AttackSpeed,Lifesteal,SpellVamp,Dodge,CDR,Tenacity,Movement,Description
 Abyssal Scepter,2650,,,,,,57,,70,,,,,,,,,+70 Ability Power +57 Magic Resistance UNIQUE Aura: Reduces the Magic Resist of nearby enemy champions by 20.
 Aegis of the Legion,1925,270,,,,30,39,8,,,,,,,,,,+270 Health +18 Armor +24 Magic Resist UNIQUE Aura: +12 Armor / +15 Magic Resistance / +8 Damage to nearby allied units.
 Amplifying Tome,435,,,,,,,,20,,,,,,,,,+20 Ability Power
@@ -30,7 +30,7 @@ Emblem of Valor,800,,,10,,,,,,,,17,,,,,,+17% Lifesteal UNIQUE Aura: Nearby allie
 Executioner's Calling,1600,,,,,,,,,15,,18,,,,,,+18% Lifesteal +15% Critical Strike Chance UNIQUE Passive: On hit  you cause 4 damage per second for 8 seconds. UNIQUE Active: Inflicts target enemy champion with Grievous Wound  causing 50% reduced healing and regeneration for 8 seconds. 20 second cooldo
 Faerie Charm,180,,,,3,,,,,,,,,,,,,+3 Mana Regen per 5 sec
 Fiendish Codex,1245,,,,7,,,,30,,,,,,10,,,+30 Ability Power +7 Mana Regeneration per 5 UNIQUE Passive: Reduces ability cooldowns by 10%.
-Force of Nature,2610,,,57.5,,,76,,,,,,,,,,8,+76 Magic Resist +40 Health Regen per 5 sec +8% Movement Speed UNIQUE Passive: Restores 0.35% of your champion's health every second.
+Force of Nature,2610,,,57,,,76,,,,,,,,,,8,+76 Magic Resist +40 Health Regen per 5 sec +8% Movement Speed UNIQUE Passive: Restores 0.35% of your champion's health every second.
 Frozen Heart,2925,,500,,,99,,,,,,,,,20,,,+99 Armor +500 Mana UNIQUE Passive: Reduces ability cooldowns by 20% and reduces the attack speed of nearby enemies by 20%.
 Frozen Mallet,3250,700,,,,,,20,,,,,,,,,,+700 Health +20 Attack Damage UNIQUE Passive: Your attacks reduce your target's Movement Speed by 40% for 2.5 seconds (30% for ranged attacks).
 Giant's Belt,1110,430,,,,,,,,,,,,,,,,+430 Health

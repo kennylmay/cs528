@@ -12,7 +12,7 @@ public class Expert {
 		PlayerStats opponentStats = PlayerStats.calculateStats((LinkedList<LoLItem>) caseData.get("opponentItems"));
 		
 		//Get the core attributes for each player's role		
-		HashSet<String> playerCore =   coreAttributesFor( (ChampionRole) caseData.get("playerChampionRole"));
+		HashSet<String> playerCore   = coreAttributesFor( (ChampionRole) caseData.get("playerChampionRole"));
 		HashSet<String> opponentCore = coreAttributesFor( (ChampionRole) caseData.get("opponentChampionRole"));
 		
 		//Get the list of general counters for each of the opponents core attributes
@@ -38,7 +38,7 @@ public class Expert {
 				disparateProperties.add(new Pair< Pair<String,String>, Integer>(p, opponentValForAttr - playerValForCounter));
 			}
 		}
-		
+		System.out.println(disparateProperties);
 		//Apply exceptions here. Remove any disparity from the disparity list that we don't care about. 
 		  //For instance, if the opponent is a support character, don't care about the ability power/cdr/magic pen VS magic resist disparity.
 		  //Another example, if the opponent is a mage, don't care about the attack damage/attack speed/ crit chance VS armor disparity. 
@@ -100,7 +100,7 @@ public class Expert {
     private static String counterFor(String attr) {
 
     	if(attr.equals("AbilityPower")) {
-    		return "MagicResist";    		
+    		return "Resist";    		
     	}
 
     	else if(attr.equals("Damage")) {
@@ -112,17 +112,17 @@ public class Expert {
     	else if(attr.equals("AttackSpeed")) {
     		return "Armor";
     	}
-    	else if(attr.equals("LifeSteal")) {
+    	else if(attr.equals("Lifesteal")) {
     		return "Armor";
     	}
     	else if(attr.equals("SpellVamp")) {
-    		return "MagicResist";
+    		return "Resist";
     	}
     	else if(attr.equals("CDR")) {
-    		return "MagicResist";
+    		return "Resist";
     	}
 
-    	//There is no counter for this attribute.
+    	//There is no general counter for this attribute.
     	return "";    	
     	
     }
@@ -133,9 +133,12 @@ public class Expert {
        //to a total investment of 144 * (1000 / 30)  = 4800 gold
        //Then assign a heuristic based on the gold investment value, maybe total estimated investment / 100
        //This would make the total heuristic value = round(4800 / 100) = 5 
+    
 	private static int heuristicForAttribute(String attr, Object val) {
-		// TODO Auto-generated method stub
-		return 0;
+        int typedVal = (Integer)val;
+		//Get the heuristic multiplier for this attribute
+		Double mult = PlayerStats.heuristicUnits.get(attr);
+		return (int) Math.round(mult * typedVal / 100);
 	}
 	
 }
