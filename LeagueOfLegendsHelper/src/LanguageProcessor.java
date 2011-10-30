@@ -132,6 +132,7 @@ public class LanguageProcessor {
 						correctList = false;
 						userInput = JOptionPane.showInputDialog(" I don't recognize the item "+ item + 
 																"\n Does your opponent have any items? If so, list themcomma seperated.");
+						
 						break;
 					}else{
 						correctList = true;
@@ -162,6 +163,11 @@ public class LanguageProcessor {
 			items.add(item);
 		}
 		return items;
+	}
+	
+	public CaseData presentDialog(){
+		return null;
+		
 	}
 
 }

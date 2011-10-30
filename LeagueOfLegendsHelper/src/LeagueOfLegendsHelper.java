@@ -178,8 +178,7 @@ public class LeagueOfLegendsHelper {
 	 */
 	public static void main(String[] args) {
 
-		LanguageProcessor user = new LanguageProcessor(items);
-		CaseData cd = user.askQuestion();
+		CaseData cd = new UserInterface(items).showDialog();		
 		/*
 		LinkedList<LoLItem> myItems = new LinkedList<LoLItem>();
 		LinkedList<LoLItem> theirItems = new LinkedList<LoLItem>();
@@ -192,7 +191,6 @@ public class LeagueOfLegendsHelper {
 		cd.put("opponentChampionRole", Expert.ChampionRole.Mage);
 		*/
 
-		Expert.suggestNextItem(cd, items, itemTree);
-		
+		Expert.suggestNextItem(cd, items, itemTree);	
 	}
 }
