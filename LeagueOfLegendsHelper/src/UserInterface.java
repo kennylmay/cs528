@@ -31,18 +31,18 @@ public class UserInterface extends JDialog {
 			"What is a simple goal of your build?");
 
 	private JTextField textBox = new JTextField();
-	private JComboBox<String> playerItem1 = new JComboBox<String>();
-	private JComboBox<String> playerItem2 = new JComboBox<String>();
-	private JComboBox<String> playerItem3 = new JComboBox<String>();
-	private JComboBox<String> playerItem4 = new JComboBox<String>();
-	private JComboBox<String> playerItem5 = new JComboBox<String>();
-	private JComboBox<String> playerItem6 = new JComboBox<String>();
-	private JComboBox<String> opponentItem1 = new JComboBox<String>();
-	private JComboBox<String> opponentItem2 = new JComboBox<String>();
-	private JComboBox<String> opponentItem3 = new JComboBox<String>();
-	private JComboBox<String> opponentItem4 = new JComboBox<String>();
-	private JComboBox<String> opponentItem5 = new JComboBox<String>();
-	private JComboBox<String> opponentItem6 = new JComboBox<String>();
+	private JComboBox playerItem1 = new JComboBox();
+	private JComboBox playerItem2 = new JComboBox();
+	private JComboBox playerItem3 = new JComboBox();
+	private JComboBox playerItem4 = new JComboBox();
+	private JComboBox playerItem5 = new JComboBox();
+	private JComboBox playerItem6 = new JComboBox();
+	private JComboBox opponentItem1 = new JComboBox();
+	private JComboBox opponentItem2 = new JComboBox();
+	private JComboBox opponentItem3 = new JComboBox();
+	private JComboBox opponentItem4 = new JComboBox();
+	private JComboBox opponentItem5 = new JComboBox();
+	private JComboBox opponentItem6 = new JComboBox();
 
 	private JComboBox<String> playerCombo = new JComboBox<String>();
 	private JComboBox<String> opponentCombo = new JComboBox<String>();
@@ -75,6 +75,7 @@ public class UserInterface extends JDialog {
 	private CaseData caseData = new CaseData();
 	private HashMap<String, LoLItem> itemList;
 
+	@SuppressWarnings("unchecked")
 	public UserInterface(HashMap<String, LoLItem> items,
 			HashMap<String, String[]> characters) {
 
@@ -165,7 +166,7 @@ public class UserInterface extends JDialog {
 		this.pack();
 		this.setModal(true);
 		this.setAlwaysOnTop(false);
-
+		
 		okButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				// Get data from the form about the current player type.
@@ -250,9 +251,7 @@ public class UserInterface extends JDialog {
 				}
 
 				caseData.put("opponentItems", oplolItems);
-				
-				setVisible(false);
-				dispose();
+				caseData.put("playerGoal", textBox.getText());
 				
 			}
 			
@@ -281,8 +280,7 @@ public class UserInterface extends JDialog {
 
 	}
 
-	public CaseData showDialog() {
+	public void showDialog() {
 		this.setVisible(true);
-		return caseData;
 	}
 }
