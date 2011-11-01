@@ -1,24 +1,19 @@
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.Vector;
-
-import javax.swing.JOptionPane;
 
 public class LeagueOfLegendsHelper {
 
 	public static HashMap<String, LoLItem> items = getFactBase();
 	public static HashMap<String, String[]> itemTree = getItemTree();
+	public static HashMap<String, String[]> characters = getCharacters();
 
 
 	// Parse the CSV file into HashMap of items. These are the facts used by the
@@ -116,6 +111,42 @@ public class LeagueOfLegendsHelper {
 
 	}
 
+	// Build Character Map
+		public static HashMap<String, String[]> getCharacters() {
+			String csvPath = LeagueOfLegendsHelper.class.getResource(
+					"LoL_Characters.csv").getPath();
+
+			try {
+				BufferedReader in = new BufferedReader(new FileReader(csvPath));
+				HashMap<String, String[]> ret = new HashMap<String, String[]>();
+
+				String line;
+                String characterName;
+				while ((line = in.readLine()) != null) {
+					
+					    characterName = line.substring(0, line.indexOf(',', 0));
+						line = line.substring(line.indexOf(',', 0) + 1);
+						String[] attributes = line.split(",");
+
+						ret.put(characterName, attributes);					
+				}
+				return ret;
+
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.exit(1);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.exit(1);
+			}
+
+			// Never gets here
+			return null;
+
+		}
+		
 	/**
 	 * 
 	 * @param Item
@@ -178,7 +209,7 @@ public class LeagueOfLegendsHelper {
 	 */
 	public static void main(String[] args) {
 
-		CaseData cd = new UserInterface(items).showDialog();		
+		CaseData cd = new UserInterface(items, characters).showDialog();		
 		/*
 		LinkedList<LoLItem> myItems = new LinkedList<LoLItem>();
 		LinkedList<LoLItem> theirItems = new LinkedList<LoLItem>();
