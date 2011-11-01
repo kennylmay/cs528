@@ -209,7 +209,7 @@ public class LeagueOfLegendsHelper {
 	 */
 	public static void main(String[] args) {
 
-	    new UserInterface(items, characters).showDialog();
+	    new UserInterface(items, characters, itemTree).showDialog();
 		
 		/*
 		LinkedList<LoLItem> myItems = new LinkedList<LoLItem>();

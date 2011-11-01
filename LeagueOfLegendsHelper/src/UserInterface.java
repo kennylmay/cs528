@@ -77,10 +77,16 @@ public class UserInterface extends JDialog {
 
 	@SuppressWarnings("unchecked")
 	public UserInterface(HashMap<String, LoLItem> items,
-			HashMap<String, String[]> characters) {
+			HashMap<String, String[]> characters,
+			HashMap<String, String[]> itemTree) {
 
 		// Set the default dimension of the node attributes window
+
 		this.setPreferredSize(new Dimension(500, 500));
+		final HashMap<String, LoLItem> Items = items;
+		final HashMap<String, String[]> Characters = characters;
+		final HashMap<String, String[]> ItemTree = itemTree;
+
 		gridLayout.setVgap(3);
 		gridLayout.setHgap(10);
 		gridLayout3.setHgap(30);
@@ -166,35 +172,61 @@ public class UserInterface extends JDialog {
 		this.pack();
 		this.setModal(true);
 		this.setAlwaysOnTop(false);
-		
-		okButton.addActionListener(new ActionListener(){
+
+		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Get data from the form about the current player type.
-				String userInput = (String) playerCombo.getSelectedItem();
-				if (userInput.equalsIgnoreCase("assassin")) {
-					caseData.put("playerChampionRole", Expert.ChampionRole.Assasin);
-				} else if (userInput.equalsIgnoreCase("tank")) {
-					caseData.put("playerChampionRole", Expert.ChampionRole.Tank);
-				} else if (userInput.equalsIgnoreCase("mage")) {
-					caseData.put("playerChampionRole", Expert.ChampionRole.Mage);
-				} else if (userInput.equalsIgnoreCase("figher")) {
-					caseData.put("playerChampionRole", Expert.ChampionRole.Fighter);
-				} else if (userInput.equalsIgnoreCase("support")) {
-					caseData.put("playerChampionRole", Expert.ChampionRole.Support);
+				String userInput[] = Characters.get(playerCombo
+						.getSelectedItem());
+				for (String userAttribute : userInput) {
+					if (userAttribute.equalsIgnoreCase("assassin")) {
+						caseData.put("playerChampionRole",
+								Expert.ChampionRole.Assasin);
+						break;
+					} else if (userAttribute.equalsIgnoreCase("tank")) {
+						caseData.put("playerChampionRole",
+								Expert.ChampionRole.Tank);
+						break;
+					} else if (userAttribute.equalsIgnoreCase("mage")) {
+						caseData.put("playerChampionRole",
+								Expert.ChampionRole.Mage);
+						break;
+					} else if (userAttribute.equalsIgnoreCase("figher")) {
+						caseData.put("playerChampionRole",
+								Expert.ChampionRole.Fighter);
+						break;
+					} else if (userAttribute.equalsIgnoreCase("support")) {
+						caseData.put("playerChampionRole",
+								Expert.ChampionRole.Support);
+						break;
+					}
 				}
 
 				// Get data from the form about the opponent player type
-				userInput = (String) opponentCombo.getSelectedItem();
-				if (userInput.equalsIgnoreCase("assassin")) {
-					caseData.put("opponentChampionRole", Expert.ChampionRole.Assasin);
-				} else if (userInput.equalsIgnoreCase("tank")) {
-					caseData.put("opponentChampionRole", Expert.ChampionRole.Tank);
-				} else if (userInput.equalsIgnoreCase("mage")) {
-					caseData.put("opponentChampionRole", Expert.ChampionRole.Mage);
-				} else if (userInput.equalsIgnoreCase("fighter")) {
-					caseData.put("opponentChampionRole", Expert.ChampionRole.Fighter);
-				} else if (userInput.equalsIgnoreCase("support")) {
-					caseData.put("opponentChampionRole", Expert.ChampionRole.Support);
+				String userInput2[] = Characters.get(opponentCombo
+						.getSelectedItem());
+				for (String userAttribute : userInput2) {
+					if (userAttribute.equalsIgnoreCase("assassin")) {
+						caseData.put("opponentChampionRole",
+								Expert.ChampionRole.Assasin);
+						break;
+					} else if (userAttribute.equalsIgnoreCase("tank")) {
+						caseData.put("opponentChampionRole",
+								Expert.ChampionRole.Tank);
+						break;
+					} else if (userAttribute.equalsIgnoreCase("mage")) {
+						caseData.put("opponentChampionRole",
+								Expert.ChampionRole.Mage);
+						break;
+					} else if (userAttribute.equalsIgnoreCase("fighter")) {
+						caseData.put("opponentChampionRole",
+								Expert.ChampionRole.Fighter);
+						break;
+					} else if (userAttribute.equalsIgnoreCase("support")) {
+						caseData.put("opponentChampionRole",
+								Expert.ChampionRole.Support);
+						break;
+					}
 				}
 
 				// Get data from the form on the gold value
@@ -203,22 +235,28 @@ public class UserInterface extends JDialog {
 				// Get an item list for the player from the form.
 				LinkedList<LoLItem> lolItems = new LinkedList<LoLItem>();
 				if (!playerItem1.getSelectedItem().toString().isEmpty()) {
-					lolItems.add(itemList.get(playerItem1.getSelectedItem().toString()));
+					lolItems.add(itemList.get(playerItem1.getSelectedItem()
+							.toString()));
 				}
 				if (!playerItem2.getSelectedItem().toString().isEmpty()) {
-					lolItems.add(itemList.get(playerItem2.getSelectedItem().toString()));
+					lolItems.add(itemList.get(playerItem2.getSelectedItem()
+							.toString()));
 				}
 				if (!playerItem3.getSelectedItem().toString().isEmpty()) {
-					lolItems.add(itemList.get(playerItem3.getSelectedItem().toString()));
+					lolItems.add(itemList.get(playerItem3.getSelectedItem()
+							.toString()));
 				}
 				if (!playerItem4.getSelectedItem().toString().isEmpty()) {
-					lolItems.add(itemList.get(playerItem4.getSelectedItem().toString()));
+					lolItems.add(itemList.get(playerItem4.getSelectedItem()
+							.toString()));
 				}
 				if (!playerItem5.getSelectedItem().toString().isEmpty()) {
-					lolItems.add(itemList.get(playerItem5.getSelectedItem().toString()));
+					lolItems.add(itemList.get(playerItem5.getSelectedItem()
+							.toString()));
 				}
 				if (!playerItem6.getSelectedItem().toString().isEmpty()) {
-					lolItems.add(itemList.get(playerItem6.getSelectedItem().toString()));
+					lolItems.add(itemList.get(playerItem6.getSelectedItem()
+							.toString()));
 				}
 
 				caseData.put("playerItems", lolItems);
@@ -252,12 +290,13 @@ public class UserInterface extends JDialog {
 
 				caseData.put("opponentItems", oplolItems);
 				caseData.put("playerGoal", textBox.getText());
-				
+
+				Expert.suggestNextItem(caseData, Items, ItemTree);
 			}
-			
+
 		});
-		
-		clearButton.addActionListener(new ActionListener(){
+
+		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				textBox.setText("");
 				opponentCombo.setSelectedIndex(0);
@@ -274,8 +313,8 @@ public class UserInterface extends JDialog {
 				opponentItem4.setSelectedIndex(0);
 				opponentItem5.setSelectedIndex(0);
 				opponentItem6.setSelectedIndex(0);
-				goldSpinner.setValue(0);			
-			}		
+				goldSpinner.setValue(0);
+			}
 		});
 
 	}
