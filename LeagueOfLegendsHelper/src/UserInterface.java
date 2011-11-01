@@ -44,8 +44,8 @@ public class UserInterface extends JDialog {
 	private JComboBox opponentItem5 = new JComboBox();
 	private JComboBox opponentItem6 = new JComboBox();
 
-	private JComboBox<String> playerCombo = new JComboBox<String>();
-	private JComboBox<String> opponentCombo = new JComboBox<String>();
+	private JComboBox playerCombo = new JComboBox();
+	private JComboBox opponentCombo = new JComboBox();
 	SpinnerModel Spinner = new SpinnerNumberModel(0, 0, 10000, 100);
 	private JSpinner goldSpinner = new JSpinner(Spinner);
 
