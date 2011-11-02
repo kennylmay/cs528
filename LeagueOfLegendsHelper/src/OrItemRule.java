@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 
 public class OrItemRule extends ItemRule {
 	
@@ -6,6 +8,11 @@ public class OrItemRule extends ItemRule {
 			subRules.add(r);
 		}
 	}
+	
+	public OrItemRule(LinkedList<ItemRule> theSubRules) {
+		super(theSubRules);
+	}
+	
 	@Override
 	public boolean eval(LoLItem item) {
 		//Or rules are true if any of the subrules are true

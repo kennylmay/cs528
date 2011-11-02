@@ -32,6 +32,12 @@ public class ItemRule {
 		}
 	}
 	
+	public ItemRule(LinkedList<ItemRule> theSubRules) {
+		for(ItemRule r : theSubRules) {
+			subRules.add(r);
+		}
+	}
+	
 	public ItemRule(ItemBaseRule f) {
 		baseRule = f;
 	}
