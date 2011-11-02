@@ -13,9 +13,10 @@ public class LanguageProcessor {
 	 * Only setup the word lists in the constructor.
 	 */
 	public LanguageProcessor() {
-		intializeThesaurus();
-		intializePlayerSubjects();
-		intializeOpponentSubjects();
+		//intializeThesaurus();
+		intializeSynToks();
+		//intializePlayerSubjects();
+		//intializeOpponentSubjects();
 	}
 
 	/**
@@ -40,6 +41,25 @@ public class LanguageProcessor {
 		return attribute;
 	}
 
+
+	private Vector<Token> processSentence(String sentence) {
+		Vector<Token> sentTokens = new Vector<Token>();
+		
+		String[] words = sentence.split(" ");
+		String tmpString;
+		
+		for(int left = 0; left < words.length; left++) {
+			for(int right = words.length; right >= left; right--) {
+				
+			}
+			
+		}
+		
+		
+		
+		return sentTokens;
+		
+	}
 	/**
 	 * This function will remove any words that are included in the uselessWords
 	 * Vector. This function will also remove any unneeded punctuation.
@@ -164,6 +184,20 @@ public class LanguageProcessor {
 		synToks.put("resist", tmpToken);
 		synToks.put("mr", tmpToken);
 		
+		// Player 'US' Phrases
+		tmpToken = new Token(Token.Typ.Player, "US");
+		
+		synToks.put("i", tmpToken);
+		
+		// Player 'Opp' Phrases
+		tmpToken = new Token(Token.Typ.Player, "US");
+		
+		synToks.put("they", tmpToken);	
+		synToks.put("he", tmpToken);
+		synToks.put("she", tmpToken);
+		synToks.put("it", tmpToken);
+		synToks.put("my enemy", tmpToken);
+
 	}
 
 	/**
