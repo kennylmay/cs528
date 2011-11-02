@@ -1,5 +1,6 @@
 import javax.swing.JOptionPane;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Vector;
 
 public class LanguageProcessor {
@@ -7,6 +8,7 @@ public class LanguageProcessor {
 	Vector<String> opponentWords = new Vector<String>();
 	Vector<String> playerWords = new Vector<String>();
 
+	Hashtable<String, Token> synToks = null;
 	/**
 	 * Only setup the word lists in the constructor.
 	 */
@@ -114,6 +116,54 @@ public class LanguageProcessor {
 		syns.add("magic resist");
 		syns.add("magicresist");
 		this.synonyms.put(baseWord, syns);
+	}
+	
+	/**
+	 * 
+	 */
+	private void intializeSynToks() {
+		
+		Token tmpToken = null;
+		
+		synToks = new Hashtable<String,Token>();
+		
+		
+		// Damage Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "Damage");
+		
+		synToks.put("attack damage", tmpToken);
+		synToks.put("physical damage", tmpToken);
+		synToks.put("need more damage", tmpToken);
+		synToks.put("ad", tmpToken);
+		synToks.put("kill people", tmpToken);
+		synToks.put("kill", tmpToken);
+
+		
+		// Tanky Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "Tanky");
+
+		synToks.put("unkillable", tmpToken);
+		synToks.put("hard to kill", tmpToken);
+		synToks.put("keep dieing", tmpToken);
+		synToks.put("easily killed", tmpToken);
+		
+		
+		// Mana Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "Mana");
+		
+		synToks.put("mana", tmpToken);
+		synToks.put("spam ablities", tmpToken);
+		synToks.put("cant use abilities", tmpToken);
+		synToks.put("need more mana", tmpToken);
+		
+		// Magic Resist Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "Resist");
+		
+		synToks.put("magic resist", tmpToken);
+		synToks.put("magicresist", tmpToken);
+		synToks.put("resist", tmpToken);
+		synToks.put("mr", tmpToken);
+		
 	}
 
 	/**
