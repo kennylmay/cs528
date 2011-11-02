@@ -5,12 +5,10 @@ public class Token {
   public enum Typ { Player, Attribute, LogicalOp, NoOp };
   public Typ t;
   public Object data;
-  public String rawText;
   
-  public Token(Typ t, Object data, String rawText) {
+  public Token(Typ t, Object data) {
     this.t = t;
     this.data = data;
-    this.rawText = rawText;
   }
 
   
@@ -56,7 +54,11 @@ public class Token {
 
 
 private ItemRule sentence2Rule(LinkedList<Token> toks) {
-	// TODO Auto-generated method stub
-	return null;
+	//Check if this sentence looks like a player sentence
+	if(toks.peek().t != Typ.Player ) {
+		return null;
+	}
+	
+ 	return null;
 }
 }
