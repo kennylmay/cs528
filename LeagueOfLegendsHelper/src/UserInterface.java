@@ -178,57 +178,60 @@ public class UserInterface extends JDialog {
 				// Get data from the form about the current player type.
 				String userInput[] = Characters.get(playerCombo
 						.getSelectedItem());
-				for (String userAttribute : userInput) {
-					if (userAttribute.equalsIgnoreCase("assassin")) {
-						caseData.put("playerChampionRole",
-								Expert.ChampionRole.Assasin);
-						break;
-					} else if (userAttribute.equalsIgnoreCase("tank")) {
-						caseData.put("playerChampionRole",
-								Expert.ChampionRole.Tank);
-						break;
-					} else if (userAttribute.equalsIgnoreCase("mage")) {
-						caseData.put("playerChampionRole",
-								Expert.ChampionRole.Mage);
-						break;
-					} else if (userAttribute.equalsIgnoreCase("figher")) {
-						caseData.put("playerChampionRole",
-								Expert.ChampionRole.Fighter);
-						break;
-					} else if (userAttribute.equalsIgnoreCase("support")) {
-						caseData.put("playerChampionRole",
-								Expert.ChampionRole.Support);
-						break;
+				if (userInput != null) {
+					for (String userAttribute : userInput) {
+						if (userAttribute.equalsIgnoreCase("assassin")) {
+							caseData.put("playerChampionRole",
+									Expert.ChampionRole.Assasin);
+							break;
+						} else if (userAttribute.equalsIgnoreCase("tank")) {
+							caseData.put("playerChampionRole",
+									Expert.ChampionRole.Tank);
+							break;
+						} else if (userAttribute.equalsIgnoreCase("mage")) {
+							caseData.put("playerChampionRole",
+									Expert.ChampionRole.Mage);
+							break;
+						} else if (userAttribute.equalsIgnoreCase("figher")) {
+							caseData.put("playerChampionRole",
+									Expert.ChampionRole.Fighter);
+							break;
+						} else if (userAttribute.equalsIgnoreCase("support")) {
+							caseData.put("playerChampionRole",
+									Expert.ChampionRole.Support);
+							break;
+						}
 					}
 				}
 
 				// Get data from the form about the opponent player type
 				String userInput2[] = Characters.get(opponentCombo
 						.getSelectedItem());
-				for (String userAttribute : userInput2) {
-					if (userAttribute.equalsIgnoreCase("assassin")) {
-						caseData.put("opponentChampionRole",
-								Expert.ChampionRole.Assasin);
-						break;
-					} else if (userAttribute.equalsIgnoreCase("tank")) {
-						caseData.put("opponentChampionRole",
-								Expert.ChampionRole.Tank);
-						break;
-					} else if (userAttribute.equalsIgnoreCase("mage")) {
-						caseData.put("opponentChampionRole",
-								Expert.ChampionRole.Mage);
-						break;
-					} else if (userAttribute.equalsIgnoreCase("fighter")) {
-						caseData.put("opponentChampionRole",
-								Expert.ChampionRole.Fighter);
-						break;
-					} else if (userAttribute.equalsIgnoreCase("support")) {
-						caseData.put("opponentChampionRole",
-								Expert.ChampionRole.Support);
-						break;
+				if (userInput2 != null) {
+					for (String userAttribute : userInput2) {
+						if (userAttribute.equalsIgnoreCase("assassin")) {
+							caseData.put("opponentChampionRole",
+									Expert.ChampionRole.Assasin);
+							break;
+						} else if (userAttribute.equalsIgnoreCase("tank")) {
+							caseData.put("opponentChampionRole",
+									Expert.ChampionRole.Tank);
+							break;
+						} else if (userAttribute.equalsIgnoreCase("mage")) {
+							caseData.put("opponentChampionRole",
+									Expert.ChampionRole.Mage);
+							break;
+						} else if (userAttribute.equalsIgnoreCase("fighter")) {
+							caseData.put("opponentChampionRole",
+									Expert.ChampionRole.Fighter);
+							break;
+						} else if (userAttribute.equalsIgnoreCase("support")) {
+							caseData.put("opponentChampionRole",
+									Expert.ChampionRole.Support);
+							break;
+						}
 					}
 				}
-
 				// Get data from the form on the gold value
 				caseData.put("Gold", goldSpinner.getValue());
 
@@ -290,6 +293,8 @@ public class UserInterface extends JDialog {
 
 				caseData.put("opponentItems", oplolItems);
 				caseData.put("playerGoal", textBox.getText());
+				LanguageProcessor nlp = new LanguageProcessor();
+				nlp.askQuestion(textBox.getText());
 
 				Expert.suggestNextItem(caseData, Items, ItemTree);
 			}

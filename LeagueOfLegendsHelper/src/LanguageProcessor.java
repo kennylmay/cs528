@@ -3,119 +3,168 @@ import java.util.HashMap;
 import java.util.Vector;
 
 public class LanguageProcessor {
-        HashMap<String, Vector<String>> synonyms = new HashMap<String, Vector<String>>();
-        Vector<String> uselessWords = new Vector<String>();
-        
-        /**
-         * Only setup the word lists in the constructor.
-         */
-        public LanguageProcessor(){
-                intializeThesaurus();
-                intializeUselessWords();
-        }
-        
-        /**
-         * Ask the user for an English sentence that we will then try to interpret
-         * into its very basic meaning.
-         * 
-         * @return The user's "Meaning" of the sentence they typed
-         */
-        public String askQuestion(){
-                String userInput = JOptionPane.showInputDialog("What can I help you with?");
-                if (userInput == null){
-                        return "";
-                }
-                
-                String meaning = userInput.toLowerCase();
-            meaning = filterUselessWords(meaning);
-                meaning = determineMeaning(meaning);
-                
-                return meaning;
-        }
-        
-        /**
-         * This function will remove any words that are included in
-         * the uselessWords Vector. This function will also remove
-         * any unneeded punctuation.
-         * 
-         * @return The sentence without meaningless words.
-         */
-        private String filterUselessWords(String sentence){
-                sentence = sentence.replaceAll("'","");
-                sentence = sentence.replaceAll(".",""); 
-                sentence = sentence.replaceAll(",",""); 
-                
-                for(String word : uselessWords){
-                  sentence = sentence.replaceAll(word + " ", "");       
-                  sentence = sentence.replaceAll(" " + word, "");       
-                }
-                return sentence;
-        }
-        
-        /**
-         * This function will replace the user's words with words
-         * that our program can understand. It will find any words
-         * defined in the "synonyms" HashMap and replace them with 
-         * their key word.
-         * 
-         * @return The sentence with only key words.
-         */
-        private String determineMeaning(String sentence){
-                for(String word: synonyms.keySet()){
-                        for (String syn : synonyms.get(word)){
-                                sentence = sentence.replaceAll(syn, word);
-                        }
-                }
-                return sentence;
-        }
-        
-        /**
-         * Setup the synonym list. The baseWord is the word you would
-         * like the word or phrase to be replaced with.
-         */
-        private void intializeThesaurus(){
-                String baseWord;
-                Vector<String> syns = new Vector<String>();
-                
-                baseWord = "Damage";    
-                syns.add("attack damage");
-                syns.add("physical damage");
-                syns.add("need more damage");
-                syns.add("ad");
-                syns.add("kill people");
-                syns.add("kill");
-                this.synonyms.put(baseWord, syns);
-                
-                syns = new Vector<String>();
-                baseWord = "Tanky";
-                syns.add("unkillable");
-                syns.add("hard to kill");
-                syns.add("keep dieing");
-                syns.add("easily killed");
-                this.synonyms.put(baseWord, syns);
-                
-                syns = new Vector<String>();
-                baseWord = "Mana";
-                syns.add("mana");
-                syns.add("spam ablities");
-                syns.add("cant use ablities");
-                syns.add("need more mana");
-                this.synonyms.put(baseWord, syns);
-        }
-        
-        /**
-         * Setup a list of words that do not have any real 
-         * meaning in the sentence.
-         */
-        private void intializeUselessWords(){
-                uselessWords.add("want");
-                uselessWords.add("i");
-                uselessWords.add("am");
-                uselessWords.add("being");
-                uselessWords.add("real");
-                uselessWords.add("my");
-                uselessWords.add("enough");
-                uselessWords.add("to");
-        }
-        
+	HashMap<String, Vector<String>> synonyms = new HashMap<String, Vector<String>>();
+	Vector<String> opponentWords = new Vector<String>();
+	Vector<String> playerWords = new Vector<String>();
+
+	/**
+	 * Only setup the word lists in the constructor.
+	 */
+	public LanguageProcessor() {
+		intializeThesaurus();
+		intializePlayerSubjects();
+		intializeOpponentSubjects();
+	}
+
+	/**
+	 * Ask the user for an English sentence that we will then try to interpret
+	 * into its very basic meaning.
+	 * 
+	 * @return The user's "Meaning" of the sentence they typed
+	 */
+	public String askQuestion(String sentence) {
+
+		if (sentence.length() == 0) {
+			return "";
+		}
+
+		String formattedsentence = formatSentence(sentence);
+		String subject = findSubject(formattedsentence);
+		String attribute = findAttribute(formattedsentence);
+
+		JOptionPane.showMessageDialog(null, formattedsentence);
+		JOptionPane.showMessageDialog(null, "SUBJECT: " + subject
+				+ "\n Attribute: " + attribute);
+		return attribute;
+	}
+
+	/**
+	 * This function will remove any words that are included in the uselessWords
+	 * Vector. This function will also remove any unneeded punctuation.
+	 * 
+	 * @return The sentence without meaningless words.
+	 */
+	private String formatSentence(String sentence) {
+		sentence = sentence.toLowerCase();
+		sentence = sentence.replaceAll("'", "");
+	//	sentence = sentence.replaceAll(".", "");
+		sentence = sentence.replaceAll(",", "");
+
+		return sentence;
+	}
+
+	/**
+	 * This function will replace the user's words with words that our program
+	 * can understand. It will find any words defined in the "synonyms" HashMap
+	 * and replace them with their key word.
+	 * 
+	 * @return The sentence with only key words.
+	 */
+	private String findAttribute(String sentence) {		
+		for (String word : synonyms.keySet()) {
+			for (String syn : synonyms.get(word)) {
+				sentence = sentence.replaceAll(syn, word);
+			}
+		}
+		
+		for (String word : sentence.split(" ")) {
+			if (!synonyms.containsKey(word)) {
+				sentence = sentence.replaceAll(word, " NOOP ");
+			}
+		}
+
+		return sentence;
+	}
+
+	/**
+	 * Setup the synonym list. The baseWord is the word you would like the word
+	 * or phrase to be replaced with.
+	 */
+	private void intializeThesaurus() {
+		String baseWord;
+		Vector<String> syns = new Vector<String>();
+
+		baseWord = "Damage";
+		syns.add("attack damage");
+		syns.add("physical damage");
+		syns.add("need more damage");
+		syns.add("ad");
+		syns.add("kill people");
+		syns.add("kill");
+		this.synonyms.put(baseWord, syns);
+
+		syns = new Vector<String>();
+		baseWord = "Tanky";
+		syns.add("unkillable");
+		syns.add("hard to kill");
+		syns.add("keep dieing");
+		syns.add("easily killed");
+		this.synonyms.put(baseWord, syns);
+
+		syns = new Vector<String>();
+		baseWord = "Mana";
+		syns.add("mana");
+		syns.add("spam ablities");
+		syns.add("cant use ablities");
+		syns.add("need more mana");
+		this.synonyms.put(baseWord, syns);
+
+		syns = new Vector<String>();
+		baseWord = "MagicResist";
+		syns.add("magic resist");
+		syns.add("magicresist");
+		this.synonyms.put(baseWord, syns);
+	}
+
+	/**
+	 * This function will attempt to determine the subject of a sentence.
+	 * 
+	 * @param sentence
+	 * @return String ("US" or "THEM")
+	 */
+	private String findSubject(String sentence) {
+		int indexOfPlayerWord = 999999999;
+		int indexOfOpponentWord = 999999999;
+		for (String word : playerWords) {
+			if (sentence.contains((word))) {
+				indexOfPlayerWord = sentence.indexOf(word);
+			}
+		}
+		for (String word : opponentWords) {
+			if (sentence.contains((word))) {
+				indexOfOpponentWord = sentence.indexOf(word);
+			}
+		}
+		// / Return the first subject found as the the real subject.
+		// / If no subject is found assume that the player is the
+		// / subject.
+		if (indexOfPlayerWord < indexOfOpponentWord) {
+			return "US";
+		} else if (indexOfPlayerWord > indexOfOpponentWord) {
+			return "THEM";
+		} else {
+			return "US";
+		}
+
+	}
+
+	/**
+	 * Setup a list of words that could refer to the player as the subject.
+	 */
+	private void intializePlayerSubjects() {
+		playerWords.add("i");
+	}
+
+	/**
+	 * Setup a list of words that could possibility refer to the opponent as the
+	 * subject
+	 */
+	private void intializeOpponentSubjects() {
+		opponentWords.add("they");
+		opponentWords.add("he");
+		opponentWords.add("she");
+		opponentWords.add("it");
+		opponentWords.add("my enemy");
+	}
+
 }
