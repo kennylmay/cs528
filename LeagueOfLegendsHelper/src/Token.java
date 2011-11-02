@@ -11,7 +11,9 @@ public class Token {
     this.data = data;
   }
 
-  
+  public String toString() {
+	  return t.toString() + "(" + data.toString() + ")";
+  }
   /* Grammar
    * 
    
@@ -53,11 +55,34 @@ public class Token {
   }
 
 
+private static ItemRules ruleFactory = new ItemRules();
 private ItemRule sentence2Rule(LinkedList<Token> toks) {
+	
 	//Check if this sentence looks like a player sentence
-	if(toks.peek().t != Typ.Player ) {
+	if(toks.peek().t != Typ.Player &&  toks.peek().t != Typ.LogicalOp ) {
 		return null;
 	}
+	
+	//Aggregate for multiple rules
+	LinkedList<ItemRule> agg = new LinkedList<ItemRule>();
+	
+	//Check if this is the logicop - sentence  type. If it is, recurse on this with the appropriate rule.
+	if(toks.peek().t != Typ.LogicalOp) {
+		//Pop the logic op token
+		Token logicOp = toks.poll();
+		if(logicOp.data.equals("not")) {
+		  return ruleFactory.Not(sentence2Rule(toks));
+		}
+		else {
+		  //Unknown logic op, return null
+		  return null;	
+		}
+	}
+	
+	//Check if it's a player sentence
+	
+	
+	
 	
  	return null;
 }

@@ -37,7 +37,7 @@ public class ItemRules {
 	//public ItemRule isTankyMage = new ItemRule(isTanky, isMage);
 	//public ItemRule isADAPHybrid = new ItemRule(isADCarry, isMage);
 
-	private ItemRule Not(ItemRule r) {
+	public ItemRule Not(ItemRule r) {
 		return new ItemRule().new _Not(r);
 	}
 	private ItemRule._ItemHas ItemHas(String attributeName) {
