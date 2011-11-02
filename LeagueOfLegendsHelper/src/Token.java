@@ -2,7 +2,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 public class Token {
-  public enum Typ { Player, Attribute, LogicalOp, RelationalOp, NoOp };
+  public enum Typ { Player, Attribute, LogicalOp, NoOp };
   public Typ t;
   public Object data;
   public String rawText;
@@ -15,6 +15,18 @@ public class Token {
 
   
   /* Grammar
+   * 
+   
+   <Sentence> ::= <Sentence> | LogicalOp <Sentence>
+   
+   <Sentence> ::= Player Attribute | Attribute 
+   
+   */
+  
+  
+  
+  
+  /* Future Grammar.. Maybe...
    * 
    
    <Sentence> ::= <Sentence> | LogicalOp <Sentence>
