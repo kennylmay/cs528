@@ -213,6 +213,17 @@ public class LanguageProcessor {
 		synToks.put("counter for mage", tmpToken);
 		synToks.put("counter for magic", tmpToken);
 
+		// Ability Power Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "AbilityPower");
+		
+		synToks.put("magic", tmpToken);
+		synToks.put("magic power", tmpToken);
+		synToks.put("ability power", tmpToken);
+		synToks.put("ap", tmpToken);
+		synToks.put("magic burst", tmpToken);
+		synToks.put("burst magic", tmpToken);
+		synToks.put("counter for damage", tmpToken);
+		synToks.put("counter for armor", tmpToken);
 		
 		// Armor Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Armor");
