@@ -92,7 +92,8 @@ public class Token {
 		if (toks.peek().t == Typ.LogicalOp) {
 			// Pop the logic op token
 			toks.poll();
-			return true;
+			
+			return isValidSentence(toks);
 		}
 
 		// Check if it's a player sentence
