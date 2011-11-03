@@ -176,6 +176,7 @@ public class LanguageProcessor {
 		// Damage Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Damage");
 		
+		synToks.put("damage", tmpToken);
 		synToks.put("attack damage", tmpToken);
 		synToks.put("physical damage", tmpToken);
 		synToks.put("need more damage", tmpToken);
@@ -186,6 +187,7 @@ public class LanguageProcessor {
 		// Tanky Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Tanky");
 
+		synToks.put("tanky", tmpToken);
 		synToks.put("unkillable", tmpToken);
 		synToks.put("hard to kill", tmpToken);		
 		synToks.put("dont want to die", tmpToken);
@@ -234,6 +236,7 @@ public class LanguageProcessor {
 		synToks.put("caught easily", tmpToken);
 		synToks.put("cant get away", tmpToken);
 		synToks.put("faster", tmpToken);
+		synToks.put("fast", tmpToken);
 		synToks.put("dps", tmpToken);
 		synToks.put("counter for health", tmpToken);
 		
@@ -271,6 +274,7 @@ public class LanguageProcessor {
 		// Burst Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Burst");
 						
+		synToks.put("burst", tmpToken);
 		synToks.put("all at once", tmpToken);
 		synToks.put("at once", tmpToken);
 		synToks.put("kill quickly", tmpToken);
@@ -286,7 +290,8 @@ public class LanguageProcessor {
 
 		// Health Regen Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "HealthRegen");
-						
+			
+		synToks.put("health regen", tmpToken);
 		synToks.put("gain health", tmpToken);
 		synToks.put("regain health", tmpToken);
 		synToks.put("refill health", tmpToken);
@@ -295,7 +300,15 @@ public class LanguageProcessor {
 		synToks.put("recharge health", tmpToken);
 		synToks.put("sustain", tmpToken);
 		synToks.put("stay in lane", tmpToken);
-
+		
+		// Health Regen Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "CDR");
+			
+		synToks.put("cooldown reduction", tmpToken);
+		synToks.put("cdr", tmpToken);
+		synToks.put("use abilities faster", tmpToken);
+		synToks.put("use more abilities", tmpToken);
+		synToks.put("wait time", tmpToken);
 		
 		// Player 'US' Phrases
 		tmpToken = new Token(Token.Typ.Player, "US");
