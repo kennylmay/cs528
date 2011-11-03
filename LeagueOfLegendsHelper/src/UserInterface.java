@@ -6,11 +6,13 @@ import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -78,7 +80,7 @@ public class UserInterface extends JDialog {
 	@SuppressWarnings("unchecked")
 	public UserInterface(HashMap<String, LoLItem> items,
 			HashMap<String, String[]> characters,
-			HashMap<String, String[]> itemTree) {
+			final HashMap<String, String[]> itemTree) {
 
 		// Set the default dimension of the node attributes window
 
@@ -297,12 +299,22 @@ public class UserInterface extends JDialog {
 				LanguageProcessor nlp = new LanguageProcessor();
 				LinkedList<Token> ll = nlp.askQuestion(textBox.getText());
 				ItemRule r = Token.tokens2ItemRule(ll);
-				
+				String tempstring = null;
+			
 				for(String s : Items.keySet()) {
 					LoLItem item = Items.get(s);
 					if(r.eval(item)) {
-						System.out.println(item.get("Item"));
+						Vector<String> items = LeagueOfLegendsHelper.getAllChildren((String) item.get("Item"));
+						tempstring = "ITEM: " + item.get("Item") + "\n";
+						if (items != null){
+						   tempstring += "BUILT FROM:\n";
+						   for(String it : items){
+							   tempstring += "\t" + it +"\n";
+						   }
+						}
+						System.out.print(tempstring + "\n");
 					}
+					
 				}
 				
 				System.out.println(r);
