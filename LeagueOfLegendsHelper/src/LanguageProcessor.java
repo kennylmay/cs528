@@ -65,15 +65,16 @@ public class LanguageProcessor {
 				for (int j = 0; j < wordsVector.size(); j++) {
 					tmpString += wordsVector.elementAt(j) + " ";
 				}
-				tmpString.trim();
+				tmpString = tmpString.trim();
 				
 				if (synToks.containsKey(tmpString)) {
+				//if (synToks.get("i") != null) {
 					// FOUND IT!!!
 
 					sentTokens.add(synToks.get(tmpString));
 
 					// Move left past the phrase we found.
-					left = wordsVector.size();
+					left += wordsVector.size();
 					break;
 				}
 
