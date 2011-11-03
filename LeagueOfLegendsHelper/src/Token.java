@@ -1,8 +1,11 @@
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Token {
   public enum Typ { Player, Attribute, LogicalOp, NoOp };
+  public enum PlayerTyp { Us, Them };
+  
   public Typ t;
   public Object data;
   
@@ -14,6 +17,8 @@ public class Token {
   public String toString() {
 	  return t.toString() + "(" + data.toString() + ")";
   }
+  
+  
   /* Grammar
    * 
    
@@ -40,34 +45,45 @@ public class Token {
    
    */
   
-  public ItemRule tokens2ItemRule(LinkedList<Token> tokens) {
+  public static ItemRule tokens2ItemRule(LinkedList<Token> tokens) {
 	  //Copy off the list
-	  LinkedList<Token> toks =  new LinkedList<Token>();
-	  Collections.copy(toks, tokens);
+	  @SuppressWarnings("unchecked")
+	LinkedList<Token> toks =  (LinkedList<Token>)tokens.clone();
+	  
 	  
 	  LinkedList<ItemRule> rules = new LinkedList<ItemRule>();
 	  while(toks.size() > 0) {
-		  ItemRule r = sentence2Rule(toks);
+		  rules.add(sentence2Rule(toks));
 	  }
 	  
-
-	  return null;
+	  
+	  return new ItemRule(rules);
   }
 
 
 private static ItemRules ruleFactory = new ItemRules();
-private ItemRule sentence2Rule(LinkedList<Token> toks) {
+private static ItemRule sentence2Rule(LinkedList<Token> toks) {
+	
+	System.out.println("Processing " + toks );
+	
+	//remove NoOps
+	Iterator<Token> iter = toks.iterator();
+	while(iter.hasNext()) {
+		Token t = iter.next();
+		if(t.t == Typ.NoOp) {
+			iter.remove();
+		}
+	}
+	
 	
 	//Check if this sentence looks like a player sentence
 	if(toks.peek().t != Typ.Player &&  toks.peek().t != Typ.LogicalOp ) {
 		return null;
 	}
 	
-	//Aggregate for multiple rules
-	LinkedList<ItemRule> agg = new LinkedList<ItemRule>();
 	
 	//Check if this is the logicop - sentence  type. If it is, recurse on this with the appropriate rule.
-	if(toks.peek().t != Typ.LogicalOp) {
+	if(toks.peek().t == Typ.LogicalOp) {
 		//Pop the logic op token
 		Token logicOp = toks.poll();
 		if(logicOp.data.equals("not")) {
@@ -80,10 +96,38 @@ private ItemRule sentence2Rule(LinkedList<Token> toks) {
 	}
 	
 	//Check if it's a player sentence
+	if(toks.peek().t == Typ.Player) {
+		//Pop the player token
+		Token player = toks.poll();
+		
+		//Pop the attribute token
+		Token attribute = toks.poll();
+		//Bad grammar if no attribute token
+		if(attribute == null) {
+			return null;
+		}
+		
+		//If it's them, build a rule for counters(attr)
+		if(player.data == PlayerTyp.Them) {
+			LinkedList<ItemRule> agg = new LinkedList<ItemRule>();
+			LinkedList<String> counters = Expert.countersFor((String)attribute.data);
+			System.out.println("Counters for " + attribute.data + " are : " +  counters);
+			for(String c : counters) {
+			  agg.add(new ItemRule(ruleFactory.ItemHas(c)));	
+			}
+			return new OrItemRule(agg);
+		}
+		
+		//It's us, build a rule for the attr
+		else {
+			return new ItemRule(ruleFactory.ItemHas((String)attribute.data));
+		}
 	
+		
+		
+	}
 	
-	
-	
- 	return null;
+	//Bad Grammar if we get here
+	return null;
 }
 }

@@ -209,6 +209,23 @@ public class LeagueOfLegendsHelper {
 	 */
 	public static void main(String[] args) {
 
+		
+		LinkedList<Token> tokList = new LinkedList<Token>();
+		//tokList.add( new Token(Token.Typ.LogicalOp, "not"));
+		tokList.add( new Token(Token.Typ.Player, Token.PlayerTyp.Them));
+		tokList.add( new Token(Token.Typ.Attribute, "AbilityPower"));
+		
+		ItemRule r = Token.tokens2ItemRule(tokList);
+		
+		for(String s : items.keySet()) {
+			LoLItem item = items.get(s);
+			if(r.eval(item)) {
+				System.out.println(item.get("Item"));
+			}
+		}
+		
+		System.out.println(r);
+		
 	    new UserInterface(items, characters, itemTree).showDialog();
 		
 		/*

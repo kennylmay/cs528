@@ -9,6 +9,18 @@ public class OrItemRule extends ItemRule {
 		}
 	}
 	
+	public String toString() {
+
+		
+		String ret = "OrItemRule( ";
+		
+		for(ItemRule r: subRules) {
+			ret += r.toString();
+		}
+		ret += ")";
+		return ret;
+	}
+	
 	public OrItemRule(LinkedList<ItemRule> theSubRules) {
 		super(theSubRules);
 	}

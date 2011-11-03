@@ -169,6 +169,59 @@ public class Expert {
     	
     }
     
+    public static LinkedList<String> countersFor(String attr) {
+
+    	LinkedList<String> attrs = new LinkedList<String>();
+    	if(attr.equals("AbilityPower")) {
+    		attrs.add("Resist");
+    		attrs.add("Health");
+    		attrs.add("Armor");
+    	}
+    	else if(attr.equals("Damage")) {
+    		attrs.add("Armor");
+    		attrs.add("Health");
+    	}
+    	else if(attr.equals("Critical")) {
+    		attrs.add("Armor");
+    		attrs.add("Health");
+    	}
+    	else if(attr.equals("AttackSpeed")) {
+    		attrs.add("Armor");
+    		attrs.add("Health");
+    	}
+    	else if(attr.equals("Lifesteal")) {
+    	    attrs.add("Attack");
+    		attrs.add("Armor");
+    		attrs.add("AbilityPower");
+    		attrs.add("AttackSpeed");
+    	}
+    	else if(attr.equals("SpellVamp")) {
+    	    attrs.add("Attack");
+    		attrs.add("Resist");
+    		attrs.add("AbilityPower");
+    		attrs.add("AttackSpeed");
+    	}
+    	else if(attr.equals("CDR")) {
+    		attrs.add("Armor");
+    		attrs.add("Resist");
+    		attrs.add("Health");
+    	}
+    	else if(attr.equals("Armor")) {
+    		attrs.add("ArmorPen");
+    		attrs.add("AbilityPower");
+    		attrs.add("Attack");
+    	}
+    	else if(attr.equals("Resist")) {
+    		attrs.add("MagicPen");
+    		attrs.add("AbilityPower");
+    		attrs.add("Attack");
+    	}
+
+    	return attrs;
+    }
+    
+    
+    
     //This function will assign a value to an investment in an attribute. It should return a number greater than or equal to 0. 
     //For example, if the attr is "Attack damage" and the val is "144":
        //Say the heuristic for attack damage is that it generally costs 1000 gold to get 30 damage This would equate

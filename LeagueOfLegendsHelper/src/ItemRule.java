@@ -4,6 +4,20 @@ import java.util.LinkedList;
 public class ItemRule {
 	public LinkedList<ItemRule> subRules = new LinkedList<ItemRule>();
 	public ItemBaseRule baseRule;
+	public String baseRuleName;
+	public String toString() {
+		if(baseRule != null) {
+	      return "BaseRule( " + baseRuleName + " )";
+		}
+		
+		String ret = "ItemRule( ";
+		
+		for(ItemRule r: subRules) {
+			ret += r.toString();
+		}
+		ret += ")";
+		return ret;
+	}
 	
 	//A rule is true if all it's subrules are true
 	boolean eval(LoLItem item) {
@@ -38,8 +52,11 @@ public class ItemRule {
 		}
 	}
 	
-	public ItemRule(ItemBaseRule f) {
+	
+	
+	public ItemRule(ItemBaseRule f, String name) {
 		baseRule = f;
+		baseRuleName = name;
 	}
 
 	
@@ -57,6 +74,10 @@ public class ItemRule {
 	
 
 	public class _Not extends ItemRule {
+		public String toString() {
+			String ret = "Not( " + r.toString() + ")";
+			return ret;
+		}
 		private ItemRule r;
 		public _Not(ItemRule r) {
 			this.r = r;
@@ -67,6 +88,8 @@ public class ItemRule {
 			return !r.eval(item);
 		}
 	}
+	
+	
 	
 	
 }

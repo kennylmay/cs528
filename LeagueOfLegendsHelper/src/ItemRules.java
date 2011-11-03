@@ -5,24 +5,24 @@ public class ItemRules {
 	//////////////////////////////////////////////////////////////
 	//Base Rules
 	//////////////////////////////////////////////////////////////
-	public ItemRule hasHealth = new ItemRule(ItemHas("Health"));
-	public ItemRule hasMana = new ItemRule(ItemHas("Mana"));
-	public ItemRule hasHealthRegen = new ItemRule(ItemHas("HealthRegen"));
-	public ItemRule hasManaRegen = new ItemRule(ItemHas("ManaRegen"));
-	public ItemRule hasArmor = new ItemRule(ItemHas("Armor"));
-	public ItemRule hasMagicResist = new ItemRule(ItemHas("Resist"));
-	public ItemRule hasAttackDamage = new ItemRule(ItemHas("Damage"));
-	public ItemRule hasArmorPen = new ItemRule(ItemHas("ArmorPen"));
-	public ItemRule hasMagicPen = new ItemRule(ItemHas("MagicPen"));
-	public ItemRule hasAbilityPower = new ItemRule(ItemHas("AbilityPower"));
-	public ItemRule hasCritChance = new ItemRule(ItemHas("Critical"));
-	public ItemRule hasMovementSpeed = new ItemRule(ItemHas("Movement"));
-	public ItemRule hasLifeSteal = new ItemRule(ItemHas("LifeSteal"));
-	public ItemRule hasSpellVamp = new ItemRule(ItemHas("SpellVamp"));
-	public ItemRule hasDodge = new ItemRule(ItemHas("SpellVamp"));
-	public ItemRule hasCDR = new ItemRule(ItemHas("CDR"));
-	public ItemRule hasTenacity = new ItemRule(ItemHas("Tenacity"));
-	public ItemRule hasAttackSpeed = new ItemRule(ItemHas("AttackSpeed"));
+	public ItemRule hasHealth = ItemHas("Health");
+	public ItemRule hasMana = ItemHas("Mana");
+	public ItemRule hasHealthRegen = ItemHas("HealthRegen");
+	public ItemRule hasManaRegen = ItemHas("ManaRegen");
+	public ItemRule hasArmor = ItemHas("Armor");
+	public ItemRule hasMagicResist = ItemHas("Resist");
+	public ItemRule hasAttackDamage = ItemHas("Damage");
+	public ItemRule hasArmorPen = ItemHas("ArmorPen");
+	public ItemRule hasMagicPen = ItemHas("MagicPen");
+	public ItemRule hasAbilityPower = ItemHas("AbilityPower");
+	public ItemRule hasCritChance = ItemHas("Critical");
+	public ItemRule hasMovementSpeed = ItemHas("Movement");
+	public ItemRule hasLifeSteal = ItemHas("LifeSteal");
+	public ItemRule hasSpellVamp = ItemHas("SpellVamp");
+	public ItemRule hasDodge = ItemHas("SpellVamp");
+	public ItemRule hasCDR = ItemHas("CDR");
+	public ItemRule hasTenacity = ItemHas("Tenacity");
+	public ItemRule hasAttackSpeed = ItemHas("AttackSpeed");
 	
 	
     /////////////////////////////////////////////////////////////
@@ -40,8 +40,9 @@ public class ItemRules {
 	public ItemRule Not(ItemRule r) {
 		return new ItemRule().new _Not(r);
 	}
-	private ItemRule._ItemHas ItemHas(String attributeName) {
-		return new ItemRule().new _ItemHas(attributeName);
+	public ItemRule ItemHas(String attributeName) {
+		ItemRule._ItemHas tmp = new ItemRule().new _ItemHas(attributeName);
+		return new ItemRule(tmp, attributeName);
 	}
 	
 }
