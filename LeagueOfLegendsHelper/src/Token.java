@@ -5,7 +5,7 @@ import java.util.LinkedList;
 public class Token {
   public enum Typ { Player, Attribute, LogicalOp, NoOp };
   public enum PlayerTyp { Us, Them };
-  
+  public enum LogicalOpTyp { AND, NOT, OR };
   public Typ t;
   public Object data;
   
