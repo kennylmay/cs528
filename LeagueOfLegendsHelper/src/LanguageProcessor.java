@@ -1,6 +1,7 @@
 import javax.swing.JOptionPane;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.Vector;
 
 public class LanguageProcessor {
@@ -41,8 +42,8 @@ public class LanguageProcessor {
 	}
 
 
-	private Vector<Token> processSentence(String sentence) {
-		Vector<Token> sentTokens = new Vector<Token>();
+	private LinkedList<Token> processSentence(String sentence) {
+		LinkedList<Token> sentTokens = new LinkedList<Token>();
 
 		String[] words = sentence.split(" ");
 		Vector<String> wordsVector;
@@ -306,7 +307,7 @@ public class LanguageProcessor {
 		synToks.put("i", tmpToken);
 		
 		// Player 'Opp' Phrases
-		tmpToken = new Token(Token.Typ.Player, "US");
+		tmpToken = new Token(Token.Typ.Player, "Them");
 		
 		synToks.put("they", tmpToken);	
 		synToks.put("he", tmpToken);
