@@ -311,12 +311,12 @@ public class LanguageProcessor {
 		synToks.put("wait time", tmpToken);
 		
 		// Player 'US' Phrases
-		tmpToken = new Token(Token.Typ.Player, "US");
+		tmpToken = new Token(Token.Typ.Player, Token.PlayerTyp.Us);
 		
 		synToks.put("i", tmpToken);
 		
 		// Player 'Opp' Phrases
-		tmpToken = new Token(Token.Typ.Player, "Them");
+		tmpToken = new Token(Token.Typ.Player, Token.PlayerTyp.Them);
 		
 		synToks.put("they", tmpToken);	
 		synToks.put("he", tmpToken);
@@ -324,12 +324,16 @@ public class LanguageProcessor {
 		synToks.put("it", tmpToken);
 		synToks.put("my enemy", tmpToken);
 		
-		// Logical Ops
-		tmpToken = new Token(Token.Typ.LogicalOp, "AND");
+		// Logical Ops And
+		tmpToken = new Token(Token.Typ.LogicalOp, Token.LogicalOpTyp.AND);
 		
 		synToks.put("and", tmpToken);
 
-
+		// Logical Ops Not
+		tmpToken = new Token(Token.Typ.LogicalOp, Token.LogicalOpTyp.NOT);
+		
+		synToks.put("not", tmpToken);
+		synToks.put("but not", tmpToken);
 	}
 
 	/**
