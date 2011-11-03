@@ -81,7 +81,7 @@ public class UserInterface extends JDialog {
 	private HashMap<String, LoLItem> itemList;
 
 	@SuppressWarnings("unchecked")
-	public UserInterface(HashMap<String, LoLItem> items,
+	public UserInterface(final HashMap<String, LoLItem> items,
 			HashMap<String, String[]> characters,
 			final HashMap<String, String[]> itemTree) {
 
@@ -142,7 +142,7 @@ public class UserInterface extends JDialog {
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Get data from the form about the current player type.
-				caseData.put("opponentChampionRole",
+				caseData.put("playerChampionRole",
 						Characters.get(playerCombo.getSelectedItem()));
 				// Get data from the form about the opponent player type
 				caseData.put("opponentChampionRole",
@@ -153,14 +153,26 @@ public class UserInterface extends JDialog {
 				caseData.put("playerGoal", textBox.getText());
 
 				LanguageProcessor nlp = new LanguageProcessor();
-				LinkedList<Token> ll = nlp.askQuestion(textBox.getText());
+				LinkedList<Token> masterLL = new LinkedList<Token>();
+				LinkedList<Token> ll = GUIProcessor.buildTokenList(caseData, Items);
+				LinkedList<Token> ll2 = nlp.askQuestion(textBox.getText());
 
-				if (!Token.isValidGrammar(ll)) {
-
-					System.out.println("Bad grammar: " + ll);
+				if(ll != null){
+					masterLL.addAll(ll);
+				}else if(ll2 != null){
+					masterLL.addAll(ll2);
+				}else{
 					return;
 				}
-				ItemRule r = Token.tokens2ItemRule(ll);
+
+				
+				if (!Token.isValidGrammar(masterLL)) {
+					System.out.println("Bad grammar: " + masterLL);
+					return;
+				}
+				
+				ItemRule r = Token.tokens2ItemRule(masterLL);
+				
 				LinkedList<LoLItem> items = new LinkedList<LoLItem>();
 				for (String s : Items.keySet()) {
 					
