@@ -1,7 +1,12 @@
+import java.util.HashMap;
+
 
 
 
 public class ItemRules {
+	
+	public HashMap<String,ItemRule> ruleDict = new HashMap<String,ItemRule>();
+	
 	//////////////////////////////////////////////////////////////
 	//Base Rules
 	//////////////////////////////////////////////////////////////
@@ -33,16 +38,35 @@ public class ItemRules {
 	public ItemRule isFighter = new OrItemRule(hasAttackDamage, hasCritChance, hasAttackSpeed, hasTenacity);
 	public ItemRule isSupport = new OrItemRule(hasHealth, hasMana, hasMagicResist, hasTenacity, hasManaRegen, hasHealthRegen, hasCDR);
 	
-	//public ItemRule isBurstMage = new ItemRule(Not(isADCarry), isMage);
-	//public ItemRule isTankyMage = new ItemRule(isTanky, isMage);
-	//public ItemRule isADAPHybrid = new ItemRule(isADCarry, isMage);
 
+	public ItemRules() {
+	  //Put high order rules into the dictionary
+      ruleDict.put("tanky", isTanky);
+      ruleDict.put("mage", isMage);
+      ruleDict.put("fighter", isFighter);
+      ruleDict.put("support", isSupport);
+		  
+	}
+
+	
+
+	
+	
+		
+	
+	
 	public ItemRule Not(ItemRule r) {
 		return new ItemRule().new _Not(r);
 	}
 	public ItemRule ItemHas(String attributeName) {
 		ItemRule._ItemHas tmp = new ItemRule().new _ItemHas(attributeName);
-		return new ItemRule(tmp, attributeName);
+		
+		ItemRule ret = new ItemRule(tmp, attributeName);
+		
+		//Lazy shortcut, add this to the dictionary 
+		ruleDict.put(attributeName, ret);
+		
+		return ret;
 	}
 	
 }
