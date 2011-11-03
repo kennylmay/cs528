@@ -217,6 +217,7 @@ public class LanguageProcessor {
 		tmpToken = new Token(Token.Typ.Attribute, "AbilityPower");
 		
 		synToks.put("magic", tmpToken);
+		synToks.put("magic damage", tmpToken);
 		synToks.put("magic power", tmpToken);
 		synToks.put("ability power", tmpToken);
 		synToks.put("ap", tmpToken);
