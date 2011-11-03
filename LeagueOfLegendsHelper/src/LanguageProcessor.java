@@ -1,30 +1,18 @@
-import javax.swing.JOptionPane;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Vector;
 
 public class LanguageProcessor {
-	HashMap<String, Vector<String>> synonyms = new HashMap<String, Vector<String>>();
-	Vector<String> opponentWords = new Vector<String>();
-	Vector<String> playerWords = new Vector<String>();
 
-	Hashtable<String, Token> synToks = null;
-	/**
-	 * Only setup the word lists in the constructor.
-	 */
-	public LanguageProcessor() {
-		//intializeThesaurus();
-		intializeSynToks();
-		//intializePlayerSubjects();
-		//intializeOpponentSubjects();
-	}
+	private static Hashtable<String, Token> synToks = initializeSynToks();
 
 	/**
 	 * Ask the user for an English sentence that we will then try to interpret
-	 * into its very basic meaning.
+	 * into a list of tokens that can be matched to the grammar.
 	 * 
-	 * @return The user's "Meaning" of the sentence they typed
+	 * @param sentence
+	 *            The natural language sentence to be processed.
+	 * @return A linked list of tokens that represent the sentence.
 	 */
 	public LinkedList<Token> askQuestion(String sentence) {
 
@@ -32,12 +20,14 @@ public class LanguageProcessor {
 			return null;
 		}
 
-		String formattedsentence = formatSentence(sentence);
-		
-		return processSentence(formattedsentence);
+		return processSentence(formatSentence(sentence));
 	}
 
-
+	/**
+	 * @param sentence
+	 *            The pre-processed sentence to be processed.
+	 * @return A token list representing the sentence.
+	 */
 	private LinkedList<Token> processSentence(String sentence) {
 		LinkedList<Token> sentTokens = new LinkedList<Token>();
 
@@ -45,52 +35,73 @@ public class LanguageProcessor {
 		Vector<String> wordsVector;
 		String tmpString;
 
-		for (int left = 0; left < words.length; ) {
+		// Work from left to right breaking the sentence into phrases that
+		// relate to tokens.
+		for (int left = 0; left < words.length;) {
 
 			// Build the phrase to check.
 			wordsVector = new Vector<String>();
 
+			// Put all words that we have not already matched into the
+			// wordsVector.
 			for (int i = 0; i < words.length - left; i++) {
 				wordsVector.add(words[left + i]);
 			}
 
+			// Match the max possible words on the left side of the wordVector
+			// to a phrase.
 			while (!wordsVector.isEmpty()) {
 
+				// Build the working phrase that will be checked against the
+				// synonym list.
 				tmpString = "";
 				for (int j = 0; j < wordsVector.size(); j++) {
 					tmpString += wordsVector.elementAt(j) + " ";
 				}
+				// Clean up the trailing space.
 				tmpString = tmpString.trim();
-				
+
+				// If the working phrase is in the synonym list then get the
+				// related token and added it to the token sentence to be
+				// returned.
 				if (synToks.containsKey(tmpString)) {
-				//if (synToks.get("i") != null) {
 					// FOUND IT!!!
 
 					sentTokens.add(synToks.get(tmpString));
 
 					// Move left past the phrase we found.
 					left += wordsVector.size();
+					// Exit the while loop.
 					break;
 				}
 
+				// Remove the left most word from the wordsVector since it was
+				// not found to be part of a phrase. This will allow us to check
+				// the next smaller phrase in the sentence.
 				wordsVector.remove(wordsVector.size() - 1);
 
 			}
-			
-			if(wordsVector.isEmpty()) {
+
+			// If the current left most word was not found to be in a known
+			// phrase then mark it as a unknown 'NoOp' token.
+			if (wordsVector.isEmpty()) {
 				sentTokens.add(new Token(Token.Typ.NoOp, words[left]));
 				left++;
 			}
 		}
 
+		// Return the token sentence.
 		return sentTokens;
 
 	}
+
 	/**
-	 * This function will remove any words that are included in the uselessWords
-	 * Vector. This function will also remove any unneeded punctuation.
+	 * This function will remove any unneeded punctuation and convert everything
+	 * to lowercase.
 	 * 
-	 * @return The sentence without meaningless words.
+	 * @param sentence
+	 *            The natural language sentence to be pre-processed.
+	 * @return Returns a sentence without special characters.
 	 */
 	private String formatSentence(String sentence) {
 		sentence = sentence.toLowerCase();
@@ -102,302 +113,190 @@ public class LanguageProcessor {
 	}
 
 	/**
-	 * This function will replace the user's words with words that our program
-	 * can understand. It will find any words defined in the "synonyms" HashMap
-	 * and replace them with their key word.
-	 * 
-	 * @return The sentence with only key words.
+	 * @return Returns a fully initialized list of synonym token mappings.
 	 */
-	private String findAttribute(String sentence) {		
-		for (String word : synonyms.keySet()) {
-			for (String syn : synonyms.get(word)) {
-				sentence = sentence.replaceAll(syn, word);
-			}
-		}
-		
-		for (String word : sentence.split(" ")) {
-			if (!synonyms.containsKey(word)) {
-				sentence = sentence.replaceAll(word, " NOOP ");
-			}
-		}
+	private static Hashtable<String, Token> initializeSynToks() {
 
-		return sentence;
-	}
-
-	/**
-	 * Setup the synonym list. The baseWord is the word you would like the word
-	 * or phrase to be replaced with.
-	 */
-	private void intializeThesaurus() {
-		String baseWord;
-		Vector<String> syns = new Vector<String>();
-
-		baseWord = "Damage";
-		syns.add("attack damage");
-		syns.add("physical damage");
-		syns.add("need more damage");
-		syns.add("ad");
-		syns.add("kill people");
-		syns.add("kill");
-		this.synonyms.put(baseWord, syns);
-
-		syns = new Vector<String>();
-		baseWord = "Tanky";
-		syns.add("unkillable");
-		syns.add("hard to kill");
-		syns.add("keep dieing");
-		syns.add("easily killed");
-		this.synonyms.put(baseWord, syns);
-
-		syns = new Vector<String>();
-		baseWord = "Mana";
-		syns.add("mana");
-		syns.add("spam ablities");
-		syns.add("cant use ablities");
-		syns.add("need more mana");
-		this.synonyms.put(baseWord, syns);
-
-		syns = new Vector<String>();
-		baseWord = "MagicResist";
-		syns.add("magic resist");
-		syns.add("magicresist");
-		this.synonyms.put(baseWord, syns);
-	}
-	
-	/**
-	 * 
-	 */
-	private void intializeSynToks() {
-		
 		Token tmpToken = null;
-		
-		synToks = new Hashtable<String,Token>();
-		
+
+		Hashtable<String, Token> synonyms = new Hashtable<String, Token>();
+
 		// Damage Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Damage");
-		
-		synToks.put("damage", tmpToken);
-		synToks.put("attack damage", tmpToken);
-		synToks.put("physical damage", tmpToken);
-		synToks.put("need more damage", tmpToken);
-		synToks.put("ad", tmpToken);
-		synToks.put("kill people", tmpToken);
-		synToks.put("kill", tmpToken);
-		
+
+		synonyms.put("damage", tmpToken);
+		synonyms.put("attack damage", tmpToken);
+		synonyms.put("physical damage", tmpToken);
+		synonyms.put("need more damage", tmpToken);
+		synonyms.put("ad", tmpToken);
+		synonyms.put("kill people", tmpToken);
+		synonyms.put("kill", tmpToken);
+
 		// Tanky Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Tanky");
 
-		synToks.put("tanky", tmpToken);
-		synToks.put("unkillable", tmpToken);
-		synToks.put("hard to kill", tmpToken);		
-		synToks.put("dont want to die", tmpToken);
-						
+		synonyms.put("tanky", tmpToken);
+		synonyms.put("unkillable", tmpToken);
+		synonyms.put("hard to kill", tmpToken);
+		synonyms.put("dont want to die", tmpToken);
+
 		// Mana Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Mana");
-		
-		synToks.put("mana", tmpToken);
-		synToks.put("spam ablities", tmpToken);
-		synToks.put("cant use abilities", tmpToken);
-		synToks.put("need more mana", tmpToken);
-		synToks.put("want to harass", tmpToken);
-		
+
+		synonyms.put("mana", tmpToken);
+		synonyms.put("spam ablities", tmpToken);
+		synonyms.put("cant use abilities", tmpToken);
+		synonyms.put("need more mana", tmpToken);
+		synonyms.put("want to harass", tmpToken);
+
 		// Magic Resist Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Resist");
-		
-		synToks.put("magic resist", tmpToken);
-		synToks.put("magicresist", tmpToken);
-		synToks.put("resist", tmpToken);
-		synToks.put("mr", tmpToken);
-		synToks.put("counter for ability power", tmpToken);
-		synToks.put("counter for ap", tmpToken);
-		synToks.put("counter for mage", tmpToken);
-		synToks.put("counter for magic", tmpToken);
+
+		synonyms.put("magic resist", tmpToken);
+		synonyms.put("magicresist", tmpToken);
+		synonyms.put("resist", tmpToken);
+		synonyms.put("mr", tmpToken);
+		synonyms.put("counter for ability power", tmpToken);
+		synonyms.put("counter for ap", tmpToken);
+		synonyms.put("counter for mage", tmpToken);
+		synonyms.put("counter for magic", tmpToken);
 
 		// Ability Power Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "AbilityPower");
-		
-		synToks.put("magic", tmpToken);
-		synToks.put("magic damage", tmpToken);
-		synToks.put("magic power", tmpToken);
-		synToks.put("ability power", tmpToken);
-		synToks.put("ap", tmpToken);
-		synToks.put("magic burst", tmpToken);
-		synToks.put("burst magic", tmpToken);
-		synToks.put("counter for damage", tmpToken);
-		synToks.put("counter for armor", tmpToken);
-		
+
+		synonyms.put("magic", tmpToken);
+		synonyms.put("magic damage", tmpToken);
+		synonyms.put("magic power", tmpToken);
+		synonyms.put("ability power", tmpToken);
+		synonyms.put("ap", tmpToken);
+		synonyms.put("magic burst", tmpToken);
+		synonyms.put("burst magic", tmpToken);
+		synonyms.put("counter for damage", tmpToken);
+		synonyms.put("counter for armor", tmpToken);
+
 		// Armor Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Armor");
-				
-		synToks.put("armor", tmpToken);
-		synToks.put("killing", tmpToken);
-		synToks.put("die less", tmpToken);
-		synToks.put("die too much", tmpToken);
-		synToks.put("getting killed", tmpToken);
-		synToks.put("has attack damage", tmpToken);
-		synToks.put("has lots of attack damage", tmpToken);
-		synToks.put("has a lot of attack damage", tmpToken);
-		synToks.put("keep dieing", tmpToken);
-		synToks.put("counter for attack damage", tmpToken);
-		
+
+		synonyms.put("armor", tmpToken);
+		synonyms.put("killing", tmpToken);
+		synonyms.put("die less", tmpToken);
+		synonyms.put("die too much", tmpToken);
+		synonyms.put("getting killed", tmpToken);
+		synonyms.put("has attack damage", tmpToken);
+		synonyms.put("has lots of attack damage", tmpToken);
+		synonyms.put("has a lot of attack damage", tmpToken);
+		synonyms.put("keep dieing", tmpToken);
+		synonyms.put("counter for attack damage", tmpToken);
+
 		// Speed Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Speed");
-		
-		synToks.put("speed", tmpToken);
-		synToks.put("too slow", tmpToken);
-		synToks.put("getting caught", tmpToken);
-		synToks.put("caught easily", tmpToken);
-		synToks.put("cant get away", tmpToken);
-		synToks.put("faster", tmpToken);
-		synToks.put("fast", tmpToken);
-		synToks.put("dps", tmpToken);
-		synToks.put("counter for health", tmpToken);
-		
+
+		synonyms.put("speed", tmpToken);
+		synonyms.put("too slow", tmpToken);
+		synonyms.put("getting caught", tmpToken);
+		synonyms.put("caught easily", tmpToken);
+		synonyms.put("cant get away", tmpToken);
+		synonyms.put("faster", tmpToken);
+		synonyms.put("fast", tmpToken);
+		synonyms.put("dps", tmpToken);
+		synonyms.put("counter for health", tmpToken);
+
 		// Tenacity Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Tenacity");
-				
-		synToks.put("tenacity", tmpToken);
-		synToks.put("getting stuck", tmpToken);
-		synToks.put("getting stunned", tmpToken);
-		synToks.put("easily stunned", tmpToken);
-		synToks.put("stunned", tmpToken);
-		synToks.put("feared", tmpToken);
-		synToks.put("running around", tmpToken);
-		synToks.put("uncontrollable", tmpToken);
-		synToks.put("embolized", tmpToken);
-		synToks.put("dembolized", tmpToken);
-		synToks.put("antistun", tmpToken);
-		synToks.put("antifear", tmpToken);
-		synToks.put("counter for stun", tmpToken);
-		synToks.put("counter for fear", tmpToken);
-		
+
+		synonyms.put("tenacity", tmpToken);
+		synonyms.put("getting stuck", tmpToken);
+		synonyms.put("getting stunned", tmpToken);
+		synonyms.put("easily stunned", tmpToken);
+		synonyms.put("stunned", tmpToken);
+		synonyms.put("feared", tmpToken);
+		synonyms.put("running around", tmpToken);
+		synonyms.put("uncontrollable", tmpToken);
+		synonyms.put("embolized", tmpToken);
+		synonyms.put("dembolized", tmpToken);
+		synonyms.put("antistun", tmpToken);
+		synonyms.put("antifear", tmpToken);
+		synonyms.put("counter for stun", tmpToken);
+		synonyms.put("counter for fear", tmpToken);
+
 		// Lifesteal Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Lifesteal");
-						
-		synToks.put("lifesteal", tmpToken);
-		synToks.put("duel", tmpToken);
-		synToks.put("win a duel", tmpToken);
-		synToks.put("one on one", tmpToken);
-		synToks.put("1v1", tmpToken);
-		synToks.put("1 v 1", tmpToken);
-		synToks.put("1vs1", tmpToken);
-		synToks.put("1 vs 1", tmpToken);
-		synToks.put("counter for health", tmpToken);
-		
+
+		synonyms.put("lifesteal", tmpToken);
+		synonyms.put("duel", tmpToken);
+		synonyms.put("win a duel", tmpToken);
+		synonyms.put("one on one", tmpToken);
+		synonyms.put("1v1", tmpToken);
+		synonyms.put("1 v 1", tmpToken);
+		synonyms.put("1vs1", tmpToken);
+		synonyms.put("1 vs 1", tmpToken);
+		synonyms.put("counter for health", tmpToken);
+
 		// Burst Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Burst");
-						
-		synToks.put("burst", tmpToken);
-		synToks.put("all at once", tmpToken);
-		synToks.put("at once", tmpToken);
-		synToks.put("kill quickly", tmpToken);
-		synToks.put("kill fast", tmpToken);
-		synToks.put("kill faster", tmpToken);
-		synToks.put("kill them first", tmpToken);
-		synToks.put("kill them fast", tmpToken);
-		synToks.put("kill them faster", tmpToken);
-		synToks.put("critical", tmpToken);
-		synToks.put("critical strike", tmpToken);
-		synToks.put("crit", tmpToken);	
-		synToks.put("counter for armor", tmpToken);
+
+		synonyms.put("burst", tmpToken);
+		synonyms.put("all at once", tmpToken);
+		synonyms.put("at once", tmpToken);
+		synonyms.put("kill quickly", tmpToken);
+		synonyms.put("kill fast", tmpToken);
+		synonyms.put("kill faster", tmpToken);
+		synonyms.put("kill them first", tmpToken);
+		synonyms.put("kill them fast", tmpToken);
+		synonyms.put("kill them faster", tmpToken);
+		synonyms.put("critical", tmpToken);
+		synonyms.put("critical strike", tmpToken);
+		synonyms.put("crit", tmpToken);
+		synonyms.put("counter for armor", tmpToken);
 
 		// Health Regen Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "HealthRegen");
-			
-		synToks.put("health regen", tmpToken);
-		synToks.put("gain health", tmpToken);
-		synToks.put("regain health", tmpToken);
-		synToks.put("refill health", tmpToken);
-		synToks.put("build health", tmpToken);
-		synToks.put("rebuild health", tmpToken);
-		synToks.put("recharge health", tmpToken);
-		synToks.put("sustain", tmpToken);
-		synToks.put("stay in lane", tmpToken);
-		
+
+		synonyms.put("health regen", tmpToken);
+		synonyms.put("gain health", tmpToken);
+		synonyms.put("regain health", tmpToken);
+		synonyms.put("refill health", tmpToken);
+		synonyms.put("build health", tmpToken);
+		synonyms.put("rebuild health", tmpToken);
+		synonyms.put("recharge health", tmpToken);
+		synonyms.put("sustain", tmpToken);
+		synonyms.put("stay in lane", tmpToken);
+
 		// Health Regen Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "CDR");
-			
-		synToks.put("cooldown reduction", tmpToken);
-		synToks.put("cdr", tmpToken);
-		synToks.put("use abilities faster", tmpToken);
-		synToks.put("use more abilities", tmpToken);
-		synToks.put("wait time", tmpToken);
-		
+
+		synonyms.put("cooldown reduction", tmpToken);
+		synonyms.put("cdr", tmpToken);
+		synonyms.put("use abilities faster", tmpToken);
+		synonyms.put("use more abilities", tmpToken);
+		synonyms.put("wait time", tmpToken);
+
 		// Player 'US' Phrases
 		tmpToken = new Token(Token.Typ.Player, Token.PlayerTyp.Us);
-		
-		synToks.put("i", tmpToken);
-		
+
+		synonyms.put("i", tmpToken);
+
 		// Player 'Opp' Phrases
 		tmpToken = new Token(Token.Typ.Player, Token.PlayerTyp.Them);
-		
-		synToks.put("they", tmpToken);	
-		synToks.put("he", tmpToken);
-		synToks.put("she", tmpToken);
-		synToks.put("it", tmpToken);
-		synToks.put("my enemy", tmpToken);
-		
+
+		synonyms.put("they", tmpToken);
+		synonyms.put("he", tmpToken);
+		synonyms.put("she", tmpToken);
+		synonyms.put("it", tmpToken);
+		synonyms.put("my enemy", tmpToken);
+
 		// Logical Ops And
 		tmpToken = new Token(Token.Typ.LogicalOp, Token.LogicalOpTyp.AND);
-		
-		synToks.put("and", tmpToken);
+
+		synonyms.put("and", tmpToken);
 
 		// Logical Ops Not
 		tmpToken = new Token(Token.Typ.LogicalOp, Token.LogicalOpTyp.NOT);
-		
-		synToks.put("not", tmpToken);
-		synToks.put("but not", tmpToken);
-	}
 
-	/**
-	 * This function will attempt to determine the subject of a sentence.
-	 * 
-	 * @param sentence
-	 * @return String ("US" or "THEM")
-	 */
-	private String findSubject(String sentence) {
-		int indexOfPlayerWord = 999999999;
-		int indexOfOpponentWord = 999999999;
-		for (String word : playerWords) {
-			if (sentence.contains((word))) {
-				indexOfPlayerWord = sentence.indexOf(word);
-			}
-		}
-		for (String word : opponentWords) {
-			if (sentence.contains((word))) {
-				indexOfOpponentWord = sentence.indexOf(word);
-			}
-		}
-		// / Return the first subject found as the the real subject.
-		// / If no subject is found assume that the player is the
-		// / subject.
-		if (indexOfPlayerWord < indexOfOpponentWord) {
-			return "US";
-		} else if (indexOfPlayerWord > indexOfOpponentWord) {
-			return "THEM";
-		} else {
-			return "US";
-		}
+		synonyms.put("not", tmpToken);
+		synonyms.put("but not", tmpToken);
 
-	}
-
-	/**
-	 * Setup a list of words that could refer to the player as the subject.
-	 */
-	private void intializePlayerSubjects() {
-		playerWords.add("i");
-	}
-
-	/**
-	 * Setup a list of words that could possibility refer to the opponent as the
-	 * subject
-	 */
-	private void intializeOpponentSubjects() {
-		opponentWords.add("they");
-		opponentWords.add("he");
-		opponentWords.add("she");
-		opponentWords.add("it");
-		opponentWords.add("my enemy");
+		return synonyms;
 	}
 
 }
