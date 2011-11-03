@@ -34,8 +34,6 @@ public class LanguageProcessor {
 		String formattedsentence = formatSentence(sentence);
 		//String subject = findSubject(formattedsentence);
 		//String attribute = findAttribute(formattedsentence);
-
-		
 		
 		JOptionPane.showMessageDialog(null, formattedsentence);
 		JOptionPane.showMessageDialog(null, processSentence(formattedsentence).toString());
@@ -178,7 +176,6 @@ public class LanguageProcessor {
 		
 		synToks = new Hashtable<String,Token>();
 		
-		
 		// Damage Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Damage");
 		
@@ -188,17 +185,14 @@ public class LanguageProcessor {
 		synToks.put("ad", tmpToken);
 		synToks.put("kill people", tmpToken);
 		synToks.put("kill", tmpToken);
-
 		
 		// Tanky Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Tanky");
 
 		synToks.put("unkillable", tmpToken);
-		synToks.put("hard to kill", tmpToken);
-		synToks.put("keep dieing", tmpToken);
-		synToks.put("easily killed", tmpToken);
-		
-		
+		synToks.put("hard to kill", tmpToken);		
+		synToks.put("dont want to die", tmpToken);
+						
 		// Mana Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Mana");
 		
@@ -206,6 +200,7 @@ public class LanguageProcessor {
 		synToks.put("spam ablities", tmpToken);
 		synToks.put("cant use abilities", tmpToken);
 		synToks.put("need more mana", tmpToken);
+		synToks.put("want to harass", tmpToken);
 		
 		// Magic Resist Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Resist");
@@ -214,6 +209,96 @@ public class LanguageProcessor {
 		synToks.put("magicresist", tmpToken);
 		synToks.put("resist", tmpToken);
 		synToks.put("mr", tmpToken);
+		synToks.put("counter for ability power", tmpToken);
+		synToks.put("counter for ap", tmpToken);
+		synToks.put("counter for mage", tmpToken);
+		synToks.put("counter for magic", tmpToken);
+
+		
+		// Armor Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "Armor");
+				
+		synToks.put("armor", tmpToken);
+		synToks.put("die less", tmpToken);
+		synToks.put("die too much", tmpToken);
+		synToks.put("getting killed", tmpToken);
+		synToks.put("has attack damage", tmpToken);
+		synToks.put("has lots of attack damage", tmpToken);
+		synToks.put("has a lot of attack damage", tmpToken);
+		synToks.put("keep dieing", tmpToken);
+		synToks.put("counter for attack damage", tmpToken);
+		
+		// Speed Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "Speed");
+		
+		synToks.put("speed", tmpToken);
+		synToks.put("too slow", tmpToken);
+		synToks.put("getting caught", tmpToken);
+		synToks.put("caught easily", tmpToken);
+		synToks.put("cant get away", tmpToken);
+		synToks.put("faster", tmpToken);
+		synToks.put("dps", tmpToken);
+		synToks.put("counter for health", tmpToken);
+		
+		// Tenacity Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "Tenacity");
+				
+		synToks.put("tenacity", tmpToken);
+		synToks.put("getting stuck", tmpToken);
+		synToks.put("getting stunned", tmpToken);
+		synToks.put("easily stunned", tmpToken);
+		synToks.put("stunned", tmpToken);
+		synToks.put("feared", tmpToken);
+		synToks.put("running around", tmpToken);
+		synToks.put("uncontrollable", tmpToken);
+		synToks.put("embolized", tmpToken);
+		synToks.put("dembolized", tmpToken);
+		synToks.put("antistun", tmpToken);
+		synToks.put("antifear", tmpToken);
+		synToks.put("counter for stun", tmpToken);
+		synToks.put("counter for fear", tmpToken);
+		
+		// Lifesteal Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "Lifesteal");
+						
+		synToks.put("lifesteal", tmpToken);
+		synToks.put("duel", tmpToken);
+		synToks.put("win a duel", tmpToken);
+		synToks.put("one on one", tmpToken);
+		synToks.put("1v1", tmpToken);
+		synToks.put("1 v 1", tmpToken);
+		synToks.put("1vs1", tmpToken);
+		synToks.put("1 vs 1", tmpToken);
+		synToks.put("counter for health", tmpToken);
+		
+		// Burst Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "Burst");
+						
+		synToks.put("all at once", tmpToken);
+		synToks.put("at once", tmpToken);
+		synToks.put("kill quickly", tmpToken);
+		synToks.put("kill fast", tmpToken);
+		synToks.put("kill faster", tmpToken);
+		synToks.put("kill them first", tmpToken);
+		synToks.put("kill them fast", tmpToken);
+		synToks.put("kill them faster", tmpToken);
+		synToks.put("critical", tmpToken);
+		synToks.put("critical strike", tmpToken);
+		synToks.put("crit", tmpToken);	
+		synToks.put("counter for armor", tmpToken);
+
+		// Health Regen Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "HealthRegen");
+						
+		synToks.put("gain health", tmpToken);
+		synToks.put("regain health", tmpToken);
+		synToks.put("refill health", tmpToken);
+		synToks.put("build health", tmpToken);
+		synToks.put("rebuild health", tmpToken);
+		synToks.put("recharge health", tmpToken);
+		synToks.put("sustain", tmpToken);
+		synToks.put("stay in lane", tmpToken);
+
 		
 		// Player 'US' Phrases
 		tmpToken = new Token(Token.Typ.Player, "US");
