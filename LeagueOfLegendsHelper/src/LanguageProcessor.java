@@ -32,33 +32,63 @@ public class LanguageProcessor {
 		}
 
 		String formattedsentence = formatSentence(sentence);
-		String subject = findSubject(formattedsentence);
-		String attribute = findAttribute(formattedsentence);
+		//String subject = findSubject(formattedsentence);
+		//String attribute = findAttribute(formattedsentence);
 
+		
+		
 		JOptionPane.showMessageDialog(null, formattedsentence);
-		JOptionPane.showMessageDialog(null, "SUBJECT: " + subject
-				+ "\n Attribute: " + attribute);
-		return attribute;
+		JOptionPane.showMessageDialog(null, processSentence(formattedsentence).toString());
+		return "Fucking Happy";
 	}
 
 
 	private Vector<Token> processSentence(String sentence) {
 		Vector<Token> sentTokens = new Vector<Token>();
-		
+
 		String[] words = sentence.split(" ");
+		Vector<String> wordsVector;
 		String tmpString;
-		
-		for(int left = 0; left < words.length; left++) {
-			for(int right = words.length; right >= left; right--) {
+
+		for (int left = 0; left < words.length; ) {
+
+			// Build the phrase to check.
+			wordsVector = new Vector<String>();
+
+			for (int i = 0; i < words.length - left; i++) {
+				wordsVector.add(words[left + i]);
+			}
+
+			while (!wordsVector.isEmpty()) {
+
+				tmpString = "";
+				for (int j = 0; j < wordsVector.size(); j++) {
+					tmpString += wordsVector.elementAt(j) + " ";
+				}
+				tmpString.trim();
 				
+				if (synToks.containsKey(tmpString)) {
+					// FOUND IT!!!
+
+					sentTokens.add(synToks.get(tmpString));
+
+					// Move left past the phrase we found.
+					left = wordsVector.size();
+					break;
+				}
+
+				wordsVector.remove(wordsVector.size() - 1);
+
 			}
 			
+			if(wordsVector.isEmpty()) {
+				sentTokens.add(new Token(Token.Typ.NoOp, words[left]));
+				left++;
+			}
 		}
-		
-		
-		
+
 		return sentTokens;
-		
+
 	}
 	/**
 	 * This function will remove any words that are included in the uselessWords
@@ -69,7 +99,7 @@ public class LanguageProcessor {
 	private String formatSentence(String sentence) {
 		sentence = sentence.toLowerCase();
 		sentence = sentence.replaceAll("'", "");
-	//	sentence = sentence.replaceAll(".", "");
+		sentence = sentence.replaceAll("[.]", "");
 		sentence = sentence.replaceAll(",", "");
 
 		return sentence;
