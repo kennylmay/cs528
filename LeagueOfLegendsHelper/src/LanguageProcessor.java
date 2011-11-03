@@ -314,6 +314,12 @@ public class LanguageProcessor {
 		synToks.put("she", tmpToken);
 		synToks.put("it", tmpToken);
 		synToks.put("my enemy", tmpToken);
+		
+		// Logical Ops
+		tmpToken = new Token(Token.Typ.LogicalOp, "AND");
+		
+		synToks.put("and", tmpToken);
+
 
 	}
 
