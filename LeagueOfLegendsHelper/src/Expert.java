@@ -257,7 +257,34 @@ public class Expert {
     		attrs.add("AbilityPower");
     		attrs.add("Attack");
     	}
-
+    	else if(attr.equals("Tanky")) {
+    		attrs.add("MagicPen");
+    		attrs.add("ArmorPen");
+    		attrs.add("AbilityPower");
+    		attrs.add("Damage");
+    		attrs.add("AttackSpeed");
+    		attrs.add("Critical");
+    	}
+    	else if(attr.equals("Mage")) {
+    		attrs.add("Resist");
+    		attrs.add("Movement");
+    		attrs.add("Health");
+    	}
+    	else if(attr.equals("Fighter")) {
+    		attrs.add("Armor");
+    		attrs.add("Resist");
+    		attrs.add("Health");
+    		attrs.add("ArmorPen");
+    		attrs.add("MagicPen");
+    	}
+    	else if(attr.equals("Support")) {
+    		attrs.add("Attack");
+    		attrs.add("Critical");
+    		attrs.add("Damage");
+    		attrs.add("AblityPower");
+    		attrs.add("Lifesteal");
+    	}
+    	    	
     	return attrs;
     }
     

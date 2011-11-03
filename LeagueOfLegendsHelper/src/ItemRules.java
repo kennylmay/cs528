@@ -41,10 +41,10 @@ public class ItemRules {
 
 	public ItemRules() {
 	  //Put high order rules into the dictionary
-      ruleDict.put("tanky", isTanky);
-      ruleDict.put("mage", isMage);
-      ruleDict.put("fighter", isFighter);
-      ruleDict.put("support", isSupport);
+      ruleDict.put("Tanky", isTanky);
+      ruleDict.put("Mage", isMage);
+      ruleDict.put("Fighter", isFighter);
+      ruleDict.put("Support", isSupport);
 		  
 	}
 
