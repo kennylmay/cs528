@@ -218,6 +218,7 @@ public class LanguageProcessor {
 		tmpToken = new Token(Token.Typ.Attribute, "Armor");
 				
 		synToks.put("armor", tmpToken);
+		synToks.put("killing", tmpToken);
 		synToks.put("die less", tmpToken);
 		synToks.put("die too much", tmpToken);
 		synToks.put("getting killed", tmpToken);
