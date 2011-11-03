@@ -13,12 +13,12 @@ public class Expert {
 		PlayerStats playerStats = PlayerStats.calculateStats( (LinkedList<LoLItem>) caseData.get("playerItems"));
 		PlayerStats opponentStats = PlayerStats.calculateStats((LinkedList<LoLItem>) caseData.get("opponentItems"));
 		
-		System.out.println("Player: " + playerStats);
+	    System.out.println("Player: " + playerStats);
 		System.out.println("Opponent: " + opponentStats);
 		
 		//Get the core attributes for each player's role		
-		HashSet<String> playerCore   = coreAttributesFor( (ChampionRole) caseData.get("playerChampionRole"));
-		HashSet<String> opponentCore = coreAttributesFor( (ChampionRole) caseData.get("opponentChampionRole"));
+		HashSet<String> playerCore   = coreAttributesFor((String[]) caseData.get("playerChampionRole"));
+		HashSet<String> opponentCore = coreAttributesFor((String[]) caseData.get("opponentChampionRole"));
 		
 		//Get the list of general counters for each of the opponents core attributes
 		LinkedList<Pair<String, String>> counters = new LinkedList<Pair<String, String>>();
@@ -68,7 +68,7 @@ public class Expert {
 			  biggest = prop;
 		  }
 		}
-		
+	
 		LinkedList <LoLItem> startingSet = new LinkedList<LoLItem>();
 		//If a disparity exists, select the set of items that compensate for this disparity
 		if(biggest != null) {
@@ -80,24 +80,43 @@ public class Expert {
 			  startingSet.add(itemData.get(s));
 		  }
 		}
-		
+			
 		ItemRules rules = new ItemRules();
 		for(LoLItem item : startingSet) {
 			if(rules.isFighter.eval(item)) {
 				System.out.println("Possible item: " + item.get("Item"));	
 			}
 		}
-		
-		
-		
-		
-		
-		
+			
 		return null;
 	}
  
 	
-
+	public static LinkedList<LoLItem> getAppropriateItems(CaseData caseData, HashMap<String, LoLItem> itemData){
+		//Get the core attributes for each player's role		
+		HashSet<String> playerCore   = coreAttributesFor((String[]) caseData.get("playerChampionRole"));
+		HashSet<String> opponentCore = coreAttributesFor((String[]) caseData.get("opponentChampionRole"));
+		//Get the list of general counters for each of the opponents core attributes
+		LinkedList<Pair<String, String>> counters = new LinkedList<Pair<String, String>>();
+		
+		for(String attr : opponentCore) {
+			String c = counterFor(attr);
+			if(c.equals("")) {
+				continue;
+			}
+			counters.add(new Pair<String, String>(attr,c));
+		}
+		
+		ItemRules rules = new ItemRules();
+		for(LoLItem item : itemData.values()) {
+			if(rules.isFighter.eval(item)) {
+				System.out.println("Possible item: " + item.get("Item"));	
+			}
+		}
+		
+		return null;
+		
+	}
 
 
 	public class Answer {
@@ -110,30 +129,52 @@ public class Expert {
 	
 	
 	//This function returns the core attributes for a type of champ; for example, a Fighter would have attack damage, armor, armor pen, health, etc
-	public static HashSet<String> coreAttributesFor(ChampionRole c) {
+	public static HashSet<String> coreAttributesFor(String[] c) {
 		HashSet<String> attr = new HashSet<String>();
-		if(c == ChampionRole.Assasin){
+		for (String champ : c)
+		if(champ == "assasin"){
 			attr.add("ArmorPenetration");
 			attr.add("Critical");
 			attr.add("Damage");						
-		}else if(c == ChampionRole.Tank){
+		}else if(champ == "tank"){
 			attr.add("Armor");
 			attr.add("Health");
 			attr.add("MagicResist");
-		}else if(c == ChampionRole.Mage){
+		}else if(champ == "mage"){
 			attr.add("AbilityPower");
 			attr.add("MagicPenetration");
 			attr.add("CDR");
 			attr.add("SpellVamp");
-		}else if(c == ChampionRole.Fighter){
+		}else if(champ == "fighter"){
 			attr.add("AttackSpeed");
 			attr.add("Critical");
 			attr.add("Damage");
 			attr.add("LifeSteal");	
-		}else if(c == ChampionRole.Support){
+		}else if(champ == "support"){
 			attr.add("AbilityPower");
 			attr.add("CDR");
 			attr.add("SpellVamp");			
+		}else if(champ == "melee"){
+			attr.add("Armor");
+			attr.add("AttackSpeed");
+			attr.add("Damage");
+			attr.add("LifeSteal");
+		}else if(champ == "stealth"){
+			attr.add("AttackSpeed");
+			attr.add("Damage");
+		}else if(champ == "carry"){
+			attr.add("AttackSpeed");
+			attr.add("Damage");
+			attr.add("Critical");
+			attr.add("LifeSteal");
+		}else if(champ == "pusher"){
+			attr.add("Armor");
+			attr.add("Damage");
+			attr.add("Health");
+		}else if(champ == "ranged"){
+			attr.add("AttackSpeed");
+			attr.add("Damage");
+			attr.add("LifeSteal");
 		}
 		return attr;
 	}
