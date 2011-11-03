@@ -298,6 +298,13 @@ public class UserInterface extends JDialog {
 				
 				LanguageProcessor nlp = new LanguageProcessor();
 				LinkedList<Token> ll = nlp.askQuestion(textBox.getText());
+				
+				
+				if(!Token.isValidGrammar(ll)) { 
+					
+					System.out.println("Bad grammar: " + ll);
+					return;
+				}
 				ItemRule r = Token.tokens2ItemRule(ll);
 				String tempstring = null;
 			

@@ -45,7 +45,61 @@ public class Token {
    
    */
   
-  public static ItemRule tokens2ItemRule(LinkedList<Token> tokens) {
+  public static boolean isValidGrammar(LinkedList<Token> tokens) { 
+	  //Copy off the list
+	  @SuppressWarnings("unchecked")
+	LinkedList<Token> toks =  (LinkedList<Token>)tokens.clone();
+	  
+	  
+	  LinkedList<ItemRule> rules = new LinkedList<ItemRule>();
+	  while(toks.size() > 0) {
+		  if(!isValidSentence(toks)) {
+			  return false;
+		  }
+	  }
+	  return true;
+  }
+  
+  private static boolean isValidSentence(LinkedList<Token> toks) {
+	if(toks.size() == 0) {
+		return false;
+	}
+	
+
+	//Check if this is an attribute sentence
+	if(toks.peek().t == Typ.Attribute) {
+		//Pop the attribute token
+		toks.poll();
+		return true;
+	}
+	
+	//Check if this is the logicop - sentence  type. 
+	if(toks.peek().t == Typ.LogicalOp) {
+		//Pop the logic op token
+		toks.poll();
+		return true;
+	}
+	
+	//Check if it's a player sentence
+	if(toks.peek().t == Typ.Player) {
+		//Pop the player token
+		 toks.poll();
+		
+		//Pop the attribute token
+		Token attribute = toks.poll();
+		//Bad grammar if no attribute token
+		if(attribute == null) {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	
+	return false;
+}
+
+public static ItemRule tokens2ItemRule(LinkedList<Token> tokens) {
 	  //Copy off the list
 	  @SuppressWarnings("unchecked")
 	LinkedList<Token> toks =  (LinkedList<Token>)tokens.clone();
