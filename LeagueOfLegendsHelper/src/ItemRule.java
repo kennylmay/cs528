@@ -13,9 +13,11 @@ public class ItemRule {
 		String ret = "ItemRule( ";
 		
 		for(ItemRule r: subRules) {
-			ret += r.toString();
+			ret += r.toString() + ", ";
 		}
-		ret += ")";
+
+		ret = ret.substring(0, ret.length()-2);
+		ret += " )";
 		return ret;
 	}
 	
