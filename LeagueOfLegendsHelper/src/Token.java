@@ -76,18 +76,28 @@ private static ItemRule sentence2Rule(LinkedList<Token> toks) {
 	}
 	
 	
+	
 	//Check if this sentence looks like a player sentence
-	if(toks.peek().t != Typ.Player &&  toks.peek().t != Typ.LogicalOp ) {
+	if(toks.peek().t != Typ.Player &&  toks.peek().t != Typ.LogicalOp &&  toks.peek().t != Typ.Attribute ) {
 		return null;
 	}
-	
+
+	//If this is an attribute sentence, return a rule for it
+	if(toks.peek().t == Typ.Attribute) {
+		//Pop the attribute token
+		Token attribute = toks.poll();
+		return ruleFactory.ItemHas((String)attribute.data);
+	}
 	
 	//Check if this is the logicop - sentence  type. If it is, recurse on this with the appropriate rule.
 	if(toks.peek().t == Typ.LogicalOp) {
 		//Pop the logic op token
 		Token logicOp = toks.poll();
-		if(logicOp.data.equals("not")) {
+		if(logicOp.data == LogicalOpTyp.NOT) {
 		  return ruleFactory.Not(sentence2Rule(toks));
+		}
+		else if(logicOp.data == LogicalOpTyp.AND) {
+			return sentence2Rule(toks);
 		}
 		else {
 		  //Unknown logic op, return null
