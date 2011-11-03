@@ -209,38 +209,7 @@ public class LeagueOfLegendsHelper {
 	 */
 	public static void main(String[] args) {
 
-		
-		LinkedList<Token> tokList = new LinkedList<Token>();
-		//tokList.add( new Token(Token.Typ.LogicalOp, "not"));
-		tokList.add( new Token(Token.Typ.Player, Token.PlayerTyp.Them));
-		tokList.add( new Token(Token.Typ.Attribute, "AbilityPower"));
-		
-		ItemRule r = Token.tokens2ItemRule(tokList);
-		
-		for(String s : items.keySet()) {
-			LoLItem item = items.get(s);
-			if(r.eval(item)) {
-				System.out.println(item.get("Item"));
-			}
-		}
-		
-		System.out.println(r);
-		
 	    new UserInterface(items, characters, itemTree).showDialog();
 		
-		/*
-		LinkedList<LoLItem> myItems = new LinkedList<LoLItem>();
-		LinkedList<LoLItem> theirItems = new LinkedList<LoLItem>();
-		
-		myItems.add(items.get("Doran's Blade"));
-		theirItems.add(items.get("Rabadon's Deathcap"));
-		cd.put("playerItems", myItems);
-		cd.put("opponentItems", theirItems);
-		cd.put("playerChampionRole", Expert.ChampionRole.Fighter);
-		cd.put("opponentChampionRole", Expert.ChampionRole.Mage);
-		*/
-
-		// CaseData cd = new CaseData();
-		 //Expert.suggestNextItem(cd, items, itemTree);	
 	}
 }

@@ -293,10 +293,21 @@ public class UserInterface extends JDialog {
 
 				caseData.put("opponentItems", oplolItems);
 				caseData.put("playerGoal", textBox.getText());
+				
 				LanguageProcessor nlp = new LanguageProcessor();
-				nlp.askQuestion(textBox.getText());
-
-				Expert.suggestNextItem(caseData, Items, ItemTree);
+				LinkedList<Token> ll = nlp.askQuestion(textBox.getText());
+				ItemRule r = Token.tokens2ItemRule(ll);
+				
+				for(String s : Items.keySet()) {
+					LoLItem item = Items.get(s);
+					if(r.eval(item)) {
+						System.out.println(item.get("Item"));
+					}
+				}
+				
+				System.out.println(r);
+				
+				//Expert.suggestNextItem(caseData, Items, ItemTree);
 			}
 
 		});

@@ -26,19 +26,15 @@ public class LanguageProcessor {
 	 * 
 	 * @return The user's "Meaning" of the sentence they typed
 	 */
-	public String askQuestion(String sentence) {
+	public LinkedList<Token> askQuestion(String sentence) {
 
 		if (sentence.length() == 0) {
-			return "";
+			return null;
 		}
 
 		String formattedsentence = formatSentence(sentence);
-		//String subject = findSubject(formattedsentence);
-		//String attribute = findAttribute(formattedsentence);
 		
-		JOptionPane.showMessageDialog(null, formattedsentence);
-		JOptionPane.showMessageDialog(null, processSentence(formattedsentence).toString());
-		return "Fucking Happy";
+		return processSentence(formattedsentence);
 	}
 
 
