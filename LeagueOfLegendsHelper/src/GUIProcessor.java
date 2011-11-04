@@ -8,11 +8,9 @@ public class GUIProcessor {
 
 		// Get the core attributes for each player's role
 		if (caseData.get("playerChampionRole") != null) {
-			LinkedList<Token> playerCore = getAttributes(
-					(String[]) caseData.get("playerChampionRole"), true);
+			LinkedList<Token> playerCore = getAttributes((String[]) caseData.get("playerChampionRole"), true);
 			if (caseData.get("opponentChampionRole") != null) {
-				LinkedList<Token> opponentCore = getAttributes(
-						(String[]) caseData.get("opponentChampionRole"), false);
+				LinkedList<Token> opponentCore = getAttributes((String[]) caseData.get("opponentChampionRole"), false);
 				playerCore.addAll(opponentCore);
 			}
 			return playerCore;
@@ -28,9 +26,9 @@ public class GUIProcessor {
 	public static LinkedList<Token> getAttributes(String[] c, boolean isPlayer) {
 		LinkedList<Token> attr = new LinkedList<Token>();
 		if (isPlayer)
-			attr.add(new Token(Token.Typ.Player, Token.PlayerTyp.Them));
-		else
 			attr.add(new Token(Token.Typ.Player, Token.PlayerTyp.Us));
+		else
+			attr.add(new Token(Token.Typ.Player, Token.PlayerTyp.Them));
 
 		for (String champ : c)
 			if (champ.equals("assasin")) {
