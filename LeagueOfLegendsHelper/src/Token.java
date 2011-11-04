@@ -67,7 +67,6 @@ public class Token {
 			}
 		}
 
-		LinkedList<ItemRule> rules = new LinkedList<ItemRule>();
 		while (toks.size() > 0) {
 			if (!isValidSentence(toks)) {
 				return false;
