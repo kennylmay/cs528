@@ -179,7 +179,7 @@ public class UserInterface extends JDialog {
 					LoLItem item = Items.get(s);	
 					if(r.eval(item)){
 						items.add(item);
-						System.out.print(item.get("Item"));		
+						System.out.print(item.get("Item") + " ");		
 					}
 				}
 				updateTable(items);

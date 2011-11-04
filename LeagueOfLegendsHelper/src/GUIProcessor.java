@@ -30,7 +30,7 @@ public class GUIProcessor {
 		else
 			attr.add(new Token(Token.Typ.Player, Token.PlayerTyp.Them));
 
-		for (String champ : c)
+		for (String champ : c) {
 			if (champ.equals("assasin")) {
 				attr.add(new Token(Token.Typ.Attribute, "Critical"));
 			} else if (champ.equals("tank")) {
@@ -52,6 +52,7 @@ public class GUIProcessor {
 			} else if (champ.equals("ranged")) {
 				attr.add(new Token(Token.Typ.Attribute, "AttackSpeed"));
 			}
+		}
 		return attr;
 	}
 
