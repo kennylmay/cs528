@@ -163,11 +163,13 @@ public class UserInterface extends JDialog {
 				LinkedList<Token> ll = GUIProcessor.buildTokenList(caseData, Items);
 				LinkedList<Token> ll2 = nlp.askQuestion(textBox.getText());
 
-				if(ll != null){
+				if(!ll.isEmpty()){
 					masterLL.addAll(ll);
-				}else if(ll2 != null){
+				}
+				if(ll2 != null){
 					masterLL.addAll(ll2);
-				}else{
+				}
+				if(masterLL.isEmpty()){
 					return;
 				}
 

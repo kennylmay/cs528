@@ -5,18 +5,20 @@ public class GUIProcessor {
 
 	static LinkedList<Token> buildTokenList(CaseData caseData,
 			HashMap<String, LoLItem> itemData) {
-
+		LinkedList<Token> allToks = new LinkedList<Token>();
 		// Get the core attributes for each player's role
 		if (caseData.get("playerChampionRole") != null) {
-			LinkedList<Token> playerCore = getAttributes((String[]) caseData.get("playerChampionRole"), true);
-			if (caseData.get("opponentChampionRole") != null) {
-				LinkedList<Token> opponentCore = getAttributes((String[]) caseData.get("opponentChampionRole"), false);
-				playerCore.addAll(opponentCore);
-			}
-			return playerCore;
+			LinkedList<Token> playerCore = getAttributes(
+					(String[]) caseData.get("playerChampionRole"), true);
+			allToks.addAll(playerCore);
+		}
+		if (caseData.get("opponentChampionRole") != null) {
+			LinkedList<Token> opponentCore = getAttributes(
+					(String[]) caseData.get("opponentChampionRole"), false);
+			allToks.addAll(opponentCore);
 		}
 
-		return null;
+		return allToks;
 
 	}
 
