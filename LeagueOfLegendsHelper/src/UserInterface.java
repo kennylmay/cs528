@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.GridLayout;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
@@ -76,6 +77,9 @@ public class UserInterface extends JDialog {
 			return false;
 		}
 	};
+	
+
+ 	
 	private CaseData caseData = new CaseData();
 	@SuppressWarnings("unused")
 	private HashMap<String, LoLItem> itemList;
@@ -95,12 +99,14 @@ public class UserInterface extends JDialog {
 		gridLayout.setHgap(10);
 		itemList = items;
 		scroller = new JScrollPane(textBox);
-		scroller2 = new JScrollPane(outputTable);
+		scroller2 = new JScrollPane(outputTable,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
 		String none = "";
 		// Set the model columns
 		model.addColumn("Item");
 		model.addColumn("Description");
-		outputTable.setSize(750, 400);
+		
+		outputTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		// Populate the Character Combo Boxes
 		playerCombo.addItem(none);
 		opponentCombo.addItem(none);
@@ -179,7 +185,7 @@ public class UserInterface extends JDialog {
 					LoLItem item = Items.get(s);	
 					if(r.eval(item)){
 						items.add(item);
-						System.out.print(item.get("Item") + " ");		
+								
 					}
 				}
 				updateTable(items);
@@ -197,11 +203,17 @@ public class UserInterface extends JDialog {
 				while (model.getRowCount() > 0) {
 					model.removeRow(0);
 				}
+				resizeTable();
 			}
 		});
+		resizeTable();
 
 	}
 
+	public void resizeTable() {
+		updateTable(new LinkedList<LoLItem>());
+	}
+	
 	public void showDialog() {
 		this.setVisible(true);
 	}
@@ -212,10 +224,40 @@ public class UserInterface extends JDialog {
 			model.removeRow(0);
 		}
 
+		int maxCol1Width = Integer.MIN_VALUE, maxCol2Width = Integer.MIN_VALUE;
+		String maxCol1 = ""; String maxCol2 = "";
 		for (LoLItem lolitem : items) {
-			model.addRow(new String[] { (String) lolitem.get("Item"),
-					(String) lolitem.get("Description") });
+			
+			String col1 = (String) lolitem.get("Item");
+			String col2 = (String) lolitem.get("Description");
+			
+			if(col1.length() > maxCol1Width) {
+				maxCol1Width = col1.length();
+				maxCol1 = col1;
+			}
+			if(col2.length() > maxCol2Width) {
+				maxCol2Width = col2.length();
+				maxCol2 = col2;
+			}
+			
+			model.addRow(new String[] { col1, col2});
 		}
+
+		String header1 =(String)outputTable.getColumnModel().getColumn(0).getHeaderValue();
+		String header2 =(String)outputTable.getColumnModel().getColumn(1).getHeaderValue();
+		if(header1.length() > maxCol1Width) {
+			maxCol1Width = header1.length();
+			maxCol1 = header1;
+		}
+		if(header2.length() > maxCol2Width) {
+			maxCol2Width = header2.length();
+			maxCol2 = header2;
+		}
+	
+		
+		FontMetrics fm = outputTable.getFontMetrics(outputTable.getFont());
+		outputTable.getColumnModel().getColumn(0).setPreferredWidth(fm.stringWidth(maxCol1) + 20);
+		outputTable.getColumnModel().getColumn(1).setPreferredWidth(fm.stringWidth(maxCol2) + 20);
 		return;
 	}
 }

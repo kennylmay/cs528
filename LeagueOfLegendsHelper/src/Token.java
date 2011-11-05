@@ -102,10 +102,13 @@ public class Token {
 
 			// Pop the attribute token
 			Token attribute = toks.poll();
+			
 			// Bad grammar if no attribute token
-			if (attribute == null) {
+			if (attribute == null || attribute.t != Typ.Attribute) {
 				return false;
 			}
+			
+			
 			return true;
 		}
 
