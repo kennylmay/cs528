@@ -67,6 +67,10 @@ public class Token {
 			}
 		}
 
+		if (toks.size() == 0) {
+			return false;
+		}
+		
 		while (toks.size() > 0) {
 			if (!isValidSentence(toks)) {
 				return false;
