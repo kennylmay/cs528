@@ -38,6 +38,7 @@ public class OrItemRule extends ItemRule {
 		  return false;
 	}
 	
+	@SuppressWarnings("unused")
 	private OrItemRule() {} ;
 	
 }

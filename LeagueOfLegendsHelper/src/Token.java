@@ -36,19 +36,6 @@ public class Token {
 	 * <Sentence> ::= Player Attribute | Attribute
 	 */
 
-	/*
-	 * Future Grammar.. Maybe...
-	 * 
-	 * 
-	 * <Sentence> ::= <Sentence> | LogicalOp <Sentence>
-	 * 
-	 * <Sentence> ::= <PlayerSentence> | Attribute | <RelationAndAttribute>
-	 * 
-	 * <PlayerSentence> ::= Player Attribute | Player <RelationAndAttribute>
-	 * 
-	 * <RelationAndAttribute> ::= RelationalOp Attribute
-	 */
-
 	public static boolean isValidGrammar(LinkedList<Token> tokens) {
 
 		if (tokens == null) {

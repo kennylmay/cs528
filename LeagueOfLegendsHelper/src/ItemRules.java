@@ -40,7 +40,8 @@ public class ItemRules {
 	
 
 	public ItemRules() {
-	  //Put high order rules into the dictionary
+	  //Put high order rules into the dictionary. Most of the base rules are already added via
+	  // the ItemHas function.
       ruleDict.put("Tanky", isTanky);
       ruleDict.put("Mage", isMage);
       ruleDict.put("Fighter", isFighter);
