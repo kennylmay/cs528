@@ -53,6 +53,7 @@ public class GUIProcessor {
 				attr.add(new Token(Token.Typ.Attribute, "Armor"));
 			} else if (champ.equals("ranged")) {
 				attr.add(new Token(Token.Typ.Attribute, "AttackSpeed"));
+
 			}
 		}
 		return attr;

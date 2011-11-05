@@ -216,7 +216,7 @@ public class Expert {
     	if(attr.equals("AbilityPower")) {
     		attrs.add("Resist");
     		attrs.add("Health");
-    		attrs.add("Armor");
+   
     	}
     	else if(attr.equals("Damage")) {
     		attrs.add("Armor");

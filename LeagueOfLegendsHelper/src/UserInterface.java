@@ -258,8 +258,8 @@ public class UserInterface extends JDialog {
 	
 		
 		FontMetrics fm = outputTable.getFontMetrics(outputTable.getFont());
-		outputTable.getColumnModel().getColumn(0).setPreferredWidth(fm.stringWidth(maxCol1) + 20);
-		outputTable.getColumnModel().getColumn(1).setPreferredWidth(fm.stringWidth(maxCol2) + 20);
+		outputTable.getColumnModel().getColumn(0).setPreferredWidth(fm.stringWidth(maxCol1) + 50);
+		outputTable.getColumnModel().getColumn(1).setPreferredWidth(fm.stringWidth(maxCol2) + 50);
 		return;
 	}
 }
