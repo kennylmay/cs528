@@ -33,12 +33,17 @@ public class ItemRules {
     /////////////////////////////////////////////////////////////
 	//Higher order rules
 	/////////////////////////////////////////////////////////////
-	public ItemRule isTanky = new OrItemRule(hasHealth, hasHealthRegen, hasArmor, hasMagicResist, hasDodge, hasTenacity, hasLifeSteal, hasSpellVamp);
-	public ItemRule isMage = new OrItemRule(hasMana, hasManaRegen, hasSpellVamp, hasMagicPen, hasMana, hasCDR);
+	
+	public ItemRule isMage = new OrItemRule(hasMana, hasManaRegen, hasSpellVamp, hasMagicPen, hasMana, hasCDR, hasAbilityPower);
 	public ItemRule isFighter = new OrItemRule(hasAttackDamage, hasCritChance, hasAttackSpeed, hasTenacity);
 	public ItemRule isSupport = new OrItemRule(hasHealth, hasMana, hasMagicResist, hasTenacity, hasManaRegen, hasHealthRegen, hasCDR);
+	public ItemRule isOffensive = new OrItemRule(hasAttackDamage, hasCritChance, hasAttackSpeed,hasMagicPen, hasCDR, hasAbilityPower);
+	public ItemRule isDefensive = new OrItemRule(hasHealth, hasArmor, hasMagicResist, hasDodge, hasTenacity);
+	public ItemRule isSustain = new OrItemRule(hasHealthRegen, hasLifeSteal, hasSpellVamp);
+	public ItemRule isTanky = new OrItemRule(isSustain, isDefensive);
 	
 
+	
 	public ItemRules() {
 	  //Put high order rules into the dictionary. Most of the base rules are already added via
 	  // the ItemHas function.
@@ -46,15 +51,12 @@ public class ItemRules {
       ruleDict.put("Mage", isMage);
       ruleDict.put("Fighter", isFighter);
       ruleDict.put("Support", isSupport);
-		  
+      ruleDict.put("Offensive", isOffensive);
+      ruleDict.put("Defensive", isDefensive);
+      ruleDict.put("Sustain", isSustain);
+      
 	}
 
-	
-
-	
-	
-		
-	
 	
 	public ItemRule Not(ItemRule r) {
 		return new ItemRule().new _Not(r);
