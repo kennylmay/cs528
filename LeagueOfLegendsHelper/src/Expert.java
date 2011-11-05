@@ -81,7 +81,21 @@ public class Expert {
     		attrs.add("AblityPower");
     		attrs.add("Lifesteal");
     	}
-    	    	
+    	else if(attr.equals("Offensive")) {
+    		attrs.addAll(countersFor("Damage"));
+    		attrs.addAll(countersFor("AbilityPower"));
+    		
+    	}
+    	else if(attr.equals("Defensive")) {
+    		attrs.addAll(countersFor("Armor"));
+    		attrs.addAll(countersFor("Resist"));
+    	}
+    	else if(attr.equals("Sustain")){
+    		attrs.addAll(countersFor("Health"));
+    		attrs.addAll(countersFor("Lifesteal"));
+    		attrs.addAll(countersFor("SpellVamp"));
+    	}
+
     	return attrs;
     }
 
