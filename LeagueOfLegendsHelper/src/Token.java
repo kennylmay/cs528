@@ -99,6 +99,12 @@ public class Token {
 				return false;
 			}
 			
+			// Bad if it's not in the rule dict
+			if(ruleFactory.ruleDict.get((String)attribute.data) == null) {
+				System.out.println("No rule in dictionary for " +attribute.data);
+				return false;
+			}
+			
 			
 			return true;
 		}
@@ -189,8 +195,11 @@ public class Token {
 
 			// It's us, build a rule for the attr
 			else {
-				return new ItemRule(
-						ruleFactory.ItemHas((String) attribute.data));
+				if(ruleFactory.ruleDict.get((String)attribute.data) == null) {
+					System.out.println("Could not build rule for " + attribute.data);
+					return null;
+				}
+				return 	ruleFactory.ruleDict.get((String)attribute.data);
 			}
 
 		}
