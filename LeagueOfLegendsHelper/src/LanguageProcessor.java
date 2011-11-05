@@ -193,9 +193,6 @@ public class LanguageProcessor {
 
 		synonyms.put("speed", tmpToken);
 		synonyms.put("too slow", tmpToken);
-		synonyms.put("getting caught", tmpToken);
-		synonyms.put("caught easily", tmpToken);
-		synonyms.put("cant get away", tmpToken);
 		synonyms.put("faster", tmpToken);
 		synonyms.put("fast", tmpToken);
 		synonyms.put("dps", tmpToken);
@@ -232,8 +229,8 @@ public class LanguageProcessor {
 		synonyms.put("1 vs 1", tmpToken);
 		synonyms.put("counter for health", tmpToken);
 
-		// Burst Phrases
-		tmpToken = new Token(Token.Typ.Attribute, "Burst");
+		// Crit Strike Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "Critical");
 
 		synonyms.put("burst", tmpToken);
 		synonyms.put("all at once", tmpToken);
@@ -259,10 +256,33 @@ public class LanguageProcessor {
 		synonyms.put("build health", tmpToken);
 		synonyms.put("rebuild health", tmpToken);
 		synonyms.put("recharge health", tmpToken);
-		synonyms.put("sustain", tmpToken);
-		synonyms.put("stay in lane", tmpToken);
-
+		
 		// Health Regen Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "Health");
+		
+		synonyms.put("health", tmpToken);
+		synonyms.put("more health", tmpToken);
+		synonyms.put("more life", tmpToken);
+
+		
+		// Health Regen Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "Dodge");
+		
+		synonyms.put("dodge", tmpToken);
+		synonyms.put("make miss", tmpToken);
+		synonyms.put("missing", tmpToken);
+		synonyms.put("miss", tmpToken);
+		
+		
+		// Sustain Phrases
+		tmpToken = new Token(Token.Typ.Attribute, "Sustain");
+		
+		synonyms.put("sustain", tmpToken);
+		synonyms.put("sustainment", tmpToken);
+		synonyms.put("stay in lane", tmpToken);
+		
+
+		// Cool Down Reduction Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "CDR");
 
 		synonyms.put("cooldown reduction", tmpToken);
@@ -270,7 +290,36 @@ public class LanguageProcessor {
 		synonyms.put("use abilities faster", tmpToken);
 		synonyms.put("use more abilities", tmpToken);
 		synonyms.put("wait time", tmpToken);
+		
+		// Offense
+		tmpToken = new Token(Token.Typ.Attribute, "Offensive");
 
+		synonyms.put("offense", tmpToken);
+		synonyms.put("offensive", tmpToken);
+		synonyms.put("offence", tmpToken);
+		synonyms.put("attack", tmpToken);
+
+
+		// Defense
+		tmpToken = new Token(Token.Typ.Attribute, "Defensive");
+
+		synonyms.put("defense", tmpToken);
+		synonyms.put("defend", tmpToken);
+		synonyms.put("defensive", tmpToken);
+		synonyms.put("protect", tmpToken);
+		
+		
+		// Movement Speed
+		tmpToken = new Token(Token.Typ.Attribute, "Movement");
+
+		synonyms.put("run faster", tmpToken);
+		synonyms.put("catch", tmpToken);
+		synonyms.put("catching", tmpToken);
+		synonyms.put("getting caught", tmpToken);
+		synonyms.put("caught easily", tmpToken);
+		synonyms.put("cant get away", tmpToken);
+		
+		
 		// Player 'US' Phrases
 		tmpToken = new Token(Token.Typ.Player, Token.PlayerTyp.Us);
 

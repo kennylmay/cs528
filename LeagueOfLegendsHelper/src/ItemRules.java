@@ -24,7 +24,7 @@ public class ItemRules {
 	public ItemRule hasMovementSpeed = ItemHas("Movement");
 	public ItemRule hasLifeSteal = ItemHas("LifeSteal");
 	public ItemRule hasSpellVamp = ItemHas("SpellVamp");
-	public ItemRule hasDodge = ItemHas("SpellVamp");
+	public ItemRule hasDodge = ItemHas("Dodge");
 	public ItemRule hasCDR = ItemHas("CDR");
 	public ItemRule hasTenacity = ItemHas("Tenacity");
 	public ItemRule hasAttackSpeed = ItemHas("AttackSpeed");
