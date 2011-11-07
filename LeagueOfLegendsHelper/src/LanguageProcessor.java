@@ -197,6 +197,7 @@ public class LanguageProcessor {
 		synonyms.put("fast", tmpToken);
 		synonyms.put("dps", tmpToken);
 		synonyms.put("counter for health", tmpToken);
+		synonyms.put("attack speed", tmpToken);
 
 		// Tenacity Phrases
 		tmpToken = new Token(Token.Typ.Attribute, "Tenacity");
