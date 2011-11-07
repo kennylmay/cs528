@@ -5,7 +5,9 @@ import java.awt.GridLayout;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Vector;
@@ -21,9 +23,15 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
+import javax.swing.RowSorter.SortKey;
+import javax.swing.SortOrder;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 public class UserInterface extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -74,7 +82,20 @@ public class UserInterface extends JDialog {
 		}
 	};
 	
-
+	Comparator<String> comparator = new Comparator<String>() {
+	    public int compare(String s1, String s2) {
+	    	int i1 = Integer.parseInt(s1);
+	    	int i2 = Integer.parseInt(s2);
+	
+	    	if (i1 < i2){
+	    		return -1;
+	    	}else if (i2 < i1){
+	    		return 1;
+	    	}else{
+	    		return 0;
+	    	}
+	    }
+	};
  	
 	private CaseData caseData = new CaseData();
 	@SuppressWarnings("unused")
@@ -84,8 +105,6 @@ public class UserInterface extends JDialog {
 	public UserInterface(final HashMap<String, LoLItem> items,
 			HashMap<String, String[]> characters,
 			final HashMap<String, String[]> itemTree) {
-
-		// Set the default dimension of the node attributes window
 
 		this.setPreferredSize(new Dimension(750, 750));
 		final HashMap<String, LoLItem> Items = items;
@@ -102,6 +121,13 @@ public class UserInterface extends JDialog {
 		model.addColumn("Item");
 		model.addColumn("Value");
 		model.addColumn("Description");
+		
+		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
+	    outputTable.setRowSorter(sorter);
+	    
+	    ArrayList<SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+	    sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+	    sorter.setSortKeys(sortKeys); 
 		
 		outputTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		// Populate the Character Combo Boxes
@@ -265,4 +291,6 @@ public class UserInterface extends JDialog {
 		outputTable.getColumnModel().getColumn(2).setPreferredWidth(fm.stringWidth(maxCol3) + 50);
 		return;
 	}
+	
+	
 }
