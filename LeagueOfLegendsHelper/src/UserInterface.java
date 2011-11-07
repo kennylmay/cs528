@@ -125,9 +125,12 @@ public class UserInterface extends JDialog {
 		model.addColumn("Description");
 
 		outputTable.setRowSorter(sorter);
+		sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
 		sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-		outputTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
+		outputTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		sorter.setComparator(1, comparator);
+		
 		// Populate the Character Combo Boxes
 		playerCombo.addItem(none);
 		opponentCombo.addItem(none);
@@ -265,8 +268,8 @@ public class UserInterface extends JDialog {
 				maxCol3Width = col3.length();
 				maxCol3 = col3;
 			}
-			Integer column2 = Integer.parseInt(col2);
-			model.addRow(new Object[] { col1, column2, col3 });
+	
+			model.addRow(new String[] { col1, col2, col3 });
 		}
 
 		String header1 = (String) outputTable.getColumnModel().getColumn(0)
