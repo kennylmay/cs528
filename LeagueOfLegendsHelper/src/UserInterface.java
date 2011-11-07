@@ -31,7 +31,6 @@ public class UserInterface extends JDialog {
 	private JButton clearButton = new JButton("Clear the Form");
 	private JLabel playerLabel = new JLabel("Player: ");
 	private JLabel opponentLabel = new JLabel("Opponent: ");
-	private JLabel goldLabel = new JLabel("Gold (0) = N/A:");
 	private JLabel textLabel = new JLabel(
 			"What is a simple goal of your build?");
 
@@ -39,16 +38,14 @@ public class UserInterface extends JDialog {
 	private JComboBox playerCombo = new JComboBox();
 	private JComboBox opponentCombo = new JComboBox();
 	SpinnerModel Spinner = new SpinnerNumberModel(0, 0, 10000, 100);
-	private JSpinner goldSpinner = new JSpinner(Spinner);
 	private JScrollPane scroller;
 	private JScrollPane scroller2;
 
 	// Creating the border layout
 	private BorderLayout Layout = new BorderLayout();
-	private GridLayout gridLayout = new GridLayout(3, 3);
+	private GridLayout gridLayout = new GridLayout(2, 2);
 	private BorderLayout borderLayout2 = new BorderLayout();
 	private BorderLayout borderLayout3 = new BorderLayout();
-	private GridLayout gridLayout4 = new GridLayout(2, 1);
 	private BorderLayout tableLayout = new BorderLayout();
 	private BorderLayout playerLayout = new BorderLayout();
 	private BorderLayout opponentLayout = new BorderLayout();
@@ -59,7 +56,6 @@ public class UserInterface extends JDialog {
 	private JPanel gridPanel = new JPanel(gridLayout);
 	private JPanel borderPanel2 = new JPanel(borderLayout2);
 	private JPanel borderPanel3 = new JPanel(borderLayout3);
-	private JPanel gridPanel4 = new JPanel(gridLayout4);
 	private JPanel tablePanel = new JPanel(tableLayout);
 	
 	@SuppressWarnings("unused")
@@ -104,6 +100,7 @@ public class UserInterface extends JDialog {
 		String none = "";
 		// Set the model columns
 		model.addColumn("Item");
+		model.addColumn("Value");
 		model.addColumn("Description");
 		
 		outputTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -123,11 +120,9 @@ public class UserInterface extends JDialog {
 		gridPanel.add(playerCombo);
 		gridPanel.add(opponentLabel);
 		gridPanel.add(opponentCombo);
-		gridPanel.add(goldLabel);
-		gridPanel.add(goldSpinner);
 	
 		borderPanel2.add(textLabel, BorderLayout.NORTH);
-		borderPanel2.add(scroller, BorderLayout.SOUTH);
+		borderPanel2.add(scroller, BorderLayout.CENTER);
 		borderPanel3.add(okButton, BorderLayout.EAST);
 		borderPanel3.add(clearButton, BorderLayout.WEST);
 
@@ -153,8 +148,6 @@ public class UserInterface extends JDialog {
 				// Get data from the form about the opponent player type
 				caseData.put("opponentChampionRole",
 						Characters.get(opponentCombo.getSelectedItem()));
-				// Get data from the form on the gold value
-				caseData.put("Gold", goldSpinner.getValue());
 			
 				caseData.put("playerGoal", textBox.getText());
 
@@ -201,7 +194,6 @@ public class UserInterface extends JDialog {
 				textBox.setText("");
 				opponentCombo.setSelectedIndex(0);
 				playerCombo.setSelectedIndex(0);
-				goldSpinner.setValue(0);
 				while (model.getRowCount() > 0) {
 					model.removeRow(0);
 				}
@@ -226,12 +218,13 @@ public class UserInterface extends JDialog {
 			model.removeRow(0);
 		}
 
-		int maxCol1Width = Integer.MIN_VALUE, maxCol2Width = Integer.MIN_VALUE;
-		String maxCol1 = ""; String maxCol2 = "";
+		int maxCol1Width = Integer.MIN_VALUE, maxCol2Width = Integer.MIN_VALUE, maxCol3Width = Integer.MIN_VALUE;
+		String maxCol1 = ""; String maxCol2 = ""; String maxCol3 = "";
 		for (LoLItem lolitem : items) {
 			
 			String col1 = (String) lolitem.get("Item");
-			String col2 = (String) lolitem.get("Description");
+			String col2 = (String) lolitem.get("Cost");
+			String col3 = (String) lolitem.get("Description");
 			
 			if(col1.length() > maxCol1Width) {
 				maxCol1Width = col1.length();
@@ -241,12 +234,17 @@ public class UserInterface extends JDialog {
 				maxCol2Width = col2.length();
 				maxCol2 = col2;
 			}
+			if(col3.length() > maxCol3Width) {
+				maxCol3Width = col3.length();
+				maxCol3 = col3;
+			}
 			
-			model.addRow(new String[] { col1, col2});
+			model.addRow(new String[] { col1, col2, col3});
 		}
 
 		String header1 =(String)outputTable.getColumnModel().getColumn(0).getHeaderValue();
 		String header2 =(String)outputTable.getColumnModel().getColumn(1).getHeaderValue();
+		String header3 =(String)outputTable.getColumnModel().getColumn(2).getHeaderValue();
 		if(header1.length() > maxCol1Width) {
 			maxCol1Width = header1.length();
 			maxCol1 = header1;
@@ -255,11 +253,16 @@ public class UserInterface extends JDialog {
 			maxCol2Width = header2.length();
 			maxCol2 = header2;
 		}
+		if(header3.length() > maxCol3Width) {
+			maxCol3Width = header3.length();
+			maxCol3 = header3;
+		}
 	
 		
 		FontMetrics fm = outputTable.getFontMetrics(outputTable.getFont());
 		outputTable.getColumnModel().getColumn(0).setPreferredWidth(fm.stringWidth(maxCol1) + 50);
 		outputTable.getColumnModel().getColumn(1).setPreferredWidth(fm.stringWidth(maxCol2) + 50);
+		outputTable.getColumnModel().getColumn(2).setPreferredWidth(fm.stringWidth(maxCol3) + 50);
 		return;
 	}
 }
