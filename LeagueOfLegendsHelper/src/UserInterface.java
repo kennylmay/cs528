@@ -57,7 +57,6 @@ public class UserInterface extends JDialog {
 	private BorderLayout tableLayout = new BorderLayout();
 	private BorderLayout playerLayout = new BorderLayout();
 	private BorderLayout opponentLayout = new BorderLayout();
-	private BorderLayout goldLayout = new BorderLayout();
 
 	// creating panels
 	private JPanel Panel = new JPanel(Layout);
@@ -65,15 +64,17 @@ public class UserInterface extends JDialog {
 	private JPanel borderPanel2 = new JPanel(borderLayout2);
 	private JPanel borderPanel3 = new JPanel(borderLayout3);
 	private JPanel tablePanel = new JPanel(tableLayout);
-	
+
 	@SuppressWarnings("unused")
 	private JPanel playerPanel = new JPanel(playerLayout);
 	@SuppressWarnings("unused")
 	private JPanel opponentPanel = new JPanel(opponentLayout);
 	@SuppressWarnings("unused")
-	private JPanel goldPanel = new JPanel(goldLayout);
-
 	DefaultTableModel model = new DefaultTableModel();
+	TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(
+			model);
+	ArrayList<SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+
 	JTable outputTable = new JTable(model) {
 		private static final long serialVersionUID = 1L;
 
@@ -81,22 +82,21 @@ public class UserInterface extends JDialog {
 			return false;
 		}
 	};
-	
+
 	Comparator<String> comparator = new Comparator<String>() {
-	    public int compare(String s1, String s2) {
-	    	int i1 = Integer.parseInt(s1);
-	    	int i2 = Integer.parseInt(s2);
-	
-	    	if (i1 < i2){
-	    		return -1;
-	    	}else if (i2 < i1){
-	    		return 1;
-	    	}else{
-	    		return 0;
-	    	}
-	    }
+		public int compare(String s1, String s2) {
+			int i1 = Integer.parseInt(s1);
+			int i2 = Integer.parseInt(s2);
+			if (i1 < i2) {
+				return -1;
+			} else if (i2 < i1) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
 	};
- 	
+
 	private CaseData caseData = new CaseData();
 	@SuppressWarnings("unused")
 	private HashMap<String, LoLItem> itemList;
@@ -114,22 +114,20 @@ public class UserInterface extends JDialog {
 		gridLayout.setHgap(10);
 		itemList = items;
 		scroller = new JScrollPane(textBox);
-		scroller2 = new JScrollPane(outputTable,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroller2 = new JScrollPane(outputTable,
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		String none = "";
 		// Set the model columns
 		model.addColumn("Item");
 		model.addColumn("Value");
 		model.addColumn("Description");
-		
-		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
-	    outputTable.setRowSorter(sorter);
-	    
-	    ArrayList<SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
-	    sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-	    sorter.setSortKeys(sortKeys); 
-		
+
+		outputTable.setRowSorter(sorter);
+		sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
 		outputTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
 		// Populate the Character Combo Boxes
 		playerCombo.addItem(none);
 		opponentCombo.addItem(none);
@@ -146,7 +144,7 @@ public class UserInterface extends JDialog {
 		gridPanel.add(playerCombo);
 		gridPanel.add(opponentLabel);
 		gridPanel.add(opponentCombo);
-	
+
 		borderPanel2.add(textLabel, BorderLayout.NORTH);
 		borderPanel2.add(scroller, BorderLayout.CENTER);
 		borderPanel3.add(okButton, BorderLayout.EAST);
@@ -154,7 +152,7 @@ public class UserInterface extends JDialog {
 
 		tablePanel.add(borderPanel3, BorderLayout.NORTH);
 		tablePanel.add(scroller2, BorderLayout.SOUTH);
-		
+
 		Panel.add(gridPanel, BorderLayout.NORTH);
 		Panel.add(borderPanel2, BorderLayout.CENTER);
 		Panel.add(tablePanel, BorderLayout.SOUTH);
@@ -174,39 +172,39 @@ public class UserInterface extends JDialog {
 				// Get data from the form about the opponent player type
 				caseData.put("opponentChampionRole",
 						Characters.get(opponentCombo.getSelectedItem()));
-			
+
 				caseData.put("playerGoal", textBox.getText());
 
 				LanguageProcessor nlp = new LanguageProcessor();
 				LinkedList<Token> masterLL = new LinkedList<Token>();
-				LinkedList<Token> ll = GUIProcessor.buildTokenList(caseData, Items);
+				LinkedList<Token> ll = GUIProcessor.buildTokenList(caseData,
+						Items);
 				LinkedList<Token> ll2 = nlp.askQuestion(textBox.getText());
 
-				if(!ll.isEmpty()){
+				if (!ll.isEmpty()) {
 					masterLL.addAll(ll);
 				}
-				if(ll2 != null){
+				if (ll2 != null) {
 					masterLL.addAll(ll2);
 				}
-				if(masterLL.isEmpty()){
+				if (masterLL.isEmpty()) {
 					return;
 				}
 
-				
 				if (!Token.isValidGrammar(masterLL)) {
 					System.out.println("Bad grammar: " + masterLL);
 					return;
 				}
-				
+
 				ItemRule r = Token.tokens2ItemRule(masterLL);
-				
+
 				LinkedList<LoLItem> items = new LinkedList<LoLItem>();
 				for (String s : Items.keySet()) {
-					
-					LoLItem item = Items.get(s);	
-					if(r.eval(item)){
+
+					LoLItem item = Items.get(s);
+					if (r.eval(item)) {
 						items.add(item);
-								
+
 					}
 				}
 				updateTable(items);
@@ -233,64 +231,72 @@ public class UserInterface extends JDialog {
 	public void resizeTable() {
 		updateTable(new LinkedList<LoLItem>());
 	}
-	
+
 	public void showDialog() {
 		this.setVisible(true);
 	}
 
 	private void updateTable(LinkedList<LoLItem> items) {
 		// Clean the table out to refresh the table
-		while (model.getRowCount() > 0) {
-			model.removeRow(0);
+		if (items.size() != 0) {
+			while (model.getRowCount() > 0) {
+				model.removeRow(0);
+			}
 		}
-
 		int maxCol1Width = Integer.MIN_VALUE, maxCol2Width = Integer.MIN_VALUE, maxCol3Width = Integer.MIN_VALUE;
-		String maxCol1 = ""; String maxCol2 = ""; String maxCol3 = "";
+		String maxCol1 = "";
+		String maxCol2 = "";
+		String maxCol3 = "";
 		for (LoLItem lolitem : items) {
-			
+
 			String col1 = (String) lolitem.get("Item");
 			String col2 = (String) lolitem.get("Cost");
 			String col3 = (String) lolitem.get("Description");
-			
-			if(col1.length() > maxCol1Width) {
+
+			if (col1.length() > maxCol1Width) {
 				maxCol1Width = col1.length();
 				maxCol1 = col1;
 			}
-			if(col2.length() > maxCol2Width) {
+			if (col2.length() > maxCol2Width) {
 				maxCol2Width = col2.length();
 				maxCol2 = col2;
 			}
-			if(col3.length() > maxCol3Width) {
+			if (col3.length() > maxCol3Width) {
 				maxCol3Width = col3.length();
 				maxCol3 = col3;
 			}
-			
-			model.addRow(new String[] { col1, col2, col3});
+			Integer column2 = Integer.parseInt(col2);
+			model.addRow(new Object[] { col1, column2, col3 });
 		}
 
-		String header1 =(String)outputTable.getColumnModel().getColumn(0).getHeaderValue();
-		String header2 =(String)outputTable.getColumnModel().getColumn(1).getHeaderValue();
-		String header3 =(String)outputTable.getColumnModel().getColumn(2).getHeaderValue();
-		if(header1.length() > maxCol1Width) {
+		String header1 = (String) outputTable.getColumnModel().getColumn(0)
+				.getHeaderValue();
+		String header2 = (String) outputTable.getColumnModel().getColumn(1)
+				.getHeaderValue();
+		String header3 = (String) outputTable.getColumnModel().getColumn(2)
+				.getHeaderValue();
+		if (header1.length() > maxCol1Width) {
 			maxCol1Width = header1.length();
 			maxCol1 = header1;
 		}
-		if(header2.length() > maxCol2Width) {
+		if (header2.length() > maxCol2Width) {
 			maxCol2Width = header2.length();
 			maxCol2 = header2;
 		}
-		if(header3.length() > maxCol3Width) {
+		if (header3.length() > maxCol3Width) {
 			maxCol3Width = header3.length();
 			maxCol3 = header3;
 		}
-	
-		
+
 		FontMetrics fm = outputTable.getFontMetrics(outputTable.getFont());
-		outputTable.getColumnModel().getColumn(0).setPreferredWidth(fm.stringWidth(maxCol1) + 50);
-		outputTable.getColumnModel().getColumn(1).setPreferredWidth(fm.stringWidth(maxCol2) + 50);
-		outputTable.getColumnModel().getColumn(2).setPreferredWidth(fm.stringWidth(maxCol3) + 50);
+		outputTable.getColumnModel().getColumn(0)
+				.setPreferredWidth(fm.stringWidth(maxCol1) + 50);
+		outputTable.getColumnModel().getColumn(1)
+				.setPreferredWidth(fm.stringWidth(maxCol2) + 50);
+		outputTable.getColumnModel().getColumn(2)
+				.setPreferredWidth(fm.stringWidth(maxCol3) + 50);
+		sorter.setSortKeys(sortKeys);
 		return;
 	}
-	
-	
+
 }
