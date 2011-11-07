@@ -189,7 +189,7 @@ public class LanguageProcessor {
 		synonyms.put("counter for attack damage", tmpToken);
 
 		// Speed Phrases
-		tmpToken = new Token(Token.Typ.Attribute, "Speed");
+		tmpToken = new Token(Token.Typ.Attribute, "AttackSpeed");
 
 		synonyms.put("speed", tmpToken);
 		synonyms.put("too slow", tmpToken);
