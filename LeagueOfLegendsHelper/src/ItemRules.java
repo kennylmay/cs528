@@ -28,6 +28,7 @@ public class ItemRules {
 	public ItemRule hasCDR = ItemHas("CDR");
 	public ItemRule hasTenacity = ItemHas("Tenacity");
 	public ItemRule hasAttackSpeed = ItemHas("AttackSpeed");
+	public ItemRule hasMovement = ItemHas("Movement");
 	
 	
     /////////////////////////////////////////////////////////////

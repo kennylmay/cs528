@@ -74,7 +74,13 @@ public class Token {
 		// Check if this is an attribute sentence
 		if (toks.peek().t == Typ.Attribute) {
 			// Pop the attribute token
-			toks.poll();
+			Token attribute = toks.poll();
+			
+			// Bad if it's not in the rule dict
+			if(ruleFactory.ruleDict.get((String)attribute.data) == null) {
+				System.out.println("No rule in dictionary for " +attribute.data);
+				return false;
+			}
 			return true;
 		}
 
@@ -150,7 +156,8 @@ public class Token {
 		if (toks.peek().t == Typ.Attribute) {
 			// Pop the attribute token
 			Token attribute = toks.poll();
-			return ruleFactory.ItemHas((String) attribute.data);
+			
+			return ruleFactory.ruleDict.get((String)attribute.data);
 		}
 
 		// Check if this is the logicop - sentence type. If it is, recurse on

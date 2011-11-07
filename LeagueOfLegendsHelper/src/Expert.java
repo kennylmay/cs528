@@ -74,6 +74,9 @@ public class Expert {
     		attrs.add("ArmorPen");
     		attrs.add("MagicPen");
     	}
+    	else if(attr.equals("Speed")) {
+    		attrs.add("Speed");
+    	}
     	else if(attr.equals("Support")) {
     		attrs.add("Attack");
     		attrs.add("Critical");
