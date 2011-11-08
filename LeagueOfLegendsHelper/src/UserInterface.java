@@ -110,7 +110,7 @@ public class UserInterface extends JDialog {
 			HashMap<String, String[]> characters,
 			final HashMap<String, String[]> itemTree) {
 
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setPreferredSize(new Dimension(750, 750));
 		final HashMap<String, LoLItem> Items = items;
 		final HashMap<String, String[]> Characters = characters;
