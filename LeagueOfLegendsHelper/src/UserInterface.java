@@ -125,8 +125,9 @@ public class UserInterface extends JDialog {
 		model.addColumn("Description");
 
 		outputTable.setRowSorter(sorter);
-		sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
 		sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+		sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+		
 
 		outputTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		sorter.setComparator(1, comparator);
