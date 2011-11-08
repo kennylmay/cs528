@@ -108,6 +108,7 @@ public class LanguageProcessor {
 		sentence = sentence.replaceAll("'", "");
 		sentence = sentence.replaceAll("[.]", "");
 		sentence = sentence.replaceAll(",", "");
+		sentence = sentence.replaceAll("\n", " ");
 
 		return sentence;
 	}
@@ -314,6 +315,7 @@ public class LanguageProcessor {
 		tmpToken = new Token(Token.Typ.Attribute, "Movement");
 
 		synonyms.put("run faster", tmpToken);
+		synonyms.put("run fast", tmpToken);
 		synonyms.put("catch", tmpToken);
 		synonyms.put("catching", tmpToken);
 		synonyms.put("getting caught", tmpToken);
