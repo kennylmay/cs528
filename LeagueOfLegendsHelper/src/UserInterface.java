@@ -5,6 +5,8 @@ import java.awt.GridLayout;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -29,6 +31,7 @@ import javax.swing.SortOrder;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
@@ -127,11 +130,17 @@ public class UserInterface extends JDialog {
 		outputTable.setRowSorter(sorter);
 		sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
 		sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
-		
 
 		outputTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		sorter.setComparator(1, comparator);
-		
+		outputTable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				TableModel tm = outputTable.getModel();
+				String value = (String) tm.getValueAt(outputTable.getSelectedRow(), 0);
+				System.out.println("Selection : " + value);
+			}
+		});
+
 		// Populate the Character Combo Boxes
 		playerCombo.addItem(none);
 		opponentCombo.addItem(none);
@@ -269,7 +278,7 @@ public class UserInterface extends JDialog {
 				maxCol3Width = col3.length();
 				maxCol3 = col3;
 			}
-	
+
 			model.addRow(new String[] { col1, col2, col3 });
 		}
 
