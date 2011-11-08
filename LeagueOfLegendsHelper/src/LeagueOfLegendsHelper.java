@@ -1,7 +1,11 @@
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -19,11 +23,11 @@ public class LeagueOfLegendsHelper {
 	// Parse the CSV file into HashMap of items. These are the facts used by the
 	// expert system.
 	public static HashMap<String, LoLItem> getFactBase() {
-		String csvPath = LeagueOfLegendsHelper.class.getResource(
-				"LoL_Items_CSV.csv").getPath();
+		InputStream is = LeagueOfLegendsHelper.class.getResourceAsStream(
+				"/LoLItemsCSV.csv");
 
 		try {
-			BufferedReader in = new BufferedReader(new FileReader(csvPath));
+			BufferedReader in = new BufferedReader(new InputStreamReader(is));
 			HashMap<String, LoLItem> ret = new HashMap<String, LoLItem>();
 
 			String headerLine = in.readLine();
@@ -66,11 +70,11 @@ public class LeagueOfLegendsHelper {
 	// Parse the CSV file into HashMap of items. This will be used to
 	// reconstruct item trees.
 	public static HashMap<String, String[]> getItemTree() {
-		String csvPath = LeagueOfLegendsHelper.class.getResource(
-				"LoL_Item_Tree.csv").getPath();
+		InputStream is = LeagueOfLegendsHelper.class.getResourceAsStream(
+				"/LoL_Item_Tree.csv");
 
 		try {
-			BufferedReader in = new BufferedReader(new FileReader(csvPath));
+			BufferedReader in = new BufferedReader(new InputStreamReader(is));
 			HashMap<String, String[]> ret = new HashMap<String, String[]>();
 
 			// Read Past the header line
@@ -113,11 +117,11 @@ public class LeagueOfLegendsHelper {
 
 	// Build Character Map
 		public static HashMap<String, String[]> getCharacters() {
-			String csvPath = LeagueOfLegendsHelper.class.getResource(
-					"LoL_Characters.csv").getPath();
+			InputStream is = LeagueOfLegendsHelper.class.getResourceAsStream(
+					"/LoL_Characters.csv");
 
 			try {
-				BufferedReader in = new BufferedReader(new FileReader(csvPath));
+				BufferedReader in = new BufferedReader(new InputStreamReader(is));
 				HashMap<String, String[]> ret = new HashMap<String, String[]>();
 
 				String line;
