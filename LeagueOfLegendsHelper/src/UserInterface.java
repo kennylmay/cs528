@@ -207,6 +207,8 @@ public class UserInterface extends JDialog {
 				}
 
 				if (!Token.isValidGrammar(masterLL)) {
+					JOptionPane.showMessageDialog(null, "Sorry, I don't understand that.", "",
+							JOptionPane.INFORMATION_MESSAGE);
 					System.out.println("Bad grammar: " + masterLL);
 					return;
 				}
