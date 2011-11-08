@@ -34,7 +34,6 @@ public class ItemRules {
     /////////////////////////////////////////////////////////////
 	//Higher order rules
 	/////////////////////////////////////////////////////////////
-	
 	public ItemRule isMage = new OrItemRule(hasMana, hasManaRegen, hasSpellVamp, hasMagicPen, hasMana, hasCDR, hasAbilityPower);
 	public ItemRule isFighter = new OrItemRule(hasAttackDamage, hasCritChance, hasAttackSpeed, hasTenacity);
 	public ItemRule isSupport = new OrItemRule(hasHealth, hasMana, hasMagicResist, hasTenacity, hasManaRegen, hasHealthRegen, hasCDR);

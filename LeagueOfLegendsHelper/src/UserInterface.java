@@ -17,6 +17,7 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -109,6 +110,7 @@ public class UserInterface extends JDialog {
 			HashMap<String, String[]> characters,
 			final HashMap<String, String[]> itemTree) {
 
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setPreferredSize(new Dimension(750, 750));
 		final HashMap<String, LoLItem> Items = items;
 		final HashMap<String, String[]> Characters = characters;
