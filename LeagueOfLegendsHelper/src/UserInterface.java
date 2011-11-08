@@ -1,8 +1,8 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.GridLayout;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,20 +21,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.RowSorter;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 public class UserInterface extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -126,20 +121,36 @@ public class UserInterface extends JDialog {
 		String none = "";
 		// Set the model columns
 		model.addColumn("Item");
-		model.addColumn("Value");
+		model.addColumn("Cost");
 		model.addColumn("Description");
 
 		outputTable.setRowSorter(sorter);
 		sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
 		sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
-
+		
 		outputTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		sorter.setComparator(1, comparator);
 		outputTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				TableModel tm = outputTable.getModel();
-				String value = (String) tm.getValueAt(outputTable.getSelectedRow(), 0);
-				System.out.println("Selection : " + value);
+			
+				String output = "";
+				String name = (String) model.getValueAt(outputTable.convertRowIndexToModel( outputTable.getSelectedRow()), 0);
+				String cost = (String) model.getValueAt(outputTable.convertRowIndexToModel( outputTable.getSelectedRow()), 1);
+				String desc = (String) model.getValueAt(outputTable.convertRowIndexToModel( outputTable.getSelectedRow()), 2);
+				output = "Item Name:  " + name + "\n\n";
+				output += "Cost:  " + cost + "\n\n";
+				output += "Description:  " + desc + "\n\n";
+				output += "Builds From:  " + LeagueOfLegendsHelper.getAllChildren((String)name);
+				JTextArea msgTA = new JTextArea(output);
+				msgTA.setForeground(Color.black);
+				msgTA.setBackground(UIManager.getDefaults().getColor("Panel.background"));
+				msgTA.setRows(12);
+				msgTA.setColumns(40);
+				msgTA.setWrapStyleWord(true);
+				msgTA.setLineWrap(true);
+				msgTA.setEditable(false);
+				msgTA.setEnabled(true);
+				JOptionPane.showMessageDialog(null, msgTA, "Item Attributes",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 
