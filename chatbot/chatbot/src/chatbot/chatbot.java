@@ -3,8 +3,14 @@ package chatbot;
 import java.io.IOException;
 import java.io.InputStream;
 
+import opennlp.tools.cmdline.parser.ParserTool;
 import opennlp.tools.dictionary.Dictionary;
+import opennlp.tools.parser.Parse;
+import opennlp.tools.parser.Parser;
+import opennlp.tools.parser.ParserFactory;
 import opennlp.tools.parser.ParserModel;
+import opennlp.tools.postag.POSModel;
+import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.sentdetect.*;
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
@@ -20,7 +26,9 @@ public class chatbot {
 	public static TokenizerModel tm = null;	
 	public static Dictionary dict = null;
 	public static ParserModel pm = null;
-	
+	public static Parser parser = null;
+	public static POSModel posModel = null;
+	public static POSTaggerME tagger = null;
 	
 	public static void loadModels() {
 	
@@ -42,6 +50,18 @@ public class chatbot {
 			tm = new TokenizerModel(res);
 			tokenizer = new TokenizerME(tm);
 			
+			//POSModel
+			res = chatbot.class
+			.getResourceAsStream("/en-pos-maxent.bin");
+			posModel = new POSModel(res);
+			tagger = new POSTaggerME(posModel);
+			
+			//ParserModel
+			res = chatbot.class
+			.getResourceAsStream("/en-parser-chunking.bin");
+			pm = new ParserModel(res);
+			parser = ParserFactory.create(pm);
+			
 		} catch (InvalidFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,10 +76,19 @@ public class chatbot {
 	
 	public static void main(String[] args) {
 		loadModels();
+		
+		//Parse a sentence
 		String sentences[] = sdetector.sentDetect("Hello world. Hello world again.");
 		for(String sent : sentences) {
-			System.out.println(sent);
+			Parse[] topParses = ParserTool.parseLine(sent, parser, 1);
+			
+			for(Parse p : topParses) {
+			  System.out.println(p);
+			}
 		}
+		
+
+		
 	}
 	
 }
