@@ -75,7 +75,9 @@ public class chatbot {
 	}
 	
 	public static void main(String[] args) {
+		System.out.println("Initializing...");
 		loadModels();
+		System.out.println("Done");
 		
 		//Parse a sentence
 		String sentences[] = sdetector.sentDetect("Hello world. Hello world again.");
@@ -83,7 +85,7 @@ public class chatbot {
 			Parse[] topParses = ParserTool.parseLine(sent, parser, 1);
 			
 			for(Parse p : topParses) {
-			  System.out.println(p);
+			  p.show();
 			}
 		}
 		
