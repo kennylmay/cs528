@@ -12,14 +12,14 @@ import opennlp.tools.util.InvalidFormatException;
 
 public class chatbot {
 
-	SentenceDetectorME sdetector = null;
-	TokenizerME tokenizer = null;
+	public static SentenceDetectorME sdetector = null;
+	public static TokenizerME tokenizer = null;
 
-	SentenceModel sm = null;
-	TokenizerModel tm = null;	
-	ParserModel pm = null;
+	public static SentenceModel sm = null;
+	public static TokenizerModel tm = null;	
+	public static ParserModel pm = null;
 	
-	public void loadModels() {
+	public static void loadModels() {
 	
 
         
@@ -27,14 +27,15 @@ public class chatbot {
 		try {
 			//Sentence model
 			InputStream res = chatbot.class
-			.getResourceAsStream("/model/en-sent.bin");
+			.getResourceAsStream("/en-sent.bin");
+			
 			sm = new SentenceModel(res);
 			sdetector = new SentenceDetectorME(sm);
 			
 			
 			//Tokenizer model
 			res = chatbot.class
-			.getResourceAsStream("/model/en-token.bin");
+			.getResourceAsStream("/en-token.bin");
 			tm = new TokenizerModel(res);
 			tokenizer = new TokenizerME(tm);
 			
@@ -49,7 +50,14 @@ public class chatbot {
 		
 
 	}
+	
+	public static void main(String[] args) {
+		loadModels();
+		sdetector.sentDetect("Hello world. Hello world again.");
+		
 	}
+	
+}
 	
 		
 
