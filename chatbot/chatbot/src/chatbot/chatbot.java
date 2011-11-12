@@ -3,6 +3,7 @@ package chatbot;
 import java.io.IOException;
 import java.io.InputStream;
 
+import opennlp.tools.dictionary.Dictionary;
 import opennlp.tools.parser.ParserModel;
 import opennlp.tools.sentdetect.*;
 import opennlp.tools.tokenize.Tokenizer;
@@ -17,7 +18,9 @@ public class chatbot {
 
 	public static SentenceModel sm = null;
 	public static TokenizerModel tm = null;	
+	public static Dictionary dict = null;
 	public static ParserModel pm = null;
+	
 	
 	public static void loadModels() {
 	
@@ -53,8 +56,10 @@ public class chatbot {
 	
 	public static void main(String[] args) {
 		loadModels();
-		sdetector.sentDetect("Hello world. Hello world again.");
-		
+		String sentences[] = sdetector.sentDetect("Hello world. Hello world again.");
+		for(String sent : sentences) {
+			System.out.println(sent);
+		}
 	}
 	
 }

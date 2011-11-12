@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="models/" kind="src" path="src"/>
-	<classpathentry kind="src" path="models"/>
+	<classpathentry excluding="libs/" kind="src" path="models"/>
+	<classpathentry kind="src" path="libz"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="C:/Users/Mike/Desktop/apache-opennlp-1.5.1-incubating/lib/jwnl-1.3.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Mike/Desktop/apache-opennlp-1.5.1-incubating/lib/opennlp-maxent-3.0.1-incubating.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Mike/Desktop/apache-opennlp-1.5.1-incubating/lib/opennlp-tools-1.5.1-incubating.jar"/>
+	<classpathentry kind="lib" path="libz/jwnl-1.3.3.jar"/>
+	<classpathentry kind="lib" path="libz/opennlp-maxent-3.0.1-incubating.jar"/>
+	<classpathentry kind="lib" path="libz/opennlp-tools-1.5.1-incubating.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
