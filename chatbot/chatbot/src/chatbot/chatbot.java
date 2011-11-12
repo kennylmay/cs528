@@ -96,6 +96,7 @@ public class chatbot {
 			String sentences[] = sdetector.sentDetect(readInput());
 			for (String sent : sentences) {
 				Parse[] topParses = ParserTool.parseLine(sent, parser, 1);
+				
 
 				for (Parse p : topParses) {
 					p.show();
