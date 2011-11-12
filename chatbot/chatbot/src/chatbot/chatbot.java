@@ -80,7 +80,7 @@ public class chatbot {
 		System.out.println("Done");
 		
 		//Parse a sentence
-		String sentences[] = sdetector.sentDetect("Hello world. Hello world again.");
+		String sentences[] = sdetector.sentDetect("The quick brown fox jumped over the lazy dog.");
 		for(String sent : sentences) {
 			Parse[] topParses = ParserTool.parseLine(sent, parser, 1);
 			
