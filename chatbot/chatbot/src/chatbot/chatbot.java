@@ -95,15 +95,65 @@ public class chatbot {
 			// Parse a sentence
 			String sentences[] = sdetector.sentDetect(readInput());
 			for (String sent : sentences) {
-				Parse[] topParses = ParserTool.parseLine(sent, parser, 1);
+				Parse[] topParses = ParserTool.parseLine(sent, parser, 3);
 				
 
 				for (Parse p : topParses) {
-					p.show();
+					
+					//p.show();
 				}
+				
+				//respond
+				System.out.println(response(topParses));
 			}
 		}
-
 	}
-
+	
+	static String response(Parse[] parsedSentences) {
+		for(Parse child : parsedSentences[0].getChildren()) {
+			child.show();
+			System.out.println(child.getType());
+			if(child.getType().equals("SBARQ")) {
+				return "Why do you care?";
+			}
+			if(child.getType().equals("S")) {
+				Parse p = findFirstTag(child,  new String[] {"SBAR"} ); 
+				if(p != null) {
+				  return "You truly believe that " + p.toString() + "?";
+				}
+				
+				p = findFirstTag(child,  new String[] {"NN", "NNS", "SBAR"} ); 
+				if(p != null) {
+					//NN or NNS
+					return "Tell me more about the " +  p.toString();
+				}
+				
+			}
+			if(child.getType().equals("SQ")) {
+				return "The answer is yes. I like yes or no questions.";
+			}
+		}
+		return "";
+	}
+	
+	
+	//depth first search on the parse tree that returns the first instance of 
+	//parse with getType() of <name>.
+	static Parse findFirstTag(Parse tree, String[] names) {
+		for(String s : names) {
+		  if(tree.getType().equals(s)) {
+  			return tree;
+	       }
+		}
+		
+        for(Parse child : tree.getChildren()) {
+		  Parse p = findFirstTag(child, names);
+		   if(p != null) {
+		     return p;
+		   }
+		}
+		 
+		return null;
+	}
 }
+
