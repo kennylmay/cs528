@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 import opennlp.tools.cmdline.parser.ParserTool;
 import opennlp.tools.dictionary.Dictionary;
@@ -91,6 +95,7 @@ public class chatbot {
 		stdin = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Done");
 
+		
 		while (true) {
 			// Parse a sentence
 			String sentences[] = sdetector.sentDetect(readInput());
@@ -107,6 +112,20 @@ public class chatbot {
 				System.out.println(response(topParses));
 			}
 		}
+		
+		/*
+		NGram ng = new chatbot().new NGram();
+		
+		for(int i =0; i < 4; i++ ) {
+		  ng.parseSentence(readInput());
+		  ng.parseSentence(readInput());
+		  ng.parseSentence(readInput());
+		
+		  System.out.println(ng);
+		}
+		*/
+		
+		
 	}
 	
 	static String response(Parse[] parsedSentences) {
@@ -138,7 +157,7 @@ public class chatbot {
 	
 	
 	//depth first search on the parse tree that returns the first instance of 
-	//parse with getType() of <name>.
+	//parse that is of type matching one of the strings in names
 	static Parse findFirstTag(Parse tree, String[] names) {
 		for(String s : names) {
 		  if(tree.getType().equals(s)) {
@@ -154,6 +173,115 @@ public class chatbot {
 		}
 		 
 		return null;
+	}
+	
+	
+	
+	public class NGram extends HashMap< String, HashMap<String,Integer> > {
+		
+		public void parseSentence(String sent) {
+			//Parse the sentence
+			Parse[] topParse = ParserTool.parseLine(sent, parser, 3);
+			
+			//Crawl the tree
+			crawl(topParse[0]);
+		}
+		
+		public void crawl(Parse p) {
+			String topTag = p.getType();
+			String childTags = "";
+			HashMap<String,Integer> ent = null;
+			Parse[] children = null;
+			
+			if(p.isFlat()) {
+				return;
+			}
+
+			//Get the children of this node
+			children = p.getChildren();
+			if(children == null || children.length == 0) {
+				return;
+			}
+			
+			
+			//Check for existence of entry for this parse's N-Gram
+			//If it doesn't exist, make it.
+			ent = get(topTag);
+			if(ent == null) {
+				put(topTag, new HashMap<String,Integer>());
+				ent = get(topTag);
+			}
+
+			//Construct the entry;
+			for(Parse child : children) {
+				  childTags += child.getType() + ",";
+			}
+			
+		
+			
+			//Increment any existing entry for this leaf NGram
+			Integer val =  ent.get(childTags);
+			if(val == null) { 
+				val = 0;
+			}
+			
+			//Put the NGram in
+			System.out.println("entry for " + childTags);
+			System.out.println(childTags.length());
+			ent.put(childTags, ++val);
+			
+			//Crawl children
+			for(Parse child : children) {
+				crawl(child);
+			}
+			
+			
+		}
+		
+		public String toString() {
+			String ret = "";
+			HashMap<String,Integer> ent = null;
+			
+			//Iterate over top tags
+			for(String tag : keySet()) {
+				ret += "NGRAM for : " + tag + "\n";
+				ret += NGramEnt2Str(get(tag)) + "\n\n";
+			}
+			
+			
+			return ret;
+		}
+
+		class Pair implements Comparator<Pair> {
+			public final Integer val;
+			public final String name;
+			public Pair(String name, int val) {
+				this.name = name;
+				this.val = val;
+			}
+			//Sort high to high
+			@Override
+			public int compare(Pair o1, Pair o2) {
+				return o2.val.compareTo(o1.val);
+			}
+		}
+		
+		public String NGramEnt2Str(HashMap<String,Integer> ent) {
+            String ret = "";
+			LinkedList<Pair> list = new LinkedList<Pair>();
+			for(String name : ent.keySet()) {
+				list.add(new Pair(name, ent.get(name)));
+			}
+
+			//Sort it with descending values
+			Collections.sort(list, list.get(0) );
+			
+			for(Pair p: list) {
+				ret += p.name + " : " + p.val + "\n";
+			}
+			
+			return ret;
+		}
 	}
 }
 
