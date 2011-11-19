@@ -242,7 +242,9 @@ public class chatbot {
 			
 			// Crawl children
 			for (Parse child : topParse) {
-				crawl(child);
+				for(Parse secondLevel : child.getChildren()){
+				   crawl(secondLevel);
+				}
 			}
 		}
 
