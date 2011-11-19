@@ -109,7 +109,19 @@ public class chatbot {
 				ng.parseSentence(sentence);
 				System.out.println(ng);
 			}
-			System.out.println(ng.dict.toString("ADJP"));
+			
+			String Answer = "";
+			while(!Answer.toLowerCase().equals("stop")){
+				System.out.print("Which parse type would you like examples for? (type 'stop' to quit)");
+				try {
+					Answer = stdin.readLine();
+					System.out.println(ng.dict.toString(Answer.toUpperCase()));
+				} catch (IOException ioe) {
+					System.out.println("IO error reading input!");
+					System.exit(1);
+				}	
+			}
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -208,6 +220,9 @@ public class chatbot {
 			public String toString(final String phrase) {
 				String string = "";
 				string += "Type: " + phrase + " Examples: \n";
+				if (this.get(phrase) == null){
+					return "Nothing Found";
+				}
 				for (String v : this.get(phrase)) {
 					string += "\t" + v + "\n";
 				}
