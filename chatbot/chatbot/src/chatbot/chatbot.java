@@ -107,9 +107,8 @@ public class chatbot {
 				sentence = sentence.replaceAll("[?]", "");
 				sentence = sentence.replaceAll("[!]", "");
 				ng.parseSentence(sentence);
-				System.out.println(ng);
 			}
-			
+			System.out.println(ng);
 			String Answer = "";
 			while(!Answer.toLowerCase().equals("stop")){
 				System.out.print("Which parse type would you like examples for? (type 'stop' to quit)");
@@ -239,7 +238,12 @@ public class chatbot {
 			Parse[] topParse = ParserTool.parseLine(sent, parser, 3);
 
 			// Crawl the tree
-			crawl(topParse[0]);
+			//crawl(topParse[0]);
+			
+			// Crawl children
+			for (Parse child : topParse) {
+				crawl(child);
+			}
 		}
 
 		public void crawl(Parse p) {
@@ -291,12 +295,12 @@ public class chatbot {
 				subsentence += child + " ";
 			}
 			sents.add(subsentence);
-
+/*
 			// Crawl children
 			for (Parse child : children) {
 				crawl(child);
 			}
-
+*/
 		}
 
 		public String toString() {
