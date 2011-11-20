@@ -238,14 +238,15 @@ public class chatbot {
 			Parse[] topParse = ParserTool.parseLine(sent, parser, 3);
 
 			// Crawl the tree
-			//crawl(topParse[0]);
-			
+			crawl(topParse[0]);
+			/*
 			// Crawl children
 			for (Parse child : topParse) {
 				for(Parse secondLevel : child.getChildren()){
 				   crawl(secondLevel);
 				}
 			}
+			*/
 		}
 
 		public void crawl(Parse p) {
@@ -297,12 +298,12 @@ public class chatbot {
 				subsentence += child + " ";
 			}
 			sents.add(subsentence);
-/*
+
 			// Crawl children
 			for (Parse child : children) {
 				crawl(child);
 			}
-*/
+
 		}
 
 		public String toString() {
