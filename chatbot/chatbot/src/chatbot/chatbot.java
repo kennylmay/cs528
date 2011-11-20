@@ -96,7 +96,6 @@ public class chatbot {
 		// open up standard input
 		stdin = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Done");
-
 		InputStream is = chatbot.class.getResourceAsStream("/play");
 		NGram ng = new chatbot().new NGram();
 		try {
@@ -235,18 +234,17 @@ public class chatbot {
 
 		public void parseSentence(String sent) {
 			// Parse the sentence
-			Parse[] topParse = ParserTool.parseLine(sent, parser, 3);
+			Parse[] topParse = ParserTool.parseLine(sent, parser, 1);
 
 			// Crawl the tree
-			crawl(topParse[0]);
-			/*
+			//crawl(topParse[0]);
+			
 			// Crawl children
 			for (Parse child : topParse) {
 				for(Parse secondLevel : child.getChildren()){
 				   crawl(secondLevel);
 				}
 			}
-			*/
 		}
 
 		public void crawl(Parse p) {
@@ -298,12 +296,12 @@ public class chatbot {
 				subsentence += child + " ";
 			}
 			sents.add(subsentence);
-
+/*
 			// Crawl children
 			for (Parse child : children) {
 				crawl(child);
 			}
-
+*/
 		}
 
 		public String toString() {
