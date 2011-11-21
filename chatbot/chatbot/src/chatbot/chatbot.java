@@ -100,8 +100,8 @@ public class chatbot {
 		
 
 		chatbot cb = new chatbot();
-		cb.doNGrams();
-		//cb.startDialogLoop();
+		//cb.doNGrams();
+		cb.startDialogLoop();
         
 	}
 
@@ -157,7 +157,7 @@ public class chatbot {
 	  	    p.show();
 		  
 		    //respond 
-		    //System.out.println(r.response(p));
+		    System.out.println(r.response(p));
 		 }
 		
 	}
@@ -225,12 +225,9 @@ public class chatbot {
 
 		public void parseSentence(String sent) {
 			// Parse the sentence
-			Parse[] topParse = ParserTool.parseLine(sent, parser, 1);
+			Parse[] topParse = ParserTool.parseLine(sent, parser, 3);
 
-			
-			// Crawl the tree
-			//crawl(topParse[0]);
-			
+
 			// Crawl children
 			
 			for (Parse child : topParse) {
