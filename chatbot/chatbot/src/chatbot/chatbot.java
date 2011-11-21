@@ -96,8 +96,6 @@ public class chatbot {
 		// open up standard input
 		stdin = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Done");
-		
-		
 
 		chatbot cb = new chatbot();
 		//cb.doNGrams();
@@ -107,6 +105,7 @@ public class chatbot {
 
 	public void doNGrams() {
 		InputStream is = chatbot.class.getResourceAsStream("/play");
+
 		NGram ng = new chatbot().new NGram();
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(is));
@@ -117,17 +116,18 @@ public class chatbot {
 			}
 			System.out.println(ng);
 			String Answer = "";
-			while(!Answer.toLowerCase().equals("stop")){
-				System.out.print("Which parse type would you like examples for? (type 'stop' to quit)");
+			while (!Answer.toLowerCase().equals("stop")) {
+				System.out
+						.print("Which parse type would you like examples for? (type 'stop' to quit)");
 				try {
 					Answer = stdin.readLine();
 					System.out.println(ng.dict.toString(Answer.toUpperCase()));
 				} catch (IOException ioe) {
 					System.out.println("IO error reading input!");
 					System.exit(1);
-				}	
+				}
 			}
-			
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -197,9 +197,9 @@ public class chatbot {
 				for (String s : this.keySet()) {
 					string += "Type: " + s + " Examples: \n";
 					for (String v : this.get(s)) {
-						string +="\t" + v + "\n";
+						string += "\t" + v + "\n";
 						string += "\n";
-					}		
+					}
 					string += "\n\n";
 				}
 
@@ -209,7 +209,7 @@ public class chatbot {
 			public String toString(final String phrase) {
 				String string = "";
 				string += "Type: " + phrase + " Examples: \n";
-				if (this.get(phrase) == null){
+				if (this.get(phrase) == null) {
 					return "Nothing Found";
 				}
 				for (String v : this.get(phrase)) {
@@ -228,8 +228,8 @@ public class chatbot {
 			Parse[] topParse = ParserTool.parseLine(sent, parser, 3);
 
 
+
 			// Crawl children
-			
 			for (Parse child : topParse) {
 				Parse.pruneParse(child);
 				crawl(child);
@@ -257,12 +257,10 @@ public class chatbot {
 			// Check for existence of entry for this parse's N-Gram
 			// If it doesn't exist, make it.
 			ent = get(topTag);
-			sents = dict.get(topTag);
 			if (ent == null) {
 				put(topTag, new HashMap<String, Integer>());
 				dict.put(topTag, new Vector<String>());
 				ent = get(topTag);
-				sents = dict.get(topTag);
 			}
 
 			// Construct the entry;
@@ -277,21 +275,32 @@ public class chatbot {
 			}
 
 			// Put the NGram in
-			//System.out.println("entry for " + childTags);
-			//System.out.println(childTags.length());
+			// System.out.println("entry for " + childTags);
+			// System.out.println(childTags.length());
 			ent.put(childTags, ++val);
 
 			String subsentence = "";
 			for (Parse child : children) {
 				subsentence += child + " ";
 			}
+			
+			sents = dict.get(childTags);
+			if (sents == null) {
+				dict.put(childTags, new Vector<String>());
+				sents = dict.get(childTags);
+			}		
 			sents.add(subsentence);
 
+			
 			// Crawl children
 			for (Parse child : children) {
 				crawl(child);
+
 			}
 
+			/*
+			 * // Crawl children for (Parse child : children) { crawl(child); }
+			 */
 		}
 
 		public String toString() {
