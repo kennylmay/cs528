@@ -20,7 +20,7 @@ import opennlp.tools.parser.ParserModel;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.sentdetect.*;
-import opennlp.tools.tokenize.Tokenizer;
+
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 import opennlp.tools.util.InvalidFormatException;
@@ -96,15 +96,23 @@ public class chatbot {
 		// open up standard input
 		stdin = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Done");
+		
+		
+
+		chatbot cb = new chatbot();
+		cb.doNGrams();
+		//cb.startDialogLoop();
+        
+	}
+
+	public void doNGrams() {
 		InputStream is = chatbot.class.getResourceAsStream("/play");
 		NGram ng = new chatbot().new NGram();
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(is));
 			String sentence;
 			while ((sentence = in.readLine()) != null) {
-				sentence = sentence.replaceAll("[.]", "");
-				sentence = sentence.replaceAll("[?]", "");
-				sentence = sentence.replaceAll("[!]", "");
+				sentence = tokenize(sentence, tokenizer);
 				ng.parseSentence(sentence);
 			}
 			System.out.println(ng);
@@ -129,29 +137,30 @@ public class chatbot {
 			e.printStackTrace();
 			System.exit(1);
 		}
-
-		/*
-		 * while (true) { // Parse a sentence String sentences[] =
-		 * sdetector.sentDetect(readInput()); for (String sent : sentences) {
-		 * Parse[] topParses = ParserTool.parseLine(sent, parser, 3);
-		 * 
-		 * 
-		 * for (Parse p : topParses) {
-		 * 
-		 * //p.show(); }
-		 * 
-		 * //respond System.out.println(response(topParses)); } }
-		 * 
-		 * 
-		 * NGram ng = new chatbot().new NGram();
-		 * 
-		 * for (int i = 0; i < 4; i++) { ng.parseSentence(readInput());
-		 * ng.parseSentence(readInput()); ng.parseSentence(readInput());
-		 * 
-		 * System.out.println(ng); }
-		 */
 	}
+	
+	public void startDialogLoop() {
+	     Responders r = new Responders();
+		 while (true) { 
+			// Parse a sentence 
+			String sentences[] = sdetector.sentDetect(readInput());
+			String sent = sentences[0];
+			sent = tokenize(sent, tokenizer);
+			
+		    Parse[] topParses = ParserTool.parseLine(sent, parser, 1);
+  
+		   
+    
 
+		    Parse p = topParses[0];
+		    
+	  	    p.show();
+		  
+		    //respond 
+		    //System.out.println(r.response(p));
+		 }
+		
+	}
 	static String response(Parse[] parsedSentences) {
 		for (Parse child : parsedSentences[0].getChildren()) {
 			child.show();
@@ -160,12 +169,12 @@ public class chatbot {
 				return "Why do you care?";
 			}
 			if (child.getType().equals("S")) {
-				Parse p = findFirstTag(child, new String[] { "SBAR" });
+				Parse p = Responders.findFirstTag(child, new String[] { "SBAR" });
 				if (p != null) {
 					return "You truly believe that " + p.toString() + "?";
 				}
 
-				p = findFirstTag(child, new String[] { "NN", "NNS", "SBAR" });
+				p = Responders.findFirstTag(child, new String[] { "NN", "NNS", "SBAR" });
 				if (p != null) {
 					// NN or NNS
 					return "Tell me more about the " + p.toString();
@@ -179,24 +188,6 @@ public class chatbot {
 		return "";
 	}
 
-	// depth first search on the parse tree that returns the first instance of
-	// parse that is of type matching one of the strings in names
-	static Parse findFirstTag(Parse tree, String[] names) {
-		for (String s : names) {
-			if (tree.getType().equals(s)) {
-				return tree;
-			}
-		}
-
-		for (Parse child : tree.getChildren()) {
-			Parse p = findFirstTag(child, names);
-			if (p != null) {
-				return p;
-			}
-		}
-
-		return null;
-	}
 
 	public class NGram extends HashMap<String, HashMap<String, Integer>> {
 
@@ -236,25 +227,27 @@ public class chatbot {
 			// Parse the sentence
 			Parse[] topParse = ParserTool.parseLine(sent, parser, 1);
 
+			
 			// Crawl the tree
 			//crawl(topParse[0]);
 			
 			// Crawl children
+			
 			for (Parse child : topParse) {
-				for(Parse secondLevel : child.getChildren()){
-				   crawl(secondLevel);
-				}
+				Parse.pruneParse(child);
+				crawl(child);
 			}
 		}
 
 		public void crawl(Parse p) {
+			Parse.pruneParse(p);
 			String topTag = p.getType();
 			String childTags = "";
 			HashMap<String, Integer> ent = null;
 			Vector<String> sents = null;
 			Parse[] children = null;
 
-			if (p.isFlat()) {
+			if (p.isFlat() || p.toString().equals(".")) {
 				return;
 			}
 
@@ -296,12 +289,12 @@ public class chatbot {
 				subsentence += child + " ";
 			}
 			sents.add(subsentence);
-/*
+
 			// Crawl children
 			for (Parse child : children) {
 				crawl(child);
 			}
-*/
+
 		}
 
 		public String toString() {
@@ -349,5 +342,18 @@ public class chatbot {
 
 			return ret;
 		}
+	}
+	
+	public static String tokenize(String sent, TokenizerME tokenizer) {
+		String tokens[] = tokenizer.tokenize(sent);
+		String tokenizedSent = "";
+		for(String t : tokens) {
+			if(t.equals(",") || t.equals(".") || t.equals("?") || t.equals("\"") || t.equals("'")) {
+			   continue;
+			}
+			tokenizedSent += t + " ";
+		}
+		tokenizedSent = tokenizedSent.substring(0, tokenizedSent.length() - 1);
+		return tokenizedSent;
 	}
 }
