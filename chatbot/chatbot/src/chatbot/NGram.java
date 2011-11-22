@@ -88,12 +88,23 @@ public class NGram extends HashMap<String, HashMap<String, Integer>> {
 			dict.put(topTag, new Vector<String>());
 			ent = get(topTag);
 		}
+		
+		
+		
+		// Add this phrase to the dict of phrases for this POS type.
+		if (!dict.get(topTag).contains(p.toString())) {
+			dict.get(topTag).add(p.toString());
+		}
+		
+	
 
 		// Construct the entry;
 		for (Parse child : children) {
-			childTags += child.getType() + ",";
+			childTags += child.getType() + " ";
 		}
-
+		
+		childTags = childTags.trim();
+		
 		// Increment any existing entry for this leaf NGram
 		Integer val = ent.get(childTags);
 		if (val == null) {
@@ -101,21 +112,27 @@ public class NGram extends HashMap<String, HashMap<String, Integer>> {
 		}
 
 		// Put the NGram in
-		// System.out.println("entry for " + childTags);
-		// System.out.println(childTags.length());
 		ent.put(childTags, ++val);
 
-		String subsentence = "";
-		for (Parse child : children) {
-			subsentence += child + " ";
+		if (!dict.containsKey(childTags)) {
+			dict.put(childTags, new Vector<String>());
 		}
 		
-		sents = dict.get(childTags);
-		if (sents == null) {
-			dict.put(childTags, new Vector<String>());
-			sents = dict.get(childTags);
-		}		
-		sents.add(subsentence);
+		if (!dict.get(childTags).contains(p.toString())) {
+			dict.get(childTags).add(p.toString());
+		}
+
+//		String subsentence = "";
+//		for (Parse child : children) {
+//			subsentence += child + " ";
+//		}
+//		
+//		sents = dict.get(childTags);
+//		if (sents == null) {
+//			dict.put(childTags, new Vector<String>());
+//			sents = dict.get(childTags);
+//		}		
+//		sents.add(subsentence);
 
 		
 		// Crawl children
