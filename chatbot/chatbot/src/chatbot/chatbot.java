@@ -22,7 +22,7 @@ public class chatbot {
 		System.out.println("Done");
 
 		chatbot cb = new chatbot();
-		NGram.doNGrams();
+		//NGram.doNGrams();
 		cb.startDialogLoop();
         
 	}
@@ -33,6 +33,9 @@ public class chatbot {
 		 while (true) { 
 			// Parse a sentence 
 			String sentences[] = Global.sdetector.sentDetect(Global.readInput());
+			if(sentences == null || sentences.length == 0) {
+				continue;
+			}
 			String sent = sentences[0];
 			sent = Global.tokenize(sent, Global.tokenizer);
 			

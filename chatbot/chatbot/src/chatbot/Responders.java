@@ -1,5 +1,7 @@
 package chatbot;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -40,15 +42,15 @@ public class Responders {
 		//Response: So NP VP...
 
 		if( serialize(p.getChildren()).equals("NP,VP,") ) {
-		   String sent = flipPossesives(p.getChildren()[0].toString()) + " " + flipPossesives(p.getChildren()[1].toString()); 
+		   String sent = flipPossesives(p.getChildren()[0].toString() + " " + p.getChildren()[1].toString()); 
 		   Random rand = new Random();
 		   int val = Math.abs(rand.nextInt() % 5);
 		   switch(val) {
 		   case 0 : return "So "  + sent + ", huh?"; 
 		   case 1 : return "Why does it matter if "  + sent + "?"; 
 		   case 2 : return "Let me get this straight, "  + sent + "?";
-		   case 3 : return "Fascinating.";
-		   case 4 : return p.getChildren()[0] + sent + ".... Cool story bro."; 
+		   case 3 : return "Fascinating."; 
+		   case 4 : return  sent + ".... Cool story bro."; 
 		   }
 		   
 		}
@@ -92,26 +94,62 @@ public class Responders {
 	}
 	
 	static String flipPossesives(String s) {
-		String ret = "";
-		String[] toks = s.split(" ");
-		for(String tok : toks) {
-		  if(opposites.get(tok) != null) {
-			  ret += opposites.get(tok)  + " ";
-		  }
-		  else {
-			  ret += tok + " ";
-		  }
+
+		s = s.toLowerCase();
+		HashSet<String> compositeKeys = new HashSet<String>();
+		for(String key : oppositeKeys) {
+			if(compositeKeys.contains(key)) {
+				continue;
+			}
+			
+			if(!s.contains(key)) {
+				continue;
+			}
+			
+
+			s = myReplace(s, key, opposites.get(key));
+    	
+    		
+    		for(String comp : opposites.get(key).split(" ") ) {
+    			compositeKeys.add(comp);
+    		}
+    		
+    		//Add the taboo key
+    		compositeKeys.add(opposites.get(key));
+    	
 		}
 		
-		return ret.substring(0, ret.length()-1);
+		return s;
+
+	}
+	
+	static String myReplace(String s, String key, String replace) {
+		int loc = s.indexOf(key);
+		
+		while(loc != -1) {
+			//Make sure that token does not exist inside a larger word
+
+			if( 
+					(loc-1 > 0 && Character.isLetter(s.charAt(loc-1))) ||
+					(loc + key.length() < s.length() && Character.isLetter(s.charAt(loc + key.length())))
+			) {
+				//do nothing
+			}
+			else {
+				s = s.replaceFirst(key, replace);
+			}
+			loc = s.indexOf(key, loc+1);
+		}
+		
+		return s;
 		
 	}
 	
-	
+	static LinkedList<String> oppositeKeys = new LinkedList<String>();
 	static HashMap<String,String> opposites = new HashMap<String,String>();
     static {
+    	opposites.put("i am", "you are");
     	opposites.put("i", "you");
-    	opposites.put("I", "You");
     	opposites.put("me", "you");
     	opposites.put("my", "your");
     	
@@ -123,6 +161,20 @@ public class Responders {
     	for(String key : keys) {
     		opposites.put(opposites.get(key),key);
     	}
+    	for(String key: opposites.keySet()) {
+    		oppositeKeys.add(key);
+    	}
+    	//Sort keys
+    	Collections.sort(oppositeKeys, new Comparator<String>() {
+
+			@Override
+			public int compare(String arg0, String arg1) {
+				if(arg0.length() < arg1.length()) return 1;
+				else if(arg0.length() == arg1.length()) return 0;
+				else return -1;
+			}
+    	});
+    	
     }
 	
 }
