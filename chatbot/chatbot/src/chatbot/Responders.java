@@ -2,6 +2,7 @@ package chatbot;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.Set;
 
@@ -114,9 +115,11 @@ public class Responders {
     	opposites.put("me", "you");
     	opposites.put("my", "your");
     	
-    	//Put in reverse order pairs 
-    	HashSet<String> keys = (HashSet<String>) opposites.keySet();
-    	keys = (HashSet<String>) keys.clone();
+    	//Put in reverse order pairs
+    	LinkedList<String> keys = new LinkedList<String>();
+    	for(String key : opposites.keySet()) {
+    		keys.add(key);
+    	}
     	for(String key : keys) {
     		opposites.put(opposites.get(key),key);
     	}

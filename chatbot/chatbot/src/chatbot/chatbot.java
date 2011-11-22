@@ -37,9 +37,6 @@ public class chatbot {
 			sent = Global.tokenize(sent, Global.tokenizer);
 			
 		    Parse[] topParses = ParserTool.parseLine(sent, Global.parser, 1);
-  
-		   
-    
 
 		    Parse p = topParses[0];
 		    
