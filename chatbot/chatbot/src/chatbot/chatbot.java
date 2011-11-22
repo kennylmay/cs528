@@ -22,8 +22,8 @@ public class chatbot {
 		System.out.println("Done");
 
 		chatbot cb = new chatbot();
-		//NGram.doNGrams();
-		cb.startDialogLoop();
+		NGram.doNGrams();
+		//cb.startDialogLoop();
         
 	}
 
