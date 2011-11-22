@@ -20,5 +20,6 @@
 			<attribute name="javadoc_location" value="http://incubator.apache.org/opennlp/documentation/apidocs/opennlp-tools/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libz/sqlitejdbc-v056.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
