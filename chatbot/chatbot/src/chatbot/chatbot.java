@@ -22,7 +22,7 @@ public class chatbot {
 		System.out.println("Done");
 
 		chatbot cb = new chatbot();
-		//cb.doNGrams();
+		NGram.doNGrams();
 		cb.startDialogLoop();
         
 	}

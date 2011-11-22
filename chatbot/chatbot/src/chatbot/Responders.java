@@ -42,7 +42,7 @@ public class Responders {
 		if( serialize(p.getChildren()).equals("NP,VP,") ) {
 		   String sent = flipPossesives(p.getChildren()[0].toString()) + " " + flipPossesives(p.getChildren()[1].toString()); 
 		   Random rand = new Random();
-		   int val = rand.nextInt() % 5;
+		   int val = Math.abs(rand.nextInt() % 5);
 		   switch(val) {
 		   case 0 : return "So "  + sent + ", huh?"; 
 		   case 1 : return "Why does it matter if "  + sent + "?"; 

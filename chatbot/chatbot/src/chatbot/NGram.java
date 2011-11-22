@@ -58,13 +58,12 @@ public class NGram extends HashMap<String, HashMap<String, Integer>> {
 
 		// Crawl children
 		for (Parse child : topParse) {
-			Parse.pruneParse(child);
 			crawl(child);
 		}
 	}
 
 	public void crawl(Parse p) {
-		Parse.pruneParse(p);
+		
 		String topTag = p.getType();
 		String childTags = "";
 		HashMap<String, Integer> ent = null;
@@ -175,7 +174,7 @@ public class NGram extends HashMap<String, HashMap<String, Integer>> {
 		return ret;
 	}
 	
-	public void doNGrams() {
+	public static void doNGrams() {
 		InputStream is = chatbot.class.getResourceAsStream("/play");
 
 		NGram ng = new NGram();
