@@ -1,10 +1,12 @@
 package chatbot;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -96,62 +98,62 @@ public class Responders {
 	static String flipPossesives(String s) {
 
 		s = s.toLowerCase();
-		HashSet<String> compositeKeys = new HashSet<String>();
-		for(String key : oppositeKeys) {
-			if(compositeKeys.contains(key)) {
-				continue;
-			}
-			
-			if(!s.contains(key)) {
-				continue;
-			}
-			
-
-			s = myReplace(s, key, opposites.get(key));
-    	
-    		
-    		for(String comp : opposites.get(key).split(" ") ) {
-    			compositeKeys.add(comp);
-    		}
-    		
-    		//Add the taboo key
-    		compositeKeys.add(opposites.get(key));
-    	
+		String[] toks = s.split(" ");
+		LinkedList<String> tokens = new LinkedList<String>();
+		for(String tok : toks) {
+			tokens.add(tok);
 		}
 		
-		return s;
+		LinkedList<String> retTokens = new LinkedList<String>();
 
-	}
-	
-	static String myReplace(String s, String key, String replace) {
-		int loc = s.indexOf(key);
-		
-		while(loc != -1) {
-			//Make sure that token does not exist inside a larger word
-
-			if( 
-					(loc-1 > 0 && Character.isLetter(s.charAt(loc-1))) ||
-					(loc + key.length() < s.length() && Character.isLetter(s.charAt(loc + key.length())))
-			) {
-				//do nothing
+		while(tokens.size() > 0) {
+			int b;
+			//Take bites from max to 0
+			Bites:
+			for(b = Math.min(maxBite, tokens.size()); b > 0; b--) {
+				String bite = "";
+				for(int i=0; i<b; i++) {
+					bite += tokens.get(i) + " ";
+				}
+				bite = bite.substring(0, bite.length()-1);
+				
+				//Is this bite in opposites?
+				if(opposites.get(bite) != null) {
+					//If it is, add it as a ret token and remove the bites
+					retTokens.add(opposites.get(bite));
+					for(int j=0; j<b; j++) {
+						tokens.poll();
+					}
+					break Bites;
+				}
 			}
-			else {
-				s = s.replaceFirst(key, replace);
+			
+			//If b is zero, no match was found. Add the token to ret
+			if(b == 0) {
+				retTokens.add(tokens.pollFirst());
 			}
-			loc = s.indexOf(key, loc+1);
 		}
-		
-		return s;
-		
+
+		//Rebuild ret string
+		String ret = "";
+		for(String tok : retTokens) {
+			ret += tok + " ";
+		}
+
+		return ret;
 	}
+
 	
 	static LinkedList<String> oppositeKeys = new LinkedList<String>();
+	static int maxBite = 0;
 	static HashMap<String,String> opposites = new HashMap<String,String>();
     static {
     	opposites.put("i am", "you are");
     	opposites.put("i", "you");
-    	opposites.put("me", "you");
+    	opposites.put("you", "me");
     	opposites.put("my", "your");
+    	opposites.put("mine", "yours");
+    	opposites.put("you are", "i am");
     	
     	//Put in reverse order pairs
     	LinkedList<String> keys = new LinkedList<String>();
@@ -159,12 +161,12 @@ public class Responders {
     		keys.add(key);
     	}
     	for(String key : keys) {
-    		opposites.put(opposites.get(key),key);
+            opposites.put(opposites.get(key),key);
     	}
     	for(String key: opposites.keySet()) {
     		oppositeKeys.add(key);
     	}
-    	//Sort keys
+    	//Sort keys by length descending
     	Collections.sort(oppositeKeys, new Comparator<String>() {
 
 			@Override
@@ -174,6 +176,11 @@ public class Responders {
 				else return -1;
 			}
     	});
+    	
+    	//Get the max bite
+    	for(String key : oppositeKeys) {
+    		maxBite = Math.max(maxBite, key.split(" ").length);
+    	}
     	
     }
 	
