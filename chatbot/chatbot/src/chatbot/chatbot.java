@@ -18,10 +18,7 @@ public class chatbot {
 	public static void main(String[] args) {
 		System.out.println("Initializing...");
 		try {
-			JWNL.initialize(new FileInputStream("./res/file_properties.xml"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JWNL.initialize(chatbot.class.getResourceAsStream("/file_properties.xml"));
 		} catch (JWNLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
