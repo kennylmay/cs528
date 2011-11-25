@@ -16,7 +16,7 @@ import opennlp.tools.parser.Parse;
 public class chatbot {
 
 	public static void main(String[] args) {
-		System.out.println("Initializing...");
+/*		System.out.println("Initializing...");
 		try {
 			JWNL.initialize(chatbot.class.getResourceAsStream("/file_properties.xml"));
 		} catch (JWNLException e) {
@@ -32,7 +32,19 @@ public class chatbot {
 		// NGram.doNGrams();
 		// cb.startDialogLoop();
 
-		testMorphological();
+		testMorphological();*/
+		
+		
+		WordNGram wg = new WordNGram();
+		wg.ProcessFile("/play");
+		//wg.ProcessFile("/happy");
+		wg.TruncLowOccur(4);
+		
+		System.out.print(wg.toString());
+		
+		
+		System.out.println("Done");
+		
 	}
 
 	public void startDialogLoop() {
@@ -72,5 +84,7 @@ public class chatbot {
 			e.printStackTrace();
 		}
 	}
+	
+
 
 }
