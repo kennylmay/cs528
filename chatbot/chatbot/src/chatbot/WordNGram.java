@@ -62,9 +62,9 @@ public class WordNGram extends Vector<HashMap<String, Integer>>{
 	
 	public void TruncLowOccur(int minNum) {
 		
-		for(int i = 0; i < 4; i++) {
+		for(int i = 0; i < this.maxNGrams; i++) {
 			
-			System.out.println("Pre - Word list of size " + (i+1) + ": " + this.elementAt(i).size());
+			//System.out.println("Pre - Word list of size " + (i+1) + ": " + this.elementAt(i).size());
 			
 			Iterator<Entry<String, Integer>> iter = this.elementAt(i).entrySet().iterator();
 			
@@ -76,7 +76,7 @@ public class WordNGram extends Vector<HashMap<String, Integer>>{
 			}
 			
 			
-			System.out.println("Post - Word list of size " + (i+1) + ": " + this.elementAt(i).size());
+			//System.out.println("Post - Word list of size " + (i+1) + ": " + this.elementAt(i).size());
 		}
 		
 		
@@ -122,10 +122,23 @@ public class WordNGram extends Vector<HashMap<String, Integer>>{
 	public String toString() {
 		String retVal = "";
 		
-		retVal = this.elementAt(0).toString() + '\n';
-		retVal += this.elementAt(1).toString() + '\n';
-		retVal += this.elementAt(2).toString() + '\n';
-		retVal += this.elementAt(3).toString() + '\n';
+		
+		for(int i = 0; i < this.maxNGrams; i++) {
+			retVal += this.elementAt(i).toString() + '\n';
+			
+		}
+		
+		return retVal;
+	}
+	
+	public String toString(int ngram) {
+		String retVal = "";
+		Iterator<Entry<String, Integer>> iter = this.elementAt(ngram).entrySet().iterator();
+		
+		while(iter.hasNext()) {
+			Map.Entry<String, Integer> currentEntry = iter.next();
+			retVal += currentEntry.getKey() + "," + currentEntry.getValue() + '\n'; 
+		}
 		
 		return retVal;
 	}
