@@ -158,7 +158,7 @@ public class NGram extends HashMap<String, HashMap<String, Integer>> {
 		return ret;
 	}
 
-	class Pair implements Comparator<Pair> {
+	public class Pair implements Comparator<Pair> {
 		public final Integer val;
 		public final String name;
 
@@ -174,11 +174,14 @@ public class NGram extends HashMap<String, HashMap<String, Integer>> {
 		}
 	}
 
-	public String NGramEnt2Str(HashMap<String, Integer> ent) {
+
+
+	
+	public static String NGramEnt2Str(HashMap<String, Integer> ent) {
 		String ret = "";
 		LinkedList<Pair> list = new LinkedList<Pair>();
 		for (String name : ent.keySet()) {
-			list.add(new Pair(name, ent.get(name)));
+			list.add(new NGram().new Pair(name, ent.get(name)));
 		}
 
 		// Sort it with descending values

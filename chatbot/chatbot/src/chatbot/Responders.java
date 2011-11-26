@@ -19,9 +19,11 @@ public class Responders {
 	
 	private String serialize(Parse[] p) {
 		String ret = "";
-		for(Parse c : p) {
-			ret += c.getType() + ",";
+		// Construct the entry;
+		for (Parse child : p) {
+		   ret += child.getType() + " ";
 		}
+         ret = ret.trim();
 		return ret;
 	}
 	
@@ -42,20 +44,17 @@ public class Responders {
 	
 	private String S(Parse p) {
 		//Response: So NP VP...
-
-		if( serialize(p.getChildren()).equals("NP,VP,") ) {
-		   String sent = flipPossesives(p.getChildren()[0].toString() + " " + p.getChildren()[1].toString()); 
-		   Random rand = new Random();
-		   int val = Math.abs(rand.nextInt() % 5);
-		   switch(val) {
-		   case 0 : return "So "  + sent + ", huh?"; 
-		   case 1 : return "Why does it matter if "  + sent + "?"; 
-		   case 2 : return "Let me get this straight, "  + sent + "?";
-		   case 3 : return "Fascinating."; 
-		   case 4 : return  sent + ".... Cool story bro."; 
-		   }
-		   
+	    String sent = flipPossesives(p.toString()); 
+		Random rand = new Random();
+		int val = Math.abs(rand.nextInt() % 5);
+		switch(val) {
+		case 0 : return "So "  + sent + ", huh?"; 
+		case 1 : return "Why does it matter if "  + sent + "?"; 
+		case 2 : return "Let me get this straight, "  + sent + "?";
+		case 3 : return "Fascinating."; 
+		case 4 : return  sent + ".... Cool story bro."; 
 		}
+		   
 		return  "";
 	}
 

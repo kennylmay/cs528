@@ -5,11 +5,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Vector;
+
+import org.apache.commons.math.stat.descriptive.moment.Mean;
+import org.apache.commons.math.stat.descriptive.moment.StandardDeviation;
+import org.apache.commons.math.stat.descriptive.rank.Max;
+
+import chatbot.NGram.Pair;
 
 @SuppressWarnings("serial")
 public class WordNGram extends Vector<HashMap<String, Integer>>{
@@ -79,9 +87,65 @@ public class WordNGram extends Vector<HashMap<String, Integer>>{
 			//System.out.println("Post - Word list of size " + (i+1) + ": " + this.elementAt(i).size());
 		}
 		
+	}
+
+	public static void TruncBelowPercentile(HashMap<String,Integer> ngram, double percentile) {
+
+		LinkedList<Pair> list = new LinkedList<Pair>();
+		for (String name : ngram.keySet()) {
+			list.add(new NGram().new Pair(name, ngram.get(name)));
+		}
+		
+		// Sort it by descending values
+		Collections.sort(list, list.get(0));
+
+		//Get the cutoff point
+		long cutoff = Math.round( (100.0 - percentile) * ngram.size());
+		
+		//Cut everything greater than cutoff
+		Iterator<String> iter = ngram.keySet().iterator();
+		int i = 0;
+		while(iter.hasNext()) {
+			String name = iter.next();
+			if(i++ > cutoff) {
+				iter.remove();
+			}
+		}
 		
 	}
 	
+	public static void TruncBelowDeviations(HashMap<String,Integer> ngram, double numDeviations) {
+
+		//Calc the standard deviation
+		double dbls[] = new double[ngram.size()];
+		int i = 0;
+		for(Integer val : ngram.values()) {
+			dbls[i++] = val;
+		}
+		double std = new StandardDeviation().evaluate(dbls);
+		
+		//Get the mean
+		double mean = new Mean().evaluate(dbls);
+		
+		
+		//Get the max
+		double max = new Max().evaluate(dbls);
+
+		// http://mathforum.org/library/drmath/view/52720.html
+		Iterator<String> iter = ngram.keySet().iterator();
+		while(iter.hasNext()) {
+			String name = iter.next();
+			Integer val = ngram.get(name);
+			
+			//Get the deviation of this entry
+			double deviation = (val - mean) / std;
+			//System.out.println(val + " has deviation of " + deviation);
+			if(deviation < numDeviations) {
+				iter.remove();
+			}
+		}
+		
+	}
 	private void ProcessLine(String line) {
 
 		String[] words = line.split(" ");

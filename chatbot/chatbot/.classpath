@@ -21,5 +21,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libz/sqlitejdbc-v056.jar"/>
+	<classpathentry kind="lib" path="libz/commons-math-2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
