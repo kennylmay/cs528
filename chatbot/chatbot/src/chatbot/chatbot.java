@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.didion.jwnl.JWNL;
@@ -29,21 +30,23 @@ public class chatbot {
 		}
 		*/
 		/*
-		Global.loadModels();
+		
 		// open up standard input
-		Global.stdin = new BufferedReader(new InputStreamReader(System.in));
+		
 		System.out.println("Done");
-
+*/
+		Global.loadModels();
+		Global.stdin = new BufferedReader(new InputStreamReader(System.in));
+		/*
 		chatbot cb = new chatbot();
-		// NGram.doNGrams();
-		 
+		NGram.doNGrams();
+		 /*
 		cb.startDialogLoop();
 
 		//testMorphological();
         	*/
 		WordNGram wg = new WordNGram();
 		wg.ProcessFile("/play");
-		//wg.ProcessFile("/happy");
 		//wg.TruncLowOccur(4);
 		
 		System.out.println("Done");
@@ -51,8 +54,12 @@ public class chatbot {
 		for(int i = 0; i < wg.size(); i++) {
 			WordNGram.TruncBelowDeviations(wg.get(i),3);
 			//WordNGram.TruncBelowPercentile(wg.get(i), 99.5);
-			System.out.println((i+1) + " level NGram:");
+			System.out.println("\n\n" + (i+1) + " level NGram:\n------------------------------------------------");
 			System.out.println(NGram.NGramEnt2Str(wg.get(i)));
+			ArrayList<parseObject> tags = wg.filterPhrases(wg.tagWordNGram(i));
+			for (parseObject tag : tags){
+				System.out.println(tag.toString());
+			}
 		}
 		
 	}

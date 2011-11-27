@@ -195,7 +195,7 @@ public class NGram extends HashMap<String, HashMap<String, Integer>> {
 	}
 	
 	public static void doNGrams() {
-		InputStream is = chatbot.class.getResourceAsStream("/play");
+		InputStream is = chatbot.class.getResourceAsStream("/play2");
 
 		NGram ng = new NGram();
 		try {
