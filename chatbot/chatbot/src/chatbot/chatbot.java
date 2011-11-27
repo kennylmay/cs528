@@ -57,9 +57,7 @@ public class chatbot {
 			System.out.println("\n\n" + (i+1) + " level NGram:\n------------------------------------------------");
 			System.out.println(NGram.NGramEnt2Str(wg.get(i)));
 			ArrayList<parseObject> tags = wg.filterPhrases(wg.tagWordNGram(i));
-			for (parseObject tag : tags){
-				System.out.println(tag.toString());
-			}
+			System.out.println(wg.arrayListParseToString(tags));
 		}
 		
 	}

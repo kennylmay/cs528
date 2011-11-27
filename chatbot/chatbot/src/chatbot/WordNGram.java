@@ -24,37 +24,35 @@ import org.apache.commons.math.stat.descriptive.rank.Max;
 import chatbot.NGram.Pair;
 
 @SuppressWarnings("serial")
-public class WordNGram extends Vector<HashMap<String, Integer>>{
+public class WordNGram extends Vector<HashMap<String, Integer>> {
 
 	private final int maxNGrams;
-	
+
 	public WordNGram() {
-		this(4);		
-		
+		this(4);
+
 	}
-	
+
 	public WordNGram(int numNGrams) {
 		super();
-		
+
 		maxNGrams = numNGrams;
-		
-		for(int i = 0; i < this.maxNGrams; i++) {
+
+		for (int i = 0; i < this.maxNGrams; i++) {
 			this.add(i, new HashMap<String, Integer>());
 		}
 	}
-	
-	
+
 	public void ProcessFile(String resourceName) {
-		
+
 		InputStream inStream;
 		BufferedReader buffReader;
-		
+
 		String lineString;
-		
+
 		try {
 			inStream = chatbot.class.getResourceAsStream(resourceName);
 			buffReader = new BufferedReader(new InputStreamReader(inStream));
-			
 
 			while ((lineString = buffReader.readLine()) != null) {
 				ProcessLine(PrepLine(lineString));
@@ -69,87 +67,91 @@ public class WordNGram extends Vector<HashMap<String, Integer>>{
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
+
 	}
-	
+
 	public void TruncLowOccur(int minNum) {
-		
-		for(int i = 0; i < this.maxNGrams; i++) {
-			
-			//System.out.println("Pre - Word list of size " + (i+1) + ": " + this.elementAt(i).size());
-			
-			Iterator<Entry<String, Integer>> iter = this.elementAt(i).entrySet().iterator();
-			
-			while(iter.hasNext()) {
+
+		for (int i = 0; i < this.maxNGrams; i++) {
+
+			// System.out.println("Pre - Word list of size " + (i+1) + ": " +
+			// this.elementAt(i).size());
+
+			Iterator<Entry<String, Integer>> iter = this.elementAt(i)
+					.entrySet().iterator();
+
+			while (iter.hasNext()) {
 				Map.Entry<String, Integer> currentEntry = iter.next();
 				if (currentEntry.getValue() < minNum) {
 					iter.remove();
 				}
 			}
-			
-			
-			//System.out.println("Post - Word list of size " + (i+1) + ": " + this.elementAt(i).size());
+
+			// System.out.println("Post - Word list of size " + (i+1) + ": " +
+			// this.elementAt(i).size());
 		}
-		
+
 	}
 
-	public static void TruncBelowPercentile(HashMap<String,Integer> ngram, double percentile) {
+	public static void TruncBelowPercentile(HashMap<String, Integer> ngram,
+			double percentile) {
 
 		LinkedList<Pair> list = new LinkedList<Pair>();
 		for (String name : ngram.keySet()) {
 			list.add(new NGram().new Pair(name, ngram.get(name)));
 		}
-		
+
 		// Sort it by descending values
 		Collections.sort(list, list.get(0));
 
-		//Get the cutoff point
-		long cutoff = Math.round( (100.0 - percentile) * ngram.size());
-		
-		//Cut everything greater than cutoff
+		// Get the cutoff point
+		long cutoff = Math.round((100.0 - percentile) * ngram.size());
+
+		// Cut everything greater than cutoff
 		Iterator<String> iter = ngram.keySet().iterator();
 		int i = 0;
-		while(iter.hasNext()) {
+		while (iter.hasNext()) {
 			String name = iter.next();
-			if(i++ > cutoff) {
+			if (i++ > cutoff) {
 				iter.remove();
 			}
 		}
-		
-	}
-	
-	public static void TruncBelowDeviations(HashMap<String,Integer> ngram, double numDeviations) {
 
-		//Calc the standard deviation
+	}
+
+	public static void TruncBelowDeviations(HashMap<String, Integer> ngram,
+			double numDeviations) {
+
+		// Calc the standard deviation
 		double dbls[] = new double[ngram.size()];
 		int i = 0;
-		for(Integer val : ngram.values()) {
+		for (Integer val : ngram.values()) {
 			dbls[i++] = val;
 		}
 		double std = new StandardDeviation().evaluate(dbls);
-		
-		//Get the mean
+
+		// Get the mean
 		double mean = new Mean().evaluate(dbls);
-		
-		
-		//Get the max
+
+		// Get the max
 		double max = new Max().evaluate(dbls);
 
 		// http://mathforum.org/library/drmath/view/52720.html
 		Iterator<String> iter = ngram.keySet().iterator();
-		while(iter.hasNext()) {
+		while (iter.hasNext()) {
 			String name = iter.next();
 			Integer val = ngram.get(name);
-			
-			//Get the deviation of this entry
+
+			// Get the deviation of this entry
 			double deviation = (val - mean) / std;
-			//System.out.println(val + " has deviation of " + deviation);
-			if(deviation < numDeviations) {
+			// System.out.println(val + " has deviation of " + deviation);
+			if (deviation < numDeviations) {
 				iter.remove();
 			}
 		}
-		
+
 	}
+
 	private void ProcessLine(String line) {
 
 		String[] words = line.split(" ");
@@ -178,90 +180,118 @@ public class WordNGram extends Vector<HashMap<String, Integer>>{
 	}
 
 	private String PrepLine(String line) {
-		
+
 		line = line.replaceAll("\t", " ");
 		line = line.replaceAll("  ", " ");
 		line = line.replaceAll("[.?!,\";]", "");
 		return line;
-		
+
 	}
 
 	@Override
 	public String toString() {
 		String retVal = "";
-		
-		
-		for(int i = 0; i < this.maxNGrams; i++) {
+
+		for (int i = 0; i < this.maxNGrams; i++) {
 			retVal += this.elementAt(i).toString() + '\n';
-			
+
 		}
-		
+
 		return retVal;
 	}
-	
+
 	public String toString(int ngram) {
 		String retVal = "";
-		Iterator<Entry<String, Integer>> iter = this.elementAt(ngram).entrySet().iterator();
-		
-		while(iter.hasNext()) {
+		Iterator<Entry<String, Integer>> iter = this.elementAt(ngram)
+				.entrySet().iterator();
+
+		while (iter.hasNext()) {
 			Map.Entry<String, Integer> currentEntry = iter.next();
-			retVal += currentEntry.getKey() + "," + currentEntry.getValue() + '\n'; 
+			retVal += currentEntry.getKey() + "," + currentEntry.getValue()
+					+ '\n';
 		}
-		
+
 		return retVal;
 	}
-	
-	public ArrayList<parseObject> tagWordNGram(int ngram){
+
+	public ArrayList<parseObject> tagWordNGram(int ngram) {
 		ArrayList<parseObject> posNGram = new ArrayList<parseObject>();
 		String posTags = "";
-		for(String phrase : this.elementAt(ngram).keySet()){			
+
+		for (String phrase : this.elementAt(ngram).keySet()) {
 			Parse[] topParse = ParserTool.parseLine(phrase, Global.parser, 1);
 			Parse[] children = null;
-			for (Parse p : topParse){
+
+			for (Parse p : topParse) {
 				children = p.getChildren();
-				for(Parse child : children){			
-					if (child.getType().equals("S")){
-						for(Parse grandchild : child.getChildren()){
+				for (Parse child : children) {
+					if (child.getType().equals("S")) {
+						for (Parse grandchild : child.getChildren()) {
 							posTags += " " + grandchild.getType();
 						}
 						continue;
 					}
 					posTags += " " + child.getType();
 				}
+
 				parseObject pObj = new parseObject();
 				posTags = posTags.substring(1, posTags.length());
 				pObj.numOfOcc = this.elementAt(ngram).get(phrase);
 				pObj.pos = posTags;
 				pObj.phrase = phrase;
-				posNGram.add(pObj);		
+				posNGram.add(pObj);
 			}
+
 			posTags = "";
 		}
-		return posNGram;		
+		return posNGram;
 	}
-	
-	public ArrayList<parseObject> filterPhrases(ArrayList<parseObject> parses){
+
+	public ArrayList<parseObject> filterPhrases(ArrayList<parseObject> parses) {
 		ArrayList<parseObject> filtered = new ArrayList<parseObject>();
-		 /*
-		  * I think this is where we need to come up with several parts of speech combinations
-		  * that we plan on handling with out case statement and create a static table of them.
-		  * We can then compare the phrases that match these parts of speech and get a list of 
-		  * examples that we should handle. Since at this point the phrases will be tagged this 
-		  * should be easy.
-		  */
-		 ArrayList<String> posList = new ArrayList<String>();
-		 posList.add("NP VP");
-		 posList.add("NP VP .");
-		 posList.add("SBARQ");
-		 
-		 for (int i = 0; i < parses.size(); i ++){
-			 if (posList.contains(parses.get(i).pos)){
-				 filtered.add(parses.get(i));
-			 }
-		 }
-		  
-		 return filtered;	 
+		/*
+		 * I think this is where we need to come up with several parts of speech
+		 * combinations that we plan on handling with out case statement and
+		 * create a static table of them. We can then compare the phrases that
+		 * match these parts of speech and get a list of examples that we should
+		 * handle. Since at this point the phrases will be tagged this should be
+		 * easy.
+		 */
+		ArrayList<String> posList = new ArrayList<String>();
+		posList.add("NP VP");
+		posList.add("NP VP .");
+		posList.add("SBARQ");
+
+		for (int i = 0; i < parses.size(); i++) {
+			if (posList.contains(parses.get(i).pos)) {
+				filtered.add(parses.get(i));
+			}
+		}
+
+		return filtered;
 	}
-	
-	
+
+	public String arrayListParseToString(ArrayList<parseObject> list) {
+		ArrayList<parseObject> tempList = list;
+		int minValue = Integer.MIN_VALUE;
+		int index = Integer.MIN_VALUE;
+		String ret = "";
+		
+		for (int x = 0; x < tempList.size(); x++) {
+			for (int i = 0; i < tempList.size(); i++) {
+				if (tempList.get(i).numOfOcc > minValue) {
+					index = i;
+					minValue = tempList.get(i).numOfOcc;
+				}
+			}
+			
+			ret += tempList.get(index).phrase + " : " + tempList.get(index).pos
+					+ " : " + tempList.get(index).numOfOcc + "\n";
+			
+			list.remove(index);
+			index = 0;
+			minValue = Integer.MIN_VALUE;
+		}
+		return ret;
+	}
 }
