@@ -45,6 +45,9 @@ public class chatbot {
 
 		//testMorphological();
         	*/
+		
+		new chatbot().startDialogLoop();
+		
 		WordNGram wg = new WordNGram();
 		wg.ProcessFile("/play");
 		//wg.TruncLowOccur(4);
@@ -64,6 +67,7 @@ public class chatbot {
 
 	public void startDialogLoop() {
 		Responders r = new Responders();
+		HashMap<String,Object> context = new HashMap<String,Object>();
 		while (true) {
 			// Parse a sentence
 			String sentences[] = Global.sdetector
@@ -81,7 +85,7 @@ public class chatbot {
 			p.show();
 
 			// respond
-			System.out.println(r.response(p));
+			System.out.println(r.response(p, context));
 		}
 	}
 	

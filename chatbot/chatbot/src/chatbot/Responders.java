@@ -1,6 +1,7 @@
 package chatbot;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -16,63 +17,179 @@ import opennlp.tools.parser.Parse;
 public class Responders {
 
 
-	
-	private String serialize(Parse[] p) {
-		String ret = "";
-		// Construct the entry;
-		for (Parse child : p) {
-		   ret += child.getType() + " ";
-		}
-         ret = ret.trim();
+	private HashMap<String, HashMap<String, Response>> responseTables = buildResponseTables();
+	private HashMap<String, Response> defaultResponses = buildDefaultResponses();
+	private HashMap<String, HashMap<String, Response>> buildResponseTables() {
+		HashMap<String, HashMap<String, Response>> ret = new HashMap<String, HashMap<String, Response>>();
+		
+		//build response tables..
+		ret.put("S", S());
+		//ret.put("SBAR", SBAR());
+		//ret.put("SBAQR", SBARQ());
+		//ret.put("SINV", SBARQ());
+		//ret.put("SQ", SQ());
 		return ret;
 	}
 	
+	
+	private HashMap<String, Response> buildDefaultResponses() {
+		HashMap<String, Response> ret = new HashMap<String, Response>();
+		
+		//build default responses..
+		ret.put("S", defaultS());
+		//ret.put("SBAR", defaultSBAR());
+		//ret.put("SBAQR", defaultSBARQ());
+		//ret.put("SINV", defaultSBARQ());
+		//ret.put("SQ", defaultSQ());
+		
+		return ret;
+	}
+	
+	
 
-	public String response(Parse parse) {
+	
+
+	public String response(Parse parse, HashMap<String,Object> context) {
+		
+		//Get the first non top entity
 		Parse[] children = parse.getChildren();
 		Parse p = children[0];
 		System.out.println("p is " + p.getType());
-		if(p.getType().equals("S")) {
-			return S(p);
+			
+		
+		//Put the user sentence into context structure.. it might be useful later
+		if(!context.containsKey("userSentences")) {
+			context.put("userSentences", new HashMap<String,Integer>());
 		}
-		return "";
+		incrementKey( ((HashMap<String,Integer>)context.get("userSentences")), p.toString());
+		
+		
+		//Get the response table that corresponds to this "top level" parse
+		HashMap<String,Response> tableOfInterest = responseTables.get(p.getType());
+		
+		//If no table, do a generic response
+		if(tableOfInterest == null) {
+			return "Pardon me?";
+		}
+		
+		//Scan the table of interest for matches
+		for(String pattern : sortedByLargestFirst( tableOfInterest.keySet() )) {
+			if(p.toString().contains(pattern)) {
+				//Got a match, invoke the response
+				return tableOfInterest.get(pattern).response(p, context);
+			}
+		}
+		
+		
+		//If no matches, use the default
+		Response defaultResponse = defaultResponses.get(p.getType());
+		if(defaultResponse == null) {
+			System.out.println("Bug! no default response for: " + p.getType());
+		}
+		else {
+			return defaultResponse.response(p, context);
+		}
+		
+		//Shouldn't get here
+		return "Bug!";
+		
 	}
 	
+
+
+
 	/******************************************************/
 	/* Clause level responders                            */
 	/******************************************************/
 	
-	private String S(Parse p) {
-		//Response: So NP VP...
-	    String sent = flipPossesives(p.toString()); 
-		Random rand = new Random();
-		int val = Math.abs(rand.nextInt() % 5);
-		switch(val) {
-		case 0 : return "So "  + sent + ", huh?"; 
-		case 1 : return "Why does it matter if "  + sent + "?"; 
-		case 2 : return "Let me get this straight, "  + sent + "?";
-		case 3 : return "Fascinating."; 
-		case 4 : return  sent + ".... Cool story bro."; 
+
+	//Make the default responder for S. This is the "fall through" response that
+	//is invoked if no matches are found.
+	private static Response defaultS() {
+		Response defaultResponse = new Response() {
+			@Override
+			public String response(Parse p, HashMap<String, Object> context) {
+				//Flip possessive statements
+			    String sent = flipPossesives(p.toString());
+			    
+			    //Put this into the statements context.. it might be useful later
+			    if(!context.containsKey("statements")) {
+			    	context.put("statements", new LinkedList<String>());
+			    }
+			    ((LinkedList<String>)context.get("statements")).add(sent); 
+			    			    
+				Random rand = new Random();
+				int val = Math.abs(rand.nextInt() % 5);
+				switch(val) {
+				case 0 : return "So "  + sent + ", huh?"; 
+				case 1 : return "Why does it matter if "  + sent + "?"; 
+				case 2 : return "Let me get this straight, "  + sent + "?";
+				case 3 : return "Fascinating."; 
+				case 4 : return  sent + ".... Cool story bro.";
+				default : return "Bug!";
+			    }
+		     }
+	    };
+	    return defaultResponse;
+	}
+	
+	
+	//Return the response actions for S type parses
+	private HashMap<String, Response> S() {
+		HashMap<String, Response> ret = new HashMap<String, Response>();
+		
+		//Add response actions here...
+		
+		//Example: some basic responses. Basic responses just return a canned string.
+		ret.put("dog", new BasicResponse("I love dogs. They can be a pain in the butt sometimes though!"));
+		ret.put("walk the dog", new BasicResponse("Good luck with all that. Don't forget the pooper scooper."));
+		
+		return ret;
+		
+	}
+
+	
+	
+
+	
+	/******************************************************/
+	/* Helper functions, classes, structures              */
+	/******************************************************/
+	//Basic response --- Just returns a string of text.
+	public class BasicResponse implements Response {
+
+		private final String dumbText;
+		
+		public BasicResponse(String text) {
+			dumbText = text;
 		}
-		   
-		return  "";
-	}
-
-	private String SBAR(Parse p) {
-		return "";
-	}
-
-
-	private String SBARQ(Parse p) {
-		return "";
-	}
-
-	private String SINV(Parse p) {
-		return "";
-	}
-
-	private String SQ(Parse p) {
-		return "";
+		
+		@Override
+		public String response(Parse p, HashMap<String, Object> context) {
+			
+			//If this is an "S" type, pick up this simple clause as a statement
+			if(p.getType().equals("S")) {
+			    if(!context.containsKey("statements")) {
+			    	context.put("statements", new LinkedList<String>());
+			    }
+			    ((LinkedList<String>)context.get("statements")).add(flipPossesives(p.toString())); 
+			}
+			return dumbText;
+		}
+		
+	};
+	
+	//Increments a key in a hashmap<string,int>
+	private void incrementKey(HashMap<String, Integer> hashMap, String key) {
+		if(hashMap.containsKey(key)) {
+			Integer val = hashMap.get(key);
+			val++;
+			hashMap.put(key, val);
+		}
+		else {
+			hashMap.put(key, new Integer(1));
+		}
+		
 	}
 	
 	// depth first search on the parse tree that returns the first instance of
@@ -165,9 +282,34 @@ public class Responders {
     	for(String key: opposites.keySet()) {
     		oppositeKeys.add(key);
     	}
-    	//Sort keys by length descending
-    	Collections.sort(oppositeKeys, new Comparator<String>() {
 
+    	//Get the max bite
+    	for(String key : sortedByLargestFirst(oppositeKeys)) {
+    		maxBite = Math.max(maxBite, key.split(" ").length);
+    	}
+    	
+    }
+	
+	private String serialize(Parse[] p) {
+		String ret = "";
+		// Construct the entry;
+		for (Parse child : p) {
+		   ret += child.getType() + " ";
+		}
+         ret = ret.trim();
+		return ret;
+	}
+	
+	private static Collection<String> sortedByLargestFirst(Collection<String> col) {
+		LinkedList<String> ret = new LinkedList<String>();
+		
+		//Copy out the collection
+		for(String s : col) {
+			ret.add(s);
+		}
+		//Sort by ascending
+    	//Sort keys by length descending
+    	Collections.sort(ret, new Comparator<String>() {
 			@Override
 			public int compare(String arg0, String arg1) {
 				if(arg0.length() < arg1.length()) return 1;
@@ -175,12 +317,7 @@ public class Responders {
 				else return -1;
 			}
     	});
-    	
-    	//Get the max bite
-    	for(String key : oppositeKeys) {
-    		maxBite = Math.max(maxBite, key.split(" ").length);
-    	}
-    	
-    }
-	
+		
+		return ret;
+	}
 }
