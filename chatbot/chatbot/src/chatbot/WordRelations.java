@@ -38,6 +38,7 @@ public class WordRelations {
 				((Relationship) itr.next()).getNodeList().print();
 			}
 
+			System.out.println("MATCH INDEX: " + ((AsymmetricRelationship) list.get(0)).getCommonParentIndex());
 			if (((AsymmetricRelationship) list.get(0)).getCommonParentIndex() < 4){
 				return true;
 			}else{
@@ -50,5 +51,38 @@ public class WordRelations {
 		}
 
 		return false;
+	}
+	
+	public static int hypernymScore(String input, POS posType, String target) {
+		try {
+			IndexWord inputWord;
+			inputWord = Dictionary.getInstance().getIndexWord(posType, input);
+			if (inputWord == null) {
+				return 0;
+			}
+			
+			IndexWord targetWord;
+			targetWord = Dictionary.getInstance().getIndexWord(posType, target);
+			
+			if (targetWord == null) {
+				return 0;
+			}
+			
+			RelationshipList list = RelationshipFinder.getInstance().findRelationships(inputWord.getSense(1), targetWord.getSense(1), PointerType.HYPERNYM);
+			
+
+			for (Iterator itr = list.iterator(); itr.hasNext();) {
+				((Relationship) itr.next()).getNodeList().print();
+			}
+
+			System.out.println("MATCH INDEX: " + ((AsymmetricRelationship) list.get(0)).getCommonParentIndex());
+			return ((AsymmetricRelationship) list.get(0)).getCommonParentIndex();
+			
+		} catch (JWNLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return 0;
 	}
 }
