@@ -11,6 +11,8 @@ import net.didion.jwnl.JWNL;
 import net.didion.jwnl.JWNLException;
 import net.didion.jwnl.data.IndexWord;
 import net.didion.jwnl.data.POS;
+import net.didion.jwnl.data.Pointer;
+import net.didion.jwnl.data.PointerType;
 import net.didion.jwnl.data.Synset;
 import net.didion.jwnl.dictionary.Dictionary;
 import opennlp.tools.cmdline.parser.ParserTool;
@@ -21,35 +23,31 @@ public class chatbot {
 	public static void main(String[] args) {
 		
 		System.out.println("Initializing...");
-		/*
+		
 		try {
 			JWNL.initialize(chatbot.class.getResourceAsStream("/file_properties.xml"));
 		} catch (JWNLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
-		/*
-		
+			
 		// open up standard input
-		
-		System.out.println("Done");
-*/
 		Global.loadModels();
 		Global.stdin = new BufferedReader(new InputStreamReader(System.in));
-		/*
-		chatbot cb = new chatbot();
-		NGram.doNGrams();
-		 /*
-		cb.startDialogLoop();
+		System.out.println("Done");
+		
+		//chatbot cb = new chatbot();
+		//NGram.doNGrams();
+		 
+		//cb.startDialogLoop();
 
-		//testMorphological();
-        	*/
+		testMorphological();
+        	
 		
 		new chatbot().startDialogLoop();
 		
 		WordNGram wg = new WordNGram();
-		wg.ProcessFile("/play");
+		wg.ProcessFile("/happy.txt");
 		//wg.TruncLowOccur(4);
 		
 		System.out.println("Done");
@@ -92,13 +90,41 @@ public class chatbot {
 	public static void testMorphological() {
 		try {  
 			
-			IndexWord iw = Dictionary.getInstance().lookupIndexWord(POS.VERB, "running-away");
-			System.out.println("Index word : " + iw.toString());
-			System.out.println("Senses for the word");
-			for (Synset sense : iw.getSenses()){
-          		System.out.println(sense.toString());
-          	}	
+			IndexWord indexWord = Dictionary.getInstance().getIndexWord(POS.NOUN, "dog");
+			Synset[] set = indexWord.getSenses();
+			Pointer[] pointerA = set[0].getPointers(PointerType.HYPONYM);
+			Pointer[] pointerB = set[0].getPointers(PointerType.HYPERNYM);
 			
+			System.out.println("\nHYPONYMS FOR " + indexWord.getLemma());
+			
+			for (Pointer x : pointerA) {
+				Synset target = x.getTargetSynset();
+				System.out.println(target.getWord(0).getLemma());
+			}
+			
+			System.out.println("\nHYPERNYMS FOR " + indexWord.getLemma());
+			
+			for (Pointer x : pointerB) {
+				Synset target = x.getTargetSynset();
+				System.out.println(target.getWord(0).getLemma());
+				
+				IndexWord indexWord2 = Dictionary.getInstance().getIndexWord(target.getPOS(), target.getWord(0).getLemma());
+				if (indexWord2 == null)
+					break;
+				
+				System.out.println("\nHYPERNYMS FOR " + indexWord2.getLemma());
+				Synset[] set2 = indexWord2.getSenses();
+				Pointer[] pointer2 = set2[0].getPointers(PointerType.HYPERNYM);
+				
+				
+				for (Pointer y : pointer2) {
+					Synset target2 = y.getTargetSynset();
+					System.out.println(target2.getWord(0).getLemma());
+				}
+			}
+			
+            
+		
 		} catch (JWNLException e) {
 			e.printStackTrace();
 		}
