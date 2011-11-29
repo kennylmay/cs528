@@ -37,11 +37,7 @@ public class WordRelations {
 			if (list.size() == 0){
 				return false;
 			}
-
-			for (Iterator itr = list.iterator(); itr.hasNext();) {
-				((Relationship) itr.next()).getNodeList().print();
-			}
-
+			
 			System.out.println("MATCH INDEX: " + ((AsymmetricRelationship) list.get(0)).getCommonParentIndex());
 			if (((AsymmetricRelationship) list.get(0)).getCommonParentIndex() < 4){
 				return true;
@@ -77,14 +73,16 @@ public class WordRelations {
 			if (list.size() == 0){
 				return 0;
 			}
+			int RelativeTargetDepth = Math.abs(((AsymmetricRelationship) list.get(0)).getRelativeTargetDepth());
+			int TreeDepth =((AsymmetricRelationship) list.get(0)).getDepth();
 			
-			for (Iterator itr = list.iterator(); itr.hasNext();) {
-				((Relationship) itr.next()).getNodeList().print();
-			}
-
-			System.out.println("MATCH INDEX: " + ((AsymmetricRelationship) list.get(0)).getCommonParentIndex());
-			return ((AsymmetricRelationship) list.get(0)).getCommonParentIndex();
-			
+			System.out.println(((AsymmetricRelationship)list.get(0)));
+			System.out.println("TREE DEPTH: " + TreeDepth);
+			System.out.println("RELATIVE TARGET DEPTH: " + RelativeTargetDepth);
+			// If the target is a direct parent of the source return the tree depth;
+			if (RelativeTargetDepth == TreeDepth){
+				return TreeDepth;
+			}		
 		} catch (JWNLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
