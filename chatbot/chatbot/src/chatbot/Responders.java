@@ -182,6 +182,7 @@ public class Responders {
 		//Example: some basic responses. Basic responses just return a canned string.
 		ret.add( makeWordMatchEntry(new BasicResponse("I love dogs. They can be a pain in the butt sometimes though!"), "dog"));
 		ret.add( makeHyperMatchEntry(new BasicResponse("You're making me hungry!"), "food", POS.NOUN));
+		ret.add( makeHyperMatchEntry(new BasicResponse("I really don't care about living things...I'm a machine!"), "animal", POS.NOUN));
 		return ret;
 		
 	}
