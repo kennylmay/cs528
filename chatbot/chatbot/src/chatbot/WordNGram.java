@@ -52,6 +52,12 @@ public class WordNGram extends Vector<HashMap<String, Integer>> {
 
 		try {
 			inStream = chatbot.class.getResourceAsStream(resourceName);
+			
+			if (inStream == null) {
+				System.err.println("Could not open " + resourceName + " for reading.");
+				return;
+			}
+			
 			buffReader = new BufferedReader(new InputStreamReader(inStream));
 
 			while ((lineString = buffReader.readLine()) != null) {
