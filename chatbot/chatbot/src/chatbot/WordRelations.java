@@ -14,6 +14,7 @@ import net.didion.jwnl.data.relationship.AsymmetricRelationship;
 
 public class WordRelations {
 
+
 	public static boolean isHypernymOf(String input, POS posType, String target) {
 
 

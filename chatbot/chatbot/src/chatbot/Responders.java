@@ -1,9 +1,6 @@
 package chatbot;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -19,45 +16,6 @@ import opennlp.tools.parser.Parse;
 public class Responders {
 
 	WordRelations wr = new WordRelations();
-	
-	public class Entry {
-			public String wordPattern = "";
-			public String hypernymPattern = "";
-			public POS pos;
-			public Response r;
-			public boolean wordMatchesSentence(Parse p) {
-				if(wordPattern.length() == 0) {
-					return false;
-				}
-				return p.toString().contains(wordPattern);
-			}
-			
-			public boolean hypernymMatchesSentence(Parse p) {
-				if(hypernymPattern.length() == 0) {
-					return false;
-				}
-				
-				if(pos == POS.NOUN) {
-   				  //Get all tags for nouns
-				  LinkedList<Parse> nouns = findAllTags(p,new String[] {"NN", "NNS"});
-				
-				  //Try each noun
-				  for(Parse noun : nouns) {
-					  System.out.println("Trying noun: " + noun + " hypermatched to : " + hypernymPattern + " with POS: " + pos);
-					if(wr.isHypernymOf(noun.toString(), POS.NOUN, hypernymPattern)) {
-						return true;
-					}
-			      }
-				}
-			 return false;
-			}
-			    
-		
-	}
-	
-
-
-	 
 	
 	private HashMap<String, LinkedList<Entry>> responseTables = buildResponseTables();
 	private HashMap<String, Response> defaultResponses = buildDefaultResponses();
@@ -103,7 +61,7 @@ public class Responders {
 		if(!context.containsKey("userSentences")) {
 			context.put("userSentences", new HashMap<String,Integer>());
 		}
-		incrementKey( ((HashMap<String,Integer>)context.get("userSentences")), p.toString());
+		Global.incrementKey( ((HashMap<String,Integer>)context.get("userSentences")), p.toString());
 		
 		
 		//Get the response table that corresponds to this "top level" parse
@@ -115,10 +73,19 @@ public class Responders {
 		}
 		
 		//Scan the table of interest for matches
+		int maxScore = 0;
+		Entry bestMatch = null;
 		for(Entry ent : tableOfInterest ) {
-			if(ent.hypernymMatchesSentence(p)) {
-				return ent.r.response(p,context);
-			}
+		//	if(ent.hypernymMatchesSentence(p)) {
+		//		return ent.r.response(p,context);
+		//	}
+		    int tmp = ent.topHyperMatchInSentence(p);
+		    if(tmp > maxScore) {
+		    	bestMatch = ent;
+		    }
+		}
+		if(bestMatch != null) {
+			return bestMatch.r.response(p, context);
 		}
 		
 		//Scan the table of interest for matches
@@ -145,10 +112,8 @@ public class Responders {
 
 
 	/******************************************************/
-	/* Clause level responders                            */
+	/* Response Actions                                    */
 	/******************************************************/
-	
-
 	//Make the default responder for S. This is the "fall through" response that
 	//is invoked if no matches are found.
 	private static Response defaultS() {
@@ -156,7 +121,7 @@ public class Responders {
 			@Override
 			public String response(Parse p, HashMap<String, Object> context) {
 				//Flip possessive statements
-			    String sent = flipPossesives(p.toString());
+			    String sent = Global.flipPossesives(p.toString());
 			    
 			    //Put this into the statements context.. it might be useful later
 			    if(!context.containsKey("statements")) {
@@ -184,7 +149,7 @@ public class Responders {
 			@Override
 			public String response(Parse p, HashMap<String, Object> context) {
 				//Flip possessive statements
-			    String sent = flipPossesives(p.toString());
+			    String sent = Global.flipPossesives(p.toString());
 			    
 			    //Put this into the statements context.. it might be useful later
 			    if(!context.containsKey("directQuestions")) {
@@ -261,176 +226,12 @@ public class Responders {
 			    if(!context.containsKey("statements")) {
 			    	context.put("statements", new LinkedList<String>());
 			    }
-			    ((LinkedList<String>)context.get("statements")).add(flipPossesives(p.toString())); 
+			    ((LinkedList<String>)context.get("statements")).add(Global.flipPossesives(p.toString())); 
 			}
 			return dumbText;
 		}
 		
-	};
-	
-	//Increments a key in a hashmap<string,int>
-	private void incrementKey(HashMap<String, Integer> hashMap, String key) {
-		if(hashMap.containsKey(key)) {
-			Integer val = hashMap.get(key);
-			val++;
-			hashMap.put(key, val);
-		}
-		else {
-			hashMap.put(key, new Integer(1));
-		}
-		
 	}
 	
-	// depth first search on the parse tree that returns the first instance of
-	// parse that is of type matching one of the strings in names
-	static Parse findFirstTag(Parse tree, String[] names) {
-		for (String s : names) {
-			if (tree.getType().equals(s)) {
-				return tree;
-			}
-		}
 
-		for (Parse child : tree.getChildren()) {
-			Parse p = findFirstTag(child, names);
-			if (p != null) {
-				return p;
-			}
-		}
-
-		return null;
-	}
-	
-	static LinkedList<Parse> findAllTags(Parse tree, String[] names) {
-		LinkedList<Parse> list = new LinkedList<Parse>();
-		
-		LinkedList<Parse> workQ = new LinkedList<Parse>();
-		workQ.add(tree);
-		
-		//Walk the entire tree looking for matching tags
-		while(workQ.size() > 0) {
-			Parse p = workQ.poll();
-			
-			for (String s : names) {
-				if (p.getType().equals(s)) {
-					list.add(p);
-				}
-			}
-			
-			for(Parse child : p.getChildren()){
-				workQ.add(child);
-			}
-		}
-		
-		return list;
-	}
-	
-	static String flipPossesives(String s) {
-
-		s = s.toLowerCase();
-		String[] toks = s.split(" ");
-		LinkedList<String> tokens = new LinkedList<String>();
-		for(String tok : toks) {
-			tokens.add(tok);
-		}
-		
-		LinkedList<String> retTokens = new LinkedList<String>();
-
-		while(tokens.size() > 0) {
-			int b;
-			//Take bites from max to 0
-			Bites:
-			for(b = Math.min(maxBite, tokens.size()); b > 0; b--) {
-				String bite = "";
-				for(int i=0; i<b; i++) {
-					bite += tokens.get(i) + " ";
-				}
-				bite = bite.substring(0, bite.length()-1);
-				
-				//Is this bite in opposites?
-				if(opposites.get(bite) != null) {
-					//If it is, add it as a ret token and remove the bites
-					retTokens.add(opposites.get(bite));
-					for(int j=0; j<b; j++) {
-						tokens.poll();
-					}
-					break Bites;
-				}
-			}
-			
-			//If b is zero, no match was found. Add the token to ret
-			if(b == 0) {
-				retTokens.add(tokens.pollFirst());
-			}
-		}
-
-		//Rebuild ret string
-		String ret = "";
-		for(String tok : retTokens) {
-			ret += tok + " ";
-		}
-
-		return ret;
-	}
-
-	
-	static LinkedList<String> oppositeKeys = new LinkedList<String>();
-	static int maxBite = 0;
-	static HashMap<String,String> opposites = new HashMap<String,String>();
-    static {
-    	opposites.put("i am", "you are");
-    	opposites.put("i", "you");
-    	opposites.put("you", "me");
-    	opposites.put("my", "your");
-    	opposites.put("mine", "yours");
-    	opposites.put("you are", "i am");
-    	
-    	//Put in reverse order pairs
-    	LinkedList<String> keys = new LinkedList<String>();
-    	for(String key : opposites.keySet()) {
-    		keys.add(key);
-    	}
-    	for(String key : keys) {
-            opposites.put(opposites.get(key),key);
-    	}
-    	for(String key: opposites.keySet()) {
-    		oppositeKeys.add(key);
-    	}
-
-    	//Get the max bite
-    	for(String key : sortedByLargestFirst(oppositeKeys)) {
-    		maxBite = Math.max(maxBite, key.split(" ").length);
-    	}
-    	
-    }
-	
-	private String serialize(Parse[] p) {
-		String ret = "";
-		// Construct the entry;
-		for (Parse child : p) {
-		   ret += child.getType() + " ";
-		}
-         ret = ret.trim();
-		return ret;
-	}
-	
-	private static Collection<String> sortedByLargestFirst(Collection<String> col) {
-		LinkedList<String> ret = new LinkedList<String>();
-		
-		//Copy out the collection
-		for(String s : col) {
-			ret.add(s);
-		}
-		//Sort by ascending
-    	//Sort keys by length descending
-    	Collections.sort(ret, new Comparator<String>() {
-			@Override
-			public int compare(String arg0, String arg1) {
-				if(arg0.length() < arg1.length()) return 1;
-				else if(arg0.length() == arg1.length()) return 0;
-				else return -1;
-			}
-    	});
-		
-		return ret;
-	}
 }
