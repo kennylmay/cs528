@@ -11,16 +11,58 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import net.didion.jwnl.data.POS;
+
 import opennlp.tools.parser.Parse;
 
 @SuppressWarnings("unchecked")
 public class Responders {
 
+	WordRelations wr = new WordRelations();
+	
+	public class Entry {
+			public String wordPattern = "";
+			public String hypernymPattern = "";
+			public POS pos;
+			public Response r;
+			public boolean wordMatchesSentence(Parse p) {
+				if(wordPattern.length() == 0) {
+					return false;
+				}
+				return p.toString().contains(wordPattern);
+			}
+			
+			public boolean hypernymMatchesSentence(Parse p) {
+				if(hypernymPattern.length() == 0) {
+					return false;
+				}
+				
+				if(pos == POS.NOUN) {
+   				  //Get all tags for nouns
+				  LinkedList<Parse> nouns = findAllTags(p,new String[] {"NN", "NNS"});
+				
+				  //Try each noun
+				  for(Parse noun : nouns) {
+					  System.out.println("Trying noun: " + noun + " hypermatched to : " + hypernymPattern + " with POS: " + pos);
+					if(wr.isHypernymOf(noun.toString(), POS.NOUN, hypernymPattern)) {
+						return true;
+					}
+			      }
+				}
+			 return false;
+			}
+			    
+		
+	}
+	
 
-	private HashMap<String, HashMap<String, Response>> responseTables = buildResponseTables();
+
+	 
+	
+	private HashMap<String, LinkedList<Entry>> responseTables = buildResponseTables();
 	private HashMap<String, Response> defaultResponses = buildDefaultResponses();
-	private HashMap<String, HashMap<String, Response>> buildResponseTables() {
-		HashMap<String, HashMap<String, Response>> ret = new HashMap<String, HashMap<String, Response>>();
+	private HashMap<String, LinkedList<Entry>> buildResponseTables() {
+		HashMap<String, LinkedList<Entry>> ret = new HashMap<String, LinkedList<Entry>>();
 		
 		//build response tables..
 		ret.put("S", S());
@@ -40,7 +82,7 @@ public class Responders {
 		//ret.put("SBAR", defaultSBAR());
 		//ret.put("SBAQR", defaultSBARQ());
 		//ret.put("SINV", defaultSBARQ());
-		//ret.put("SQ", defaultSQ());
+		ret.put("SQ", defaultSQ());
 		
 		return ret;
 	}
@@ -65,7 +107,7 @@ public class Responders {
 		
 		
 		//Get the response table that corresponds to this "top level" parse
-		HashMap<String,Response> tableOfInterest = responseTables.get(p.getType());
+		LinkedList<Entry> tableOfInterest = responseTables.get(p.getType());
 		
 		//If no table, do a generic response
 		if(tableOfInterest == null) {
@@ -73,14 +115,18 @@ public class Responders {
 		}
 		
 		//Scan the table of interest for matches
-		for(String pattern : sortedByLargestFirst( tableOfInterest.keySet() )) {
-			if(p.toString().contains(pattern)) {
-				//Got a match, invoke the response
-				return tableOfInterest.get(pattern).response(p, context);
+		for(Entry ent : tableOfInterest ) {
+			if(ent.hypernymMatchesSentence(p)) {
+				return ent.r.response(p,context);
 			}
 		}
 		
-		
+		//Scan the table of interest for matches
+		for(Entry ent : tableOfInterest ) {
+			if(ent.wordMatchesSentence(p)) {
+				return ent.r.response(p,context);
+			}
+		}
 		//If no matches, use the default
 		Response defaultResponse = defaultResponses.get(p.getType());
 		if(defaultResponse == null) {
@@ -133,17 +179,44 @@ public class Responders {
 	    return defaultResponse;
 	}
 	
+	private static Response defaultSQ() {
+		Response defaultResponse = new Response() {
+			@Override
+			public String response(Parse p, HashMap<String, Object> context) {
+				//Flip possessive statements
+			    String sent = flipPossesives(p.toString());
+			    
+			    //Put this into the statements context.. it might be useful later
+			    if(!context.containsKey("directQuestions")) {
+			    	context.put("directQuestions", new LinkedList<String>());
+			    }
+			    ((LinkedList<String>)context.get("directQuestions")).add(sent); 
+			    			    
+				Random rand = new Random();
+				int val = Math.abs(rand.nextInt() % 5);
+				switch(val) {
+				case 0 : return "Yes"; 
+				case 1 : return "No."; 
+				case 2 : return "Negatory.";
+				case 3 : return "Heck yeah!"; 
+				case 4 : return  "Hmmmm..... No.";
+				default : return "Bug!";
+			    }
+		     }
+	    };
+	    return defaultResponse;
+	}
+	
 	
 	//Return the response actions for S type parses
-	private HashMap<String, Response> S() {
-		HashMap<String, Response> ret = new HashMap<String, Response>();
+	private LinkedList<Entry> S() {
+		LinkedList<Entry> ret = new LinkedList<Entry>();
 		
 		//Add response actions here...
 		
 		//Example: some basic responses. Basic responses just return a canned string.
-		ret.put("dog", new BasicResponse("I love dogs. They can be a pain in the butt sometimes though!"));
-		ret.put("walk the dog", new BasicResponse("Good luck with all that. Don't forget the pooper scooper."));
-		
+		ret.add( makeWordMatchEntry(new BasicResponse("I love dogs. They can be a pain in the butt sometimes though!"), "dog"));
+		ret.add( makeHyperMatchEntry(new BasicResponse("You're making me hungry!"), "food", POS.NOUN));
 		return ret;
 		
 	}
@@ -155,6 +228,22 @@ public class Responders {
 	/******************************************************/
 	/* Helper functions, classes, structures              */
 	/******************************************************/
+	private static Responders inst = new Responders();
+	public Entry makeWordMatchEntry(Response r, String wordPattern) {
+		Entry ret = new Entry();
+		ret.r = r;
+		ret.wordPattern = wordPattern;
+		return ret;
+	}
+	
+	public Entry makeHyperMatchEntry(Response r, String hyperPattern, POS pos) {
+		Entry ret = new Entry();
+		ret.r = r;
+		ret.hypernymPattern = hyperPattern;
+		ret.pos = pos;
+		return ret;
+	}
+	
 	//Basic response --- Just returns a string of text.
 	public class BasicResponse implements Response {
 
@@ -209,6 +298,30 @@ public class Responders {
 		}
 
 		return null;
+	}
+	
+	static LinkedList<Parse> findAllTags(Parse tree, String[] names) {
+		LinkedList<Parse> list = new LinkedList<Parse>();
+		
+		LinkedList<Parse> workQ = new LinkedList<Parse>();
+		workQ.add(tree);
+		
+		//Walk the entire tree looking for matching tags
+		while(workQ.size() > 0) {
+			Parse p = workQ.poll();
+			
+			for (String s : names) {
+				if (p.getType().equals(s)) {
+					list.add(p);
+				}
+			}
+			
+			for(Parse child : p.getChildren()){
+				workQ.add(child);
+			}
+		}
+		
+		return list;
 	}
 	
 	static String flipPossesives(String s) {

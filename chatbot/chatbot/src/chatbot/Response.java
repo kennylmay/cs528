@@ -16,6 +16,7 @@ import opennlp.tools.parser.Parse;
 //    optionally read and updated by response()
 public interface Response {
 	public String response(Parse p, HashMap<String,Object> context);
+	
 }
 
 
