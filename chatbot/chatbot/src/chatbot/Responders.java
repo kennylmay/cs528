@@ -73,18 +73,19 @@ public class Responders {
 		}
 		
 		//Scan the table of interest for matches
-		int maxScore = 0;
+		int minScore = Integer.MAX_VALUE;
 		Entry bestMatch = null;
 		for(Entry ent : tableOfInterest ) {
-		//	if(ent.hypernymMatchesSentence(p)) {
-		//		return ent.r.response(p,context);
-		//	}
 		    int tmp = ent.topHyperMatchInSentence(p);
-		    if(tmp > maxScore) {
+		    if(tmp == 0) continue;
+		    if(tmp < minScore) {
 		    	bestMatch = ent;
+		    	minScore = tmp;
 		    }
 		}
-		if(bestMatch != null) {
+		
+		
+		if(bestMatch != null && minScore != 0) {
 			return bestMatch.r.response(p, context);
 		}
 		

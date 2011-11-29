@@ -51,19 +51,23 @@ public class Entry {
 				return 0;
 			}
 			
+			int best = 0;
 			if(pos == POS.NOUN) {
 			  //Get all tags for nouns
 			  LinkedList<Parse> nouns = Global.findAllTags(p,new String[] {"NN", "NNS"});
 			
 			  //Try each noun
-			  int best = 0;
+			   best= Integer.MAX_VALUE;
 			  for(Parse noun : nouns) {
 				  System.out.println("Trying noun: " + noun + " hypermatched to : " + hypernymPattern + " with POS: " + pos);
-    			  best = Math.max(best, WordRelations.hypernymScore(noun.toString(), POS.NOUN, hypernymPattern));
+				  int score = WordRelations.hypernymScore(noun.toString(), POS.NOUN, hypernymPattern);
+				  if(score == 0) continue;
+    			  best =  Math.min(best, score);
 			  }
-			  return best;
+			  
 		    }
-			return 0;
+			
+			return best;
 		}
 		    
 	
