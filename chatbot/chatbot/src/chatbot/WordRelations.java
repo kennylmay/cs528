@@ -32,7 +32,10 @@ public class WordRelations {
 			}
 			
 			RelationshipList list = RelationshipFinder.getInstance().findRelationships(inputWord.getSense(1), targetWord.getSense(1), PointerType.HYPERNYM);
-			
+
+			if (list.size() == 0){
+				return false;
+			}
 
 			for (Iterator itr = list.iterator(); itr.hasNext();) {
 				((Relationship) itr.next()).getNodeList().print();
@@ -70,7 +73,10 @@ public class WordRelations {
 			
 			RelationshipList list = RelationshipFinder.getInstance().findRelationships(inputWord.getSense(1), targetWord.getSense(1), PointerType.HYPERNYM);
 			
-
+			if (list.size() == 0){
+				return 0;
+			}
+			
 			for (Iterator itr = list.iterator(); itr.hasNext();) {
 				((Relationship) itr.next()).getNodeList().print();
 			}
