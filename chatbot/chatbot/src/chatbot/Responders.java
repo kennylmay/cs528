@@ -92,18 +92,22 @@ public class Responders {
 		
 		//Scan the table of interest for matches
 		int minScore = Integer.MAX_VALUE;
-		Entry bestMatch = null;
+		//Entry bestMatch = null;
 		for(Entry ent : tableOfInterest ) {
-		    int tmp = ent.topHyperMatchInSentence(p);
+	/*	    int tmp = ent.topHyperMatchInSentence(p);
 		    if(tmp < minScore) {
 		    	bestMatch = ent;
 		    	minScore = tmp;
-		    }
+		    }*/
+			if(ent.hypernymMatchesSentence(p)) {
+				return ent.r.response(p, context);
+			}
 		}
-		
+		/*
 		if(bestMatch != null) {
 			return bestMatch.r.response(p, context);
 		}
+		*/
 		
 		//No hyper match found. Check word matches.
 		
@@ -195,32 +199,36 @@ public class Responders {
 		ret.add( makeWordMatchEntry(new BasicResponse("I love dogs. They can be a pain in the butt sometimes though!"), "want a dog"));
 		
 		
-		//Advanced response example: I want
-		Response IWant = new Response() {
+		//Advanced response example: I want a....
+		Response IWantA = new Response() {
 			@Override
 			public String response(Parse p, HashMap<String, Object> context) {
 				//Get the first noun phrase occurring after "I want"
 				LinkedList<Parse> nounPhrases = Global.findAllTags(p, new String[] { "NP" });
 				for(Parse nounPhrase : nounPhrases) {
-					//Don't care about "i" part.
-					if(nounPhrase.toString().equalsIgnoreCase("I")) {
+					//Don't care about "i or a" part.
+					if(nounPhrase.toString().equalsIgnoreCase("I") ) {
 						continue;
 					}
-					return Global.randomChoice("What's so great about " + nounPhrase + " anyhow?",
-							                   "I'm sensing that " + nounPhrase + " is somehow important to you."); 
+					
+					String str = nounPhrase.toString();
+					
+					return Global.randomChoice("What's so great about " + str + " anyhow?",
+							                   "I'm sensing that " + str + " is somehow important to you."); 
 				}
 				
 				//Could not get the noun. Do something generic
 				return "You want many things.";
 			}
 		};
-		ret.add(makeWordMatchEntry(IWant,"I want"));
-		
+		ret.add(makeWordMatchEntry(IWantA,"I want a"));
+		ret.add(makeWordMatchEntry(IWantA,"I want an"));
+		ret.add(makeWordMatchEntry(IWantA,"I want some"));
 		
 		//Example: some basic responses. Basic responses just return a canned string.
 		ret.add( makeWordMatchEntry(new BasicResponse("In Soviet Russia, dog walks you!"), "walk the dog"));
 		ret.add( makeHyperMatchEntry(new BasicResponse("You're making me hungry!"), "food", POS.NOUN));
-		//ret.add( makeHyperMatchEntry(new BasicResponse("I really don't care about living things...I'm a machine!"), "animal", POS.NOUN));
+		ret.add( makeHyperMatchEntry(new BasicResponse("I really don't care about living things...I'm a machine!"), "animal", POS.NOUN));
 		return ret;
 		
 	}

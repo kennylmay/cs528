@@ -39,6 +39,7 @@ public class Entry {
 			  for(Parse noun : nouns) {
 				  System.out.println("Trying noun: " + noun + " hypermatched to : " + hypernymPattern + " with POS: " + pos);
 				if(WordRelations.isHypernymOf(noun.toString(), POS.NOUN, hypernymPattern)) {
+					System.out.println("Matched");
 					return true;
 				}
 		      }
