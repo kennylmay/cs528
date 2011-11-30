@@ -1,4 +1,4 @@
-package chatbot;
+package NGrams;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -11,12 +11,15 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Vector;
 
+import chatbot.Global;
+import chatbot.chatbot;
+
 import opennlp.tools.cmdline.parser.ParserTool;
 import opennlp.tools.parser.Parse;
 
 
 @SuppressWarnings("serial")
-public class NGram extends HashMap<String, HashMap<String, Integer>> {
+public class POSNGram extends HashMap<String, HashMap<String, Integer>> {
 
 	public class dictionary extends HashMap<String, Vector<String>> {
 		public String toString() {
@@ -181,7 +184,7 @@ public class NGram extends HashMap<String, HashMap<String, Integer>> {
 		String ret = "";
 		LinkedList<Pair> list = new LinkedList<Pair>();
 		for (String name : ent.keySet()) {
-			list.add(new NGram().new Pair(name, ent.get(name)));
+			list.add(new POSNGram().new Pair(name, ent.get(name)));
 		}
 
 		// Sort it with descending values
@@ -197,7 +200,7 @@ public class NGram extends HashMap<String, HashMap<String, Integer>> {
 	public static void doNGrams() {
 		InputStream is = chatbot.class.getResourceAsStream("/play2");
 
-		NGram ng = new NGram();
+		POSNGram ng = new POSNGram();
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(is));
 			String sentence;

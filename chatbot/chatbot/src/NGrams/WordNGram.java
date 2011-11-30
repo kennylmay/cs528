@@ -1,4 +1,4 @@
-package chatbot;
+package NGrams;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -21,7 +21,12 @@ import org.apache.commons.math.stat.descriptive.moment.Mean;
 import org.apache.commons.math.stat.descriptive.moment.StandardDeviation;
 import org.apache.commons.math.stat.descriptive.rank.Max;
 
-import chatbot.NGram.Pair;
+import NGrams.POSNGram.Pair;
+
+import chatbot.Global;
+import chatbot.chatbot;
+
+
 
 @SuppressWarnings("serial")
 public class WordNGram extends Vector<HashMap<String, Integer>> {
@@ -104,7 +109,7 @@ public class WordNGram extends Vector<HashMap<String, Integer>> {
 
 		LinkedList<Pair> list = new LinkedList<Pair>();
 		for (String name : ngram.keySet()) {
-			list.add(new NGram().new Pair(name, ngram.get(name)));
+			list.add(new POSNGram().new Pair(name, ngram.get(name)));
 		}
 
 		// Sort it by descending values

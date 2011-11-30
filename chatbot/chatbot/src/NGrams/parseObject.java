@@ -1,4 +1,4 @@
-package chatbot;
+package NGrams;
 
 public class parseObject{
 	String pos;
