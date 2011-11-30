@@ -1,6 +1,8 @@
 package chatbot;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -28,6 +30,22 @@ public class Responders {
 		//ret.put("SBAQR", SBARQ());
 		//ret.put("SINV", SBARQ());
 		//ret.put("SQ", SQ());
+		
+		//Sort each response table so that the largest word pattern is tried first
+		Comparator<Entry> comparator = new Comparator<Entry>() {
+			@Override
+			public int compare(Entry arg0, Entry arg1) {
+				if(arg0.wordPattern.length() < arg1.wordPattern.length()) return 1;
+				else if(arg0.wordPattern.length() == arg1.wordPattern.length()) return 0;
+				else return -1;
+			}
+			
+		};
+		
+		for(LinkedList<Entry> list : ret.values()) {
+			Collections.sort(list, comparator);
+		}
+		
 		return ret;
 	}
 	
@@ -77,19 +95,20 @@ public class Responders {
 		Entry bestMatch = null;
 		for(Entry ent : tableOfInterest ) {
 		    int tmp = ent.topHyperMatchInSentence(p);
-		    if(tmp == 0) continue;
 		    if(tmp < minScore) {
 		    	bestMatch = ent;
 		    	minScore = tmp;
 		    }
 		}
 		
-		
-		if(bestMatch != null && minScore != 0) {
+		if(bestMatch != null) {
 			return bestMatch.r.response(p, context);
 		}
 		
-		//Scan the table of interest for matches
+		//No hyper match found. Check word matches.
+		
+		
+		//Scan the table of interest for word matches
 		for(Entry ent : tableOfInterest ) {
 			if(ent.wordMatchesSentence(p)) {
 				return ent.r.response(p,context);
@@ -130,16 +149,11 @@ public class Responders {
 			    }
 			    ((LinkedList<String>)context.get("statements")).add(sent); 
 			    			    
-				Random rand = new Random();
-				int val = Math.abs(rand.nextInt() % 5);
-				switch(val) {
-				case 0 : return "So "  + sent + ", huh?"; 
-				case 1 : return "Why does it matter if "  + sent + "?"; 
-				case 2 : return "Let me get this straight, "  + sent + "?";
-				case 3 : return "Fascinating."; 
-				case 4 : return  sent + ".... Cool story bro.";
-				default : return "Bug!";
-			    }
+				return Global.randomChoice("So "  + sent + ", huh?",
+						"Why does it matter if "  + sent + "?",
+						"Let me get this straight, "  + sent + "?",
+						"Fascinating.",
+						sent + ".... Cool story bro.");
 		     }
 	    };
 	    return defaultResponse;
@@ -158,17 +172,13 @@ public class Responders {
 			    }
 			    ((LinkedList<String>)context.get("directQuestions")).add(sent); 
 			    			    
-				Random rand = new Random();
-				int val = Math.abs(rand.nextInt() % 5);
-				switch(val) {
-				case 0 : return "Yes"; 
-				case 1 : return "No."; 
-				case 2 : return "Negatory.";
-				case 3 : return "Heck yeah!"; 
-				case 4 : return  "Hmmmm..... No.";
-				default : return "Bug!";
-			    }
-		     }
+				return Global.randomChoice("Yes",
+						"No.",
+						"Negatory.",
+						"Heck yeah!",
+						"Hmmmm..... No.");
+			    
+			}
 	    };
 	    return defaultResponse;
 	}
@@ -180,10 +190,37 @@ public class Responders {
 		
 		//Add response actions here...
 		
+	
+		ret.add( makeWordMatchEntry(new BasicResponse("Dogs!!"), "dog"));
+		ret.add( makeWordMatchEntry(new BasicResponse("I love dogs. They can be a pain in the butt sometimes though!"), "want a dog"));
+		
+		
+		//Advanced response example: I want
+		Response IWant = new Response() {
+			@Override
+			public String response(Parse p, HashMap<String, Object> context) {
+				//Get the first noun phrase occurring after "I want"
+				LinkedList<Parse> nounPhrases = Global.findAllTags(p, new String[] { "NP" });
+				for(Parse nounPhrase : nounPhrases) {
+					//Don't care about "i" part.
+					if(nounPhrase.toString().equalsIgnoreCase("I")) {
+						continue;
+					}
+					return Global.randomChoice("What's so great about " + nounPhrase + " anyhow?",
+							                   "I'm sensing that " + nounPhrase + " is somehow important to you."); 
+				}
+				
+				//Could not get the noun. Do something generic
+				return "You want many things.";
+			}
+		};
+		ret.add(makeWordMatchEntry(IWant,"I want"));
+		
+		
 		//Example: some basic responses. Basic responses just return a canned string.
-		ret.add( makeWordMatchEntry(new BasicResponse("I love dogs. They can be a pain in the butt sometimes though!"), "dog"));
-		ret.add( makeHyperMatchEntry(new BasicResponse("You're making me hungry!"), "food", POS.NOUN));
-		ret.add( makeHyperMatchEntry(new BasicResponse("I really don't care about living things...I'm a machine!"), "animal", POS.NOUN));
+		ret.add( makeWordMatchEntry(new BasicResponse("In Soviet Russia, dog walks you!"), "walk the dog"));
+		//ret.add( makeHyperMatchEntry(new BasicResponse("You're making me hungry!"), "food", POS.NOUN));
+		//ret.add( makeHyperMatchEntry(new BasicResponse("I really don't care about living things...I'm a machine!"), "animal", POS.NOUN));
 		return ret;
 		
 	}

@@ -23,7 +23,7 @@ public class Entry {
 			if(wordPattern.length() == 0) {
 				return false;
 			}
-			return p.toString().contains(wordPattern);
+			return p.toString().toLowerCase().contains(wordPattern.toLowerCase());
 		}
 		
 		public boolean hypernymMatchesSentence(Parse p) {
@@ -48,10 +48,10 @@ public class Entry {
 		
 		public int topHyperMatchInSentence(Parse p) {
 			if(hypernymPattern.length() == 0) {
-				return 0;
+				return Integer.MAX_VALUE;
 			}
 			
-			int best = 0;
+			int best = Integer.MAX_VALUE;
 			if(pos == POS.NOUN) {
 			  //Get all tags for nouns
 			  LinkedList<Parse> nouns = Global.findAllTags(p,new String[] {"NN", "NNS"});
@@ -61,7 +61,6 @@ public class Entry {
 			  for(Parse noun : nouns) {
 				  System.out.println("Trying noun: " + noun + " hypermatched to : " + hypernymPattern + " with POS: " + pos);
 				  int score = WordRelations.hypernymScore(noun.toString(), POS.NOUN, hypernymPattern);
-				  if(score == 0) continue;
     			  best =  Math.min(best, score);
 			  }
 			  

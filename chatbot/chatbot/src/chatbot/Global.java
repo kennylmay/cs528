@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Random;
 
 import opennlp.tools.dictionary.Dictionary;
 import opennlp.tools.parser.Parse;
@@ -259,6 +260,21 @@ public class Global {
 			hashMap.put(key, new Integer(1));
 		}
 		
+	}
+	
+	
+	//Randomly pick one of the arguments
+	public static Random rand = new Random();
+	public static <T> T randomChoice(T ... choices) {
+		int val = Math.abs(rand.nextInt() % choices.length);
+		int i = 0;
+		for(T choice : choices) {
+			if(val == i++) {
+				return choice;
+			}
+		}
+		//Will never get here
+		return null;
 	}
 
 }

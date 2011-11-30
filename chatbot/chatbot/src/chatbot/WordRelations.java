@@ -58,20 +58,20 @@ public class WordRelations {
 			IndexWord inputWord;
 			inputWord = Dictionary.getInstance().getIndexWord(posType, input);
 			if (inputWord == null) {
-				return 0;
+				return Integer.MAX_VALUE;
 			}
 			
 			IndexWord targetWord;
 			targetWord = Dictionary.getInstance().getIndexWord(posType, target);
 			
 			if (targetWord == null) {
-				return 0;
+				return Integer.MAX_VALUE;
 			}
 			
 			RelationshipList list = RelationshipFinder.getInstance().findRelationships(inputWord.getSense(1), targetWord.getSense(1), PointerType.HYPERNYM);
 			
 			if (list.size() == 0){
-				return 0;
+				return Integer.MAX_VALUE;
 			}
 			int RelativeTargetDepth = Math.abs(((AsymmetricRelationship) list.get(0)).getRelativeTargetDepth());
 			int TreeDepth =((AsymmetricRelationship) list.get(0)).getDepth();
