@@ -87,11 +87,11 @@ public class Responders {
 		
 		//If no table, do a generic response
 		if(tableOfInterest == null) {
-			return "Pardon me?";
+			return Global.randomChoice("Pardon me?", "Come again?", "What was that?", "I don't understand.", "Hmmm...");
 		}
 		
 		//Scan the table of interest for matches
-		int minScore = Integer.MAX_VALUE;
+		//int minScore = Integer.MAX_VALUE;
 		//Entry bestMatch = null;
 		for(Entry ent : tableOfInterest ) {
 	/*	    int tmp = ent.topHyperMatchInSentence(p);
@@ -221,6 +221,7 @@ public class Responders {
 				return "You want many things.";
 			}
 		};
+		
 		ret.add(makeWordMatchEntry(IWantA,"I want a"));
 		ret.add(makeWordMatchEntry(IWantA,"I want an"));
 		ret.add(makeWordMatchEntry(IWantA,"I want some"));

@@ -197,8 +197,8 @@ public class POSNGram extends HashMap<String, HashMap<String, Integer>> {
 		return ret;
 	}
 	
-	public static void doNGrams() {
-		InputStream is = chatbot.class.getResourceAsStream("/play2");
+	public static void doNGrams(InputStream is) {
+		
 
 		POSNGram ng = new POSNGram();
 		try {
