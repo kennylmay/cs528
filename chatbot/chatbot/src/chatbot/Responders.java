@@ -216,11 +216,7 @@ public class Responders {
 		LinkedList<Entry> ret = new LinkedList<Entry>();
 		
 		//Add response actions here...
-		
-	
-		ret.add( makeWordMatchEntry(new BasicResponse("Dogs!!"), "dog"));
-		ret.add( makeWordMatchEntry(new BasicResponse("I love dogs. They can be a pain in the butt sometimes though!"), "want a dog"));
-		
+
 		
 		//Advanced response example: I want a....
 		Response IWantA = new Response() {
@@ -245,14 +241,23 @@ public class Responders {
 			}
 		};
 		
+		
+		
 		ret.add(makeWordMatchEntry(IWantA,"I want a"));
 		ret.add(makeWordMatchEntry(IWantA,"I want an"));
 		ret.add(makeWordMatchEntry(IWantA,"I want some"));
+		
 		
 		//Example: some basic responses. Basic responses just return a canned string.
 		ret.add( makeWordMatchEntry(new BasicResponse("In Soviet Russia, dog walks you!"), "walk the dog"));
 		ret.add( makeHyperMatchEntry(new BasicResponse("You're making me hungry!"), "food", POS.NOUN));
 		ret.add( makeHyperMatchEntry(new BasicResponse("I really don't care about living things...I'm a machine!"), "animal", POS.NOUN));
+		ret.add( makeWordMatchEntry(new BasicResponse("How do you know what I want?"), "you want to"));
+		ret.add( makeWordMatchEntry(new BasicResponse("Well I want to go to Mars, that doesn't mean that I will."), "I want to go"));
+		ret.add( makeWordMatchEntry(new BasicResponse("You're very needy, aren't you?"), "I need to"));
+		ret.add( makeWordMatchEntry(new BasicResponse("It's probably best to look for help else where."), "I need your help"));
+		ret.add( makeWordMatchEntry(new BasicResponse("Don't you already have enough?"), "I have to"));
+		ret.add( makeWordMatchEntry(new BasicResponse("You thought wrong."), "I thought you"));
 		return ret;
 		
 	}
