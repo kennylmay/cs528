@@ -31,7 +31,8 @@ public class WordRelations {
 			if (targetWord == null) {
 				return false;
 			}
-			
+			String Sense =  inputWord.getSense(1).toString();
+			System.out.println("TARGET WORD DEF: " + Sense.subSequence(Sense.indexOf("(") + 1, Sense.indexOf(")")));
 			RelationshipList list = RelationshipFinder.getInstance().findRelationships(inputWord.getSense(1), targetWord.getSense(1), PointerType.HYPERNYM);
 
 			if (list.size() == 0){
@@ -67,7 +68,7 @@ public class WordRelations {
 			if (targetWord == null) {
 				return Integer.MAX_VALUE;
 			}
-			
+			System.out.println("TARGET WORD" + targetWord.toString());
 			RelationshipList list = RelationshipFinder.getInstance().findRelationships(inputWord.getSense(1), targetWord.getSense(1), PointerType.HYPERNYM);
 			
 			if (list.size() == 0){
@@ -89,5 +90,26 @@ public class WordRelations {
 		}
 
 		return 0;
+	}
+	
+	public static String getDefinition(String input, POS posType) {
+		try {
+			IndexWord inputWord;
+			inputWord = Dictionary.getInstance().getIndexWord(posType, input);
+			if (inputWord == null) {
+				return "not familiar to me";
+			}
+			
+			String Sense =  inputWord.getSense(1).toString();
+			String Definition = Sense.substring(Sense.indexOf("(") + 1, Sense.indexOf(")")).replace("(", "");
+			Definition = Definition.substring(0,Definition.indexOf(";"));
+			return (Definition);
+
+		} catch (JWNLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return "not familiar to me";
 	}
 }

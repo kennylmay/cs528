@@ -27,7 +27,7 @@ public class Responders {
 		//build response tables..
 		ret.put("S", S());
 		//ret.put("SBAR", SBAR());
-		//ret.put("SBAQR", SBARQ());
+		ret.put("SBARQ", SBARQ());
 		//ret.put("SINV", SBARQ());
 		//ret.put("SQ", SQ());
 		
@@ -56,7 +56,7 @@ public class Responders {
 		//build default responses..
 		ret.put("S", defaultS());
 		//ret.put("SBAR", defaultSBAR());
-		//ret.put("SBAQR", defaultSBARQ());
+		ret.put("SBARQ", defaultSBARQ());
 		//ret.put("SINV", defaultSBARQ());
 		ret.put("SQ", defaultSQ());
 		
@@ -163,6 +163,29 @@ public class Responders {
 	    return defaultResponse;
 	}
 	
+	private static Response defaultSBARQ() {
+		Response defaultResponse = new Response() {
+			@Override
+			public String response(Parse p, HashMap<String, Object> context) {
+				//Flip possessive statements
+			    String sent = Global.flipPossesives(p.toString());
+			    
+			    //Put this into the statements context.. it might be useful later
+			    if(!context.containsKey("questions")) {
+			    	context.put("questions", new LinkedList<String>());
+			    }
+			    ((LinkedList<String>)context.get("questions")).add(sent); 
+			    			    
+				return Global.randomChoice("How should I know?",
+						"Do I look like Watson to you?",
+						"Hmm better give me some more time to think about that?",
+						"Sure..?",
+						"Ummm I would rather not say.");
+		     }
+	    };
+	    return defaultResponse;
+	}
+	
 	private static Response defaultSQ() {
 		Response defaultResponse = new Response() {
 			@Override
@@ -234,7 +257,30 @@ public class Responders {
 		
 	}
 
-	
+	//Return the response actions for SBARQ type parses
+	private LinkedList<Entry> SBARQ() {
+		LinkedList<Entry> ret = new LinkedList<Entry>();
+		
+		//Advanced response example: What is.
+		Response Whatisa = new Response() {
+			@Override
+			public String response(Parse p, HashMap<String, Object> context) {
+				
+				//Get the first noun phrase occurring after "What is a"
+				LinkedList<Parse> nounPhrases = Global.findAllTags(p, new String[] { "NP" });
+				Parse Noun = Global.findFirstTag(p, new String[] { "NN" });
+			
+			    String str = Noun.toString();
+				return Global.randomChoice("A " + str + " is " + WordRelations.getDefinition(str, POS.NOUN) + ".");
+					
+			}
+		};
+
+		ret.add(makeWordMatchEntry(Whatisa,"What is a"));
+
+		return ret;
+		
+	}	
 	
 
 	
