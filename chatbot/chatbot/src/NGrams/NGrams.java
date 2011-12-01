@@ -25,32 +25,18 @@ public class NGrams {
 		Global.stdin = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Loading POS models..");
 		Global.loadModels();
-		POSNGram.doNGrams(chatbot.class.getResourceAsStream("/play"));
-		POSNGram.doNGrams(chatbot.class.getResourceAsStream("/play2"));
-		POSNGram.doNGrams(chatbot.class.getResourceAsStream("/hack"));
-		POSNGram.doNGrams(chatbot.class.getResourceAsStream("/sic"));
-		System.out.println("Done");
 
-		try {
-			System.in.read();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		System.out.println("Done");
 		
-		WordNGram wg = new WordNGram();
+		POSDividedWordNGram wg = new POSDividedWordNGram("SBARQ");
 		wg.ProcessFile("/play");
 		wg.ProcessFile("/hack");
 		wg.ProcessFile("/play2");
 		wg.ProcessFile("/sic");
 		
 		
-		
-		
-		
 		for(int i = 0; i < wg.size(); i++) {
 			WordNGram.TruncBelowDeviations(wg.get(i),3);
-			//WordNGram.TruncBelowPercentile(wg.get(i), 99.5);
 			System.out.println("\n\n" + (i+1) + " level NGram:\n------------------------------------------------");
 			System.out.println(POSNGram.NGramEnt2Str(wg.get(i)));
 			//ArrayList<parseObject> tags = wg.filterPhrases(wg.tagWordNGram(i));

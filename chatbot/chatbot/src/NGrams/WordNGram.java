@@ -163,7 +163,7 @@ public class WordNGram extends Vector<HashMap<String, Integer>> {
 
 	}
 
-	private void ProcessLine(String line) {
+	protected void ProcessLine(String line) {
 
 		String[] words = line.split(" ");
 		int currentWord;

@@ -188,7 +188,7 @@ public class POSNGram extends HashMap<String, HashMap<String, Integer>> {
 		}
 
 		// Sort it with descending values
-		Collections.sort(list, list.get(0));
+		Collections.sort(list, new POSNGram().new Pair(null, 0));
 
 		for (Pair p : list) {
 			ret += p.name + " : " + p.val + "\n";
