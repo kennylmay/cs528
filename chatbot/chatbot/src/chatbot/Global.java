@@ -276,5 +276,11 @@ public class Global {
 		//Will never get here
 		return null;
 	}
+	
+	public static boolean beginsWithVowel (String s)
+	{
+	 return ( s.startsWith ("a") || s.startsWith ("e") || s.startsWith ("i") || s.startsWith ("o") || s.startsWith ("u") || 
+		   	  s.startsWith ("A") || s.startsWith ("E") || s.startsWith ("I") || s.startsWith ("O") || s.startsWith ("U"));
+	}
 
 }

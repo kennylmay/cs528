@@ -268,25 +268,57 @@ public class Responders {
 				
 				//Get the first noun phrase occurring after "What is a"
 				LinkedList<Parse> nounPhrases = Global.findAllTags(p, new String[] { "NP" });
-				Parse Adjective = null;
+				
+				Parse Adjective = null;				
 				if (Global.findFirstTag(p, new String[] { "JJ" }) != null){
 					Adjective = Global.findFirstTag(p, new String[] { "JJ" });
 				}
 				
-				Parse Noun = Global.findFirstTag(p, new String[] { "NN" });
+				Parse Noun = null;
+				if(Global.findFirstTag(p, new String[] { "NN" }) != null){
+					Noun = Global.findFirstTag(p, new String[] { "NN" });
+				}
+				
+				String str = null;
+				String adj = null;			
+				if (Noun != null){
+					str = Noun.toString();
+				}
+				
+				if (Adjective != null){
+					adj = Adjective.toString();
+				}
 			
-			    String str = Noun.toString();
-			    if (Adjective != null){
-			    	String adj = Adjective.toString();
-			    	return  Global.randomChoice("I know what a " + str + " is but what makes it " + adj + ".",
+			    if (Adjective != null && Noun != null){	
+			    	if (Global.beginsWithVowel(str)){
+			    		return  Global.randomChoice("I know what an " + str + " is but what makes it " + adj + ".",
+			                    "Well thats a matter of opinion now isn't it.");
+				    	}else{
+				    		return  Global.randomChoice("I know what a " + str + " is but what makes it " + adj + ".",
 			    			                    "Well thats a matter of opinion now isn't it.");
+				    	}
+			    }else if(Adjective == null && Noun != null){
+			    	if (Global.beginsWithVowel(str)){
+			    		return Global.randomChoice("An " + str + " is " + WordRelations.getDefinition(str, POS.NOUN) + ".");
+			    	}else{
+			    		return Global.randomChoice("A " + str + " is " + WordRelations.getDefinition(str, POS.NOUN) + ".");
+			    	}
+			    }else if(Adjective != null && Noun == null){
+			    	if (Global.beginsWithVowel(adj)){
+			    		return Global.randomChoice("An " + adj + " is " + WordRelations.getDefinition(adj, POS.ADJECTIVE) + ".");
+			    	}else{
+			    		return Global.randomChoice("A " + adj + " is " + WordRelations.getDefinition(adj, POS.ADJECTIVE) + ".");
+			    	}
+			    }else{
+			    	return Global.randomChoice("You got me.", "I really have no clue.", "I have no idea.");
 			    }
-				return Global.randomChoice("A " + str + " is " + WordRelations.getDefinition(str, POS.NOUN) + ".");
+				
 					
 			}
 		};
 
 		ret.add(makeWordMatchEntry(Whatisa,"What is a"));
+		ret.add(makeWordMatchEntry(Whatisa,"What is an"));
 
 		return ret;
 		
