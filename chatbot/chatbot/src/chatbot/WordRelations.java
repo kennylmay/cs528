@@ -31,19 +31,21 @@ public class WordRelations {
 			if (targetWord == null) {
 				return false;
 			}
-			String Sense =  inputWord.getSense(1).toString();
-			System.out.println("TARGET WORD DEF: " + Sense.subSequence(Sense.indexOf("(") + 1, Sense.indexOf(")")));
+			System.out.println("TARGET WORD" + targetWord.toString());
 			RelationshipList list = RelationshipFinder.getInstance().findRelationships(inputWord.getSense(1), targetWord.getSense(1), PointerType.HYPERNYM);
-
+			
 			if (list.size() == 0){
 				return false;
 			}
+			int RelativeTargetDepth = Math.abs(((AsymmetricRelationship) list.get(0)).getRelativeTargetDepth());
+			int TreeDepth =((AsymmetricRelationship) list.get(0)).getDepth();
 			
-			System.out.println("MATCH INDEX: " + ((AsymmetricRelationship) list.get(0)).getCommonParentIndex());
-			if (((AsymmetricRelationship) list.get(0)).getCommonParentIndex() < 4){
+			System.out.println(((AsymmetricRelationship)list.get(0)));
+			System.out.println("TREE DEPTH: " + TreeDepth);
+			System.out.println("RELATIVE TARGET DEPTH: " + RelativeTargetDepth);
+			// If the target is a direct parent of the source return the tree depth;
+			if (RelativeTargetDepth == TreeDepth){
 				return true;
-			}else{
-				return false;
 			}
 
 		} catch (JWNLException e) {
