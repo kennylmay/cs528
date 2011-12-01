@@ -102,7 +102,9 @@ public class WordRelations {
 			
 			String Sense =  inputWord.getSense(1).toString();
 			String Definition = Sense.substring(Sense.indexOf("(") + 1, Sense.indexOf(")")).replace("(", "");
-			Definition = Definition.substring(0,Definition.indexOf(";"));
+			if (Definition.contains(";")){
+			   Definition = Definition.substring(0,Definition.indexOf(";"));
+			}
 			return (Definition);
 
 		} catch (JWNLException e) {
