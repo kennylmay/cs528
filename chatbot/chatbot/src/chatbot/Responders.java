@@ -268,9 +268,19 @@ public class Responders {
 				
 				//Get the first noun phrase occurring after "What is a"
 				LinkedList<Parse> nounPhrases = Global.findAllTags(p, new String[] { "NP" });
+				Parse Adjective = null;
+				if (Global.findFirstTag(p, new String[] { "JJ" }) != null){
+					Adjective = Global.findFirstTag(p, new String[] { "JJ" });
+				}
+				
 				Parse Noun = Global.findFirstTag(p, new String[] { "NN" });
 			
 			    String str = Noun.toString();
+			    if (Adjective != null){
+			    	String adj = Adjective.toString();
+			    	return  Global.randomChoice("I know what a " + str + " is but what makes it " + adj + ".",
+			    			                    "Well thats a matter of opinion now isn't it.");
+			    }
 				return Global.randomChoice("A " + str + " is " + WordRelations.getDefinition(str, POS.NOUN) + ".");
 					
 			}
