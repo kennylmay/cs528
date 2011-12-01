@@ -29,7 +29,7 @@ public class Responders {
 		//ret.put("SBAR", SBAR());
 		ret.put("SBARQ", SBARQ());
 		//ret.put("SINV", SBARQ());
-		//ret.put("SQ", SQ());
+		ret.put("SQ", SQ());
 		
 		//Sort each response table so that the largest word pattern is tried first
 		Comparator<Entry> comparator = new Comparator<Entry>() {
@@ -256,7 +256,7 @@ public class Responders {
 		return ret;
 		
 	}
-
+	
 	//Return the response actions for SBARQ type parses
 	private LinkedList<Entry> SBARQ() {
 		LinkedList<Entry> ret = new LinkedList<Entry>();
@@ -292,6 +292,15 @@ public class Responders {
 		
 	}	
 	
+	
+	// Return the response list for SQ type parses.
+	private LinkedList<Entry> SQ() {
+		LinkedList<Entry> ret = new LinkedList<Entry>();
+		
+		ret.add(makeWordMatchEntry(new BasicResponse("Can't say that I do."), "Do you know"));
+		ret.add(makeWordMatchEntry(new BasicResponse("Definately not!"), "Are you"));
+		return ret;
+	}
 
 	
 	/******************************************************/
