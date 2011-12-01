@@ -232,4 +232,34 @@ public class POSNGram extends HashMap<String, HashMap<String, Integer>> {
 			System.exit(1);
 		}
 	}
+	
+	public static void getSentPOSExamples(String resourceName,  String sentencePOS) {
+		InputStream is = chatbot.class.getResourceAsStream(resourceName);
+		
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(is));
+			String sentence;
+			while ((sentence = in.readLine()) != null) {
+				//sentence = Global.tokenize(sentence, Global.tokenizer);
+								
+				// Parse the sentence
+				Parse[] topParse = ParserTool.parseLine(sentence, Global.parser, 1);
+				Parse p = topParse[0].getChildren()[0];
+				
+				if (p.getType().equals(sentencePOS)) {
+					System.out.println(p.getType() + " - " + sentence);
+				}
+						
+			}
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.exit(1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
 }

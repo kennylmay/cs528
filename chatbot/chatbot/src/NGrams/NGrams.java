@@ -14,6 +14,13 @@ import chatbot.chatbot;
 public class NGrams {
 	public static void main(String[] args) {
 
+		// Find examples of sentence for a given top POS.
+		/*
+		System.out.println("Loading POS models..");
+		Global.loadModels();
+		POSNGram.getSentPOSExamples("/hack", "SINV");
+		*/
+		
 		//Uncomment these if you want the POS NGrams (or the POS filtered WordNGrams)
 		Global.stdin = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Loading POS models..");
