@@ -52,7 +52,7 @@ public class chatbot {
 				continue;
 			}
 			String sent = sentences[0];
-			sent = Global.tokenize(sent, Global.tokenizer);
+			sent = Global.prepLine(sent);
 
 			Parse[] topParses = ParserTool.parseLine(sent, Global.parser, 1);
 

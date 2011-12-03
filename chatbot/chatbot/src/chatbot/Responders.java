@@ -225,7 +225,7 @@ public class Responders {
 				//Get the first noun phrase occurring after "I want"
 				LinkedList<Parse> nounPhrases = Global.findAllTags(p, new String[] { "NP" });
 				for(Parse nounPhrase : nounPhrases) {
-					//Don't care about "i or a" part.
+					//Don't care about "i" part
 					if(nounPhrase.toString().equalsIgnoreCase("I") ) {
 						continue;
 					}
@@ -233,7 +233,8 @@ public class Responders {
 					String str = nounPhrase.toString();
 					
 					return Global.randomChoice("What's so great about " + str + " anyhow?",
-							                   "I'm sensing that " + str + " is somehow important to you."); 
+							                   "I'm sensing that " + str + " is somehow important to you.",
+							                   "I want " + str + " too!"); 
 				}
 				
 				//Could not get the noun. Do something generic
@@ -243,21 +244,38 @@ public class Responders {
 		
 		
 		
-		ret.add(makeWordMatchEntry(IWantA,"I want a"));
-		ret.add(makeWordMatchEntry(IWantA,"I want an"));
-		ret.add(makeWordMatchEntry(IWantA,"I want some"));
+		ret.add(makeRegexEntry(IWantA,"^I want*$"));
 		
 		
 		//Example: some basic responses. Basic responses just return a canned string.
-		ret.add( makeWordMatchEntry(new BasicResponse("In Soviet Russia, dog walks you!"), "walk the dog"));
+		ret.add( makeRegexEntry(new BasicResponse("In Soviet Russia, dog walks you!"), "^.*walk the dog.*$"));
 		ret.add( makeHyperMatchEntry(new BasicResponse("You're making me hungry!"), "food", POS.NOUN));
 		ret.add( makeHyperMatchEntry(new BasicResponse("I really don't care about living things...I'm a machine!"), "animal", POS.NOUN));
-		ret.add( makeWordMatchEntry(new BasicResponse("How do you know what I want?"), "you want to"));
-		ret.add( makeWordMatchEntry(new BasicResponse("Well I want to go to Mars, that doesn't mean that I will."), "I want to go"));
-		ret.add( makeWordMatchEntry(new BasicResponse("You're very needy, aren't you?"), "I need to"));
-		ret.add( makeWordMatchEntry(new BasicResponse("It's probably best to look for help else where."), "I need your help"));
-		ret.add( makeWordMatchEntry(new BasicResponse("Don't you already have enough?"), "I have to"));
-		ret.add( makeWordMatchEntry(new BasicResponse("You thought wrong."), "I thought you"));
+		ret.add( makeHyperMatchEntry(new BasicResponse("Trains are the superior mode of transportation."), "vehicle", POS.NOUN));
+		ret.add( makeHyperMatchEntry(new BasicResponse("Drugs are bad mmm'kay."), "drug", POS.NOUN));
+		ret.add( makeHyperMatchEntry(new BasicResponse("Yawn... TV is lame."), "television", POS.NOUN));
+		ret.add( makeRegexEntry(new BasicResponse("How do you know what I want?"), "^.*you want to.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("Well I want to go to Mars, that doesn't mean that I will."), "^I want to go.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("You're very needy, aren't you?"), "^I need to.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("It's probably best to look for help else where."), "^I need your help.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("Don't you already have enough?"), "^I have to.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("You thought wrong."), "^I thought you.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("You're not the boss of me."), "^.*You should.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("It must be nice to be able to not think things."), "^I don't think.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("It must be nice to be able to not think things."), "^I do not think.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("What else don't you think about me?"), "^.*don't think you.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("What else don't you think about me?"), "^.*do not think you.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("Perhaps it would be best if you found out."), "^I don't know.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("Perhaps it would be best if you found out."), "^I do not know.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("What do you believe?"), "^I don't believe.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("What do you believe?"), "^I do not believe.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("Maybe we should talk about something else then."), "^I don't understand.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("Maybe we should talk about something else then."), "^I do not understand.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("You seem very sure of this."), "^.*of course.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("Positively!"), "^.*definitely.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("Maybe I am, maybe I'm not."), "^.*you are.*$"));
+
+		
 		return ret;
 		
 	}
@@ -422,6 +440,14 @@ public class Responders {
 		Entry ret = new Entry();
 		ret.r = r;
 		ret.wordPattern = wordPattern;
+		return ret;
+	}
+	
+	public Entry makeRegexEntry(Response r, String wordPatternRegex) {
+		Entry ret = new Entry();
+		ret.r = r;
+		ret.wordPattern = wordPatternRegex;
+		ret.isRegexWordPattern = true;
 		return ret;
 	}
 	

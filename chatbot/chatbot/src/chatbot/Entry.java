@@ -15,6 +15,7 @@ public class Entry {
 	 */
 
 
+	    public boolean isRegexWordPattern = false;
 		public String wordPattern = "";
 		public String hypernymPattern = "";
 		public POS pos;
@@ -23,7 +24,13 @@ public class Entry {
 			if(wordPattern.length() == 0) {
 				return false;
 			}
-			return p.toString().toLowerCase().contains(wordPattern.toLowerCase());
+			
+			if(isRegexWordPattern) {
+				return p.toString().toLowerCase().matches(wordPattern.toLowerCase());
+			}
+			else {
+			  return p.toString().toLowerCase().contains(wordPattern.toLowerCase());
+			}
 		}
 		
 		public boolean hypernymMatchesSentence(Parse p) {

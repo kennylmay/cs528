@@ -287,7 +287,7 @@ public class Global {
 	public static Parse parseString(String s){
 		String sentences[] = Global.sdetector.sentDetect(s);
 		String sent = sentences[0];
-		sent = Global.tokenize(sent, Global.tokenizer);
+		sent = Global.prepLine(sent);
 
 		Parse[] topParses = ParserTool.parseLine(sent, Global.parser, 1);
 
@@ -295,4 +295,12 @@ public class Global {
 
 		return(p);
 	}
+	
+	public static String prepLine(String line) {
+		 line = line.replaceAll("\t", " ");
+		 line = line.replaceAll("  ", " ");
+		 line = line.replaceAll("[.?!,\";]", "");
+		 return line;
+	}
+
 }

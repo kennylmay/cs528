@@ -29,6 +29,7 @@ public class NGrams {
 		System.out.println("Done");
 		
 		POSDividedWordNGram wg = new POSDividedWordNGram("SBARQ");
+		wg.ProcessFile("/aggregate.txt");
 		wg.ProcessFile("/play");
 		wg.ProcessFile("/hack");
 		wg.ProcessFile("/play2");
