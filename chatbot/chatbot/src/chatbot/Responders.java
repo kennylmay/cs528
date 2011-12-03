@@ -328,6 +328,11 @@ public class Responders {
 		ret.add(makeWordMatchEntry(new BasicResponse("Damn fine, how are you?"), "Hows it be"));
 		ret.add(makeWordMatchEntry(new RandomResponse(), "What should we talk about"));
 		ret.add(makeWordMatchEntry(new RandomResponse(), "What do you want to talk about"));
+		ret.add(makeWordMatchEntry(new RandomResponse(), "I don't know what to talk about"));
+		ret.add(makeWordMatchEntry(new RandomResponse(), "What do you wanna talk about"));
+		ret.add(makeWordMatchEntry(new RandomResponse(), "What should we talk about now"));
+		ret.add(makeWordMatchEntry(new RandomResponse(), "What would you like to talk about"));
+		ret.add(makeWordMatchEntry(new RandomResponse(), "talk about"));
 		return ret;
 		
 	}	
@@ -406,7 +411,14 @@ public class Responders {
 					Parse[] level2 = users.getChildren();
 					if (level2[0].getType().equals("S")){
 						sent = Global.flipPossesives(sent.toString());		    			    
-						return Global.randomChoice("Well, you said "  + sent.substring(0,sent.length()-1) + ", tell me more.");     
+						sent = "Well, you said "  + sent.substring(0,sent.length()-1) + ", tell me more.";
+						
+						if (((LinkedList<String>)context.get("starters")).contains(sent)){
+							continue;
+						}
+							
+					    ((LinkedList<String>)context.get("starters")).add(sent);
+						return Global.randomChoice(sent);     
 					}
 						
 				}
@@ -428,7 +440,7 @@ public class Responders {
 					tries++;
 			}
 			
-			if (tries == 20){
+			if (tries == 21){
 				sent = "I'm tired of coming up with conversation ideas.";
 			}
 				
