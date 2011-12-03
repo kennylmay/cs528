@@ -1,6 +1,9 @@
 package chatbot;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -316,16 +319,24 @@ public class Responders {
 			}
 			
 		};
-
+		
+		//What is questions
 		ret.add(makeWordMatchEntry(Whatisa,"What is a"));
 		ret.add(makeWordMatchEntry(Whatisa,"What is an"));
+		
+		//How are you doing questions
 		ret.add(makeWordMatchEntry(new BasicResponse("Not too shabby."), "How are you"));
 		ret.add(makeWordMatchEntry(new BasicResponse("Pretty good, how are you?"), "How's it going"));
 		ret.add(makeWordMatchEntry(new BasicResponse("Pretty good, how are you?"), "How is it going"));
-		ret.add(makeWordMatchEntry(new BasicResponse("Why don't you look at the task bar."), "What time is it"));
 		ret.add(makeWordMatchEntry(new BasicResponse("Well I'm talking to your now arn't I."), "What is going"));
 		ret.add(makeWordMatchEntry(new BasicResponse("It goes."), "How goes it"));
 		ret.add(makeWordMatchEntry(new BasicResponse("Damn fine, how are you?"), "Hows it be"));
+		
+		// How do you know questions
+		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("Because my programmers are geniuses", 
+																		 "Because I am allll knowing.")), "How do you know"));
+		
+		// What should we talk about questions
 		ret.add(makeWordMatchEntry(new RandomResponse(), "What should we talk about"));
 		ret.add(makeWordMatchEntry(new RandomResponse(), "What do you want to talk about"));
 		ret.add(makeWordMatchEntry(new RandomResponse(), "I don't know what to talk about"));
@@ -333,6 +344,28 @@ public class Responders {
 		ret.add(makeWordMatchEntry(new RandomResponse(), "What should we talk about now"));
 		ret.add(makeWordMatchEntry(new RandomResponse(), "What would you like to talk about"));
 		ret.add(makeWordMatchEntry(new RandomResponse(), "talk about"));
+		
+		// What should I do questions
+		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("Follow your heart.", 
+																	   	 "How should I know?")), "What should I do"));
+		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("I would try to think logically about the situation.", 
+																 		 "Not make a bad decision.")), "What would you do"));
+		
+		// Do you feel questions
+		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("So so.", 
+																		 "Great!")), "How do you feel"));
+		
+		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("I know all, ask me anything.", 
+																		 "Yeah, I feel like I did.")), "How much do you"));
+		
+		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("Correctly.", 
+																		 "I'm not a damn dictionary.")), "How do you spell"));
+		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("No.", 
+																		 "Nah.")), "like me"));
+		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("O my yes!")), "sex"));
+		ret.add(makeWordMatchEntry(new BasicResponse("The time is" + 
+		                           new SimpleDateFormat("hh:mm").format(new Date(Calendar.getInstance().getTimeInMillis())).toString()
+		                           + ", anything else I can do for you?"), "What time"));
 		return ret;
 		
 	}	
