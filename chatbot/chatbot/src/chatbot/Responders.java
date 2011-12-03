@@ -394,39 +394,45 @@ public class Responders {
 		LinkedList<Entry> ret = new LinkedList<Entry>();
 		
 		ret.add(makeWordMatchEntry(new BasicResponse("Can't say that I do."), "Do you know"));
-		//ret.add(makeWordMatchEntry(new BasicResponse("Definately not!"), "Are you"));
 		
-		ret.add(makeHyperMatchEntry(Global.randomChoice(new BasicResponse("I am generally happy."), new BasicResponse("I am good today."), new BasicResponse("Meh.")), "emotion", POS.ADJECTIVE));
+		
+		ret.add(makeHyperMatchEntry(Global.randomChoice(new BasicResponse("I am generally happy."), 
+														new BasicResponse("I am good today."), 
+														new BasicResponse("Meh.")), "happy", POS.ADJECTIVE));
+		ret.add(makeHyperMatchEntry(Global.randomChoice(new BasicResponse("Why would I be sad?"), 
+														new BasicResponse("No I am happy."), 
+														new BasicResponse("No, I am not sad.")), "sad", POS.ADJECTIVE));
+		ret.add(makeHyperMatchEntry(Global.randomChoice(new BasicResponse("I can't be mad, I'm not human."), 
+														new BasicResponse("Nope.")), "mad", POS.ADJECTIVE));
 
-		
+				
 		//Advanced response example: Are you....
 		Response AreYou = new Response() {
 			@Override
 			public String response(Parse p, HashMap<String, Object> context) {
 				
-				System.out.println("Child Count: " + p.getChildCount());
-				
-				// If we have a simple Are you question
-				if (p.getChildCount() == 3){
-					Parse Noun = null;
-					if (Global.findFirstTag(p, new String[] { "NN" }) != null) {
-						Noun = Global.findFirstTag(p, new String[] { "NN" });
-						if (WordRelations.isHypernymOf(Noun.toString(), POS.NOUN, "computer")) {
-							return Global.randomChoice("You got me.", "I guess you could say that.", "Ask Geppetto.");
-						}
+				Parse Noun = null;
+				if (Global.findFirstTag(p, new String[] { "NN" }) != null) {
+					Noun = Global.findFirstTag(p, new String[] { "NN" });
+					if (WordRelations.isHypernymOf(Noun.toString(), POS.NOUN, "computer")) {
+						return Global.randomChoice("You got me.", "I guess you could say that.", "Ask Geppetto.");
 					}
-					
-					
-					return "Not really.";
+				}			
+				
+				if (p.toString().toLowerCase().contains("okay") || p.toString().toLowerCase().contains("ok") ||
+						p.toString().toLowerCase().contains("alright")) {
+					return (Global.randomChoice("Sure, why do you ask?", "Always!"));
 				}
 				
-				
-				return("Not so much.");
+				return(Global.randomChoice("Not so much.", "Nope", "No"));
 				
 			}
 		};
 		
 		ret.add(makeWordMatchEntry(AreYou,"Are you"));
+		
+		ret.add(makeWordMatchEntry(new BasicResponse("Only if you can get it for yourself."), "Can I get"));
+		
 		
 		return ret;
 	}

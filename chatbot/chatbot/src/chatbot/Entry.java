@@ -51,6 +51,20 @@ public class Entry {
 				}
 		      }
 			}
+			
+			if(pos == POS.ADJECTIVE) {
+				  //Get all tags for nouns
+				  LinkedList<Parse> adjs = Global.findAllTags(p,new String[] {"JJ", "JJR", "JJS"});
+				  
+				  //Try each adjective
+				  for(Parse adj : adjs) {
+					  System.out.println("Trying adj: " + adj + " hypermatched to : " + hypernymPattern + " with POS: " + pos);
+					if(WordRelations.isHypernymOf(adj.toString(), POS.ADJECTIVE, hypernymPattern)) {
+						System.out.println("Matched");
+						return true;
+					}
+			      }
+			}
 		 return false;
 		}
 		
