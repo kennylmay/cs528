@@ -62,10 +62,6 @@ public class Responders {
 		
 		return ret;
 	}
-	
-	
-
-	
 
 	public String response(Parse parse, HashMap<String,Object> context) {
 		
@@ -162,6 +158,7 @@ public class Responders {
 	    };
 	    return defaultResponse;
 	}
+
 	
 	private static Response defaultSBARQ() {
 		Response defaultResponse = new Response() {
@@ -271,37 +268,36 @@ public class Responders {
 			@Override
 			public String response(Parse p, HashMap<String, Object> context) {
 				
-				//Get the first noun phrase occurring after "What is a"
-				LinkedList<Parse> nounPhrases = Global.findAllTags(p, new String[] { "NP" });
+				String str = "";
+				String adj = "";
+				LinkedList<Parse> Adjective = null;
+				Parse Noun = null;
 				
-				Parse Adjective = null;				
 				if (Global.findFirstTag(p, new String[] { "JJ" }) != null){
-					Adjective = Global.findFirstTag(p, new String[] { "JJ" });
+					Adjective = Global.findAllTags(p, new String[] { "JJ" });
+					for (Parse Adj : Adjective){
+						adj += Adj.toString() + " and ";
+					}
+					adj = adj.substring(0, adj.length()-5);
 				}
 				
-				Parse Noun = null;
 				if(Global.findFirstTag(p, new String[] { "NN" }) != null){
 					Noun = Global.findFirstTag(p, new String[] { "NN" });
 				}
-				
-				String str = null;
-				String adj = null;			
+											
 				if (Noun != null){
 					str = Noun.toString();
 				}
 				
-				if (Adjective != null){
-					adj = Adjective.toString();
-				}
 			
 			    if (Adjective != null && Noun != null){	
 			    	if (Global.beginsWithVowel(str)){
-			    		return  Global.randomChoice("I know what an " + str + " is but what makes it " + adj + ".",
+			    		return  Global.randomChoice("I know what an " + str + " is but what makes it " + adj + "?",
 			                    "Well thats a matter of opinion now isn't it.");
-				    	}else{
-				    		return  Global.randomChoice("I know what a " + str + " is but what makes it " + adj + ".",
-			    			                    "Well thats a matter of opinion now isn't it.");
-				    	}
+				    }else{
+				    	return  Global.randomChoice("I know what a " + str + " is but what makes it " + adj + "?",
+				    								"Well thats a matter of opinion now isn't it.");
+				    }
 			    }else if(Adjective == null && Noun != null){
 			    	if (Global.beginsWithVowel(str)){
 			    		return Global.randomChoice("An " + str + " is " + WordRelations.getDefinition(str, POS.NOUN) + ".");
@@ -316,15 +312,22 @@ public class Responders {
 			    	}
 			    }else{
 			    	return Global.randomChoice("You got me.", "I really have no clue.", "I have no idea.");
-			    }
-				
-					
+			    }					
 			}
+			
 		};
 
 		ret.add(makeWordMatchEntry(Whatisa,"What is a"));
 		ret.add(makeWordMatchEntry(Whatisa,"What is an"));
-
+		ret.add(makeWordMatchEntry(new BasicResponse("Not too shabby."), "How are you"));
+		ret.add(makeWordMatchEntry(new BasicResponse("Pretty good, how are you?"), "How's it going"));
+		ret.add(makeWordMatchEntry(new BasicResponse("Pretty good, how are you?"), "How is it going"));
+		ret.add(makeWordMatchEntry(new BasicResponse("Why don't you look at the task bar."), "What time is it"));
+		ret.add(makeWordMatchEntry(new BasicResponse("Well I'm talking to your now arn't I."), "What is going"));
+		ret.add(makeWordMatchEntry(new BasicResponse("It goes."), "How goes it"));
+		ret.add(makeWordMatchEntry(new BasicResponse("Damn fine, how are you?"), "Hows it be"));
+		ret.add(makeWordMatchEntry(new RandomResponse(), "What should we talk about"));
+		ret.add(makeWordMatchEntry(new RandomResponse(), "What do you want to talk about"));
 		return ret;
 		
 	}	
@@ -383,5 +386,55 @@ public class Responders {
 		
 	}
 	
-
+	//Make the random convo starters in case the user wants a new topic.
+	public class RandomResponse implements Response {
+					@Override
+		public String response(Parse p, HashMap<String, Object> context) {
+			    
+			//Put this into the statements context.. it might be useful later
+			if(!context.containsKey("starters")) {
+				context.put("starters", new LinkedList<String>());
+			}
+			
+			if(!((HashMap<String,Integer>)context.get("userSentences")).isEmpty()){
+				HashMap<String, Integer> sents = ((HashMap<String,Integer>)context.get("userSentences"));
+				
+				for(String sent : sents.keySet()){
+					//Flip possessive statements
+					Parse users = Global.parseString(sent);
+					
+					Parse[] level2 = users.getChildren();
+					if (level2[0].getType().equals("S")){
+						sent = Global.flipPossesives(sent.toString());		    			    
+						return Global.randomChoice("Well, you said "  + sent.substring(0,sent.length()-1) + ", tell me more.");     
+					}
+						
+				}
+			}
+			
+			String sent = "How's your family?";
+			int tries = 0;
+					
+			while (((LinkedList<String>)context.get("starters")).contains(sent) && tries <= 20){
+					sent = Global.randomChoice("What is your favorite sport?",
+					"How do you feel about this freakin weather?",
+					"Well what do you wanna talk about?",
+					"Do you like sports?",
+					"Do you know who I am?",
+					"Do you have any siblings?",
+					"What is your favorite food?",
+					"How old are you?",
+					"What did you do today?");
+					tries++;
+			}
+			
+			if (tries == 20){
+				sent = "I'm tired of coming up with conversation ideas.";
+			}
+				
+			((LinkedList<String>)context.get("starters")).add(sent);
+				
+			return sent;
+		}	
+	}
 }

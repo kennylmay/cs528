@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
+import opennlp.tools.cmdline.parser.ParserTool;
 import opennlp.tools.dictionary.Dictionary;
 import opennlp.tools.parser.Parse;
 import opennlp.tools.parser.Parser;
@@ -282,5 +283,16 @@ public class Global {
 	 return ( s.startsWith ("a") || s.startsWith ("e") || s.startsWith ("i") || s.startsWith ("o") || s.startsWith ("u") || 
 		   	  s.startsWith ("A") || s.startsWith ("E") || s.startsWith ("I") || s.startsWith ("O") || s.startsWith ("U"));
 	}
+	
+	public static Parse parseString(String s){
+		String sentences[] = Global.sdetector.sentDetect(s);
+		String sent = sentences[0];
+		sent = Global.tokenize(sent, Global.tokenizer);
 
+		Parse[] topParses = ParserTool.parseLine(sent, Global.parser, 1);
+
+		Parse p = topParses[0];
+
+		return(p);
+	}
 }
