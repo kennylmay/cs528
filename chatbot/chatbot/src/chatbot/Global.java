@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 import opennlp.tools.cmdline.parser.ParserTool;
@@ -276,6 +277,13 @@ public class Global {
 		}
 		//Will never get here
 		return null;
+	}
+	
+	
+	//Randomly pick one of the list items
+	public static<T> T randomListChoice(List<T> choices) {
+		int val = Math.abs(rand.nextInt() % choices.size());
+		return choices.get(val);
 	}
 	
 	public static boolean beginsWithVowel (String s)

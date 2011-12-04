@@ -351,8 +351,8 @@ public class Responders {
 		ret.add(makeWordMatchEntry(new BasicResponse("Damn fine, how are you?"), "Hows it be"));
 		
 		// How do you know questions
-		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("Because my programmers are geniuses", 
-																		 "Because I am allll knowing.")), "How do you know"));
+		ret.add(makeWordMatchEntry(new BasicRandomResponse("Because my programmers are geniuses", 
+																		 "Because I am all knowing."), "How do you know"));
 		
 		// What should we talk about questions
 		ret.add(makeWordMatchEntry(new RandomResponse(), "What should we talk about"));
@@ -364,23 +364,22 @@ public class Responders {
 		ret.add(makeWordMatchEntry(new RandomResponse(), "talk about"));
 		
 		// What should I do questions
-		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("Follow your heart.", 
-																	   	 "How should I know?")), "What should I do"));
-		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("I would try to think logically about the situation.", 
-																 		 "Not make a bad decision.")), "What would you do"));
+		ret.add(makeWordMatchEntry(new BasicRandomResponse("Follow your heart.", 
+																	   	 "How should I know?"), "What should I do"));
+		ret.add(makeWordMatchEntry(new BasicRandomResponse("I would try to think logically about the situation.", 
+																 		 "Not make a bad decision."), "What would you do"));
 		
 		// Do you feel questions
-		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("So so.", 
-																		 "Great!")), "How do you feel"));
+		ret.add(makeWordMatchEntry(new BasicRandomResponse("So so.", 
+																		 "Great!"), "How do you feel"));
 		
-		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("I know all, ask me anything.", 
-																		 "Yeah, I feel like I did.")), "How much do you"));
+		ret.add(makeWordMatchEntry(new BasicRandomResponse("I know all, ask me anything.", 
+																		 "Yeah, I feel like I did."), "How much do you"));
 		
-		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("Correctly.", 
-																		 "I'm not a damn dictionary.")), "How do you spell"));
-		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("No.", 
-																		 "Nah.")), "like me"));
-		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("O my yes!")), "sex"));
+		ret.add(makeWordMatchEntry(new BasicRandomResponse("Correctly.", "I'm not a damn dictionary."), "How do you spell"));
+		ret.add(makeWordMatchEntry(new BasicRandomResponse("No.", 
+																		 "Nah."), "like me"));
+		ret.add(makeWordMatchEntry(new BasicResponse("O my yes!"), "sex"));
 		ret.add(makeWordMatchEntry(new BasicResponse("The time is" + 
 		                           new SimpleDateFormat("hh:mm").format(new Date(Calendar.getInstance().getTimeInMillis())).toString()
 		                           + ", anything else I can do for you?"), "What time"));
@@ -396,14 +395,9 @@ public class Responders {
 		ret.add(makeWordMatchEntry(new BasicResponse("Can't say that I do."), "Do you know"));
 		
 		
-		ret.add(makeHyperMatchEntry(Global.randomChoice(new BasicResponse("I am generally happy."), 
-														new BasicResponse("I am good today."), 
-														new BasicResponse("Meh.")), "happy", POS.ADJECTIVE));
-		ret.add(makeHyperMatchEntry(Global.randomChoice(new BasicResponse("Why would I be sad?"), 
-														new BasicResponse("No I am happy."), 
-														new BasicResponse("No, I am not sad.")), "sad", POS.ADJECTIVE));
-		ret.add(makeHyperMatchEntry(Global.randomChoice(new BasicResponse("I can't be mad, I'm not human."), 
-														new BasicResponse("Nope.")), "mad", POS.ADJECTIVE));
+		ret.add(makeHyperMatchEntry(new BasicRandomResponse("I am generally happy.", "I am good today.", "Meh."), "happy", POS.ADJECTIVE));
+		ret.add(makeHyperMatchEntry(new BasicRandomResponse("Why would I be sad?", "No I am happy.", "No, I am not sad."), "sad", POS.ADJECTIVE));
+		ret.add(makeHyperMatchEntry(new BasicRandomResponse("I can't be mad, I'm not human.", "Nope."), "mad", POS.ADJECTIVE));
 
 				
 		//Advanced response example: Are you....
@@ -488,6 +482,34 @@ public class Responders {
 		}
 		
 	}
+	
+	//Basic response --- Just returns a string of text.
+	public class BasicRandomResponse implements Response {
+		private final LinkedList<String> responsePool = new LinkedList<String>();
+		
+		public BasicRandomResponse(String ... text) {
+			//Populate the response pool
+			for(String resp : text) {
+				responsePool.add(resp);
+			}
+		}
+		
+		@Override
+		public String response(Parse p, HashMap<String, Object> context) {
+			
+			//If this is an "S" type, pick up this simple clause as a statement
+			if(p.getType().equals("S")) {
+			    if(!context.containsKey("statements")) {
+			    	context.put("statements", new LinkedList<String>());
+			    }
+			    ((LinkedList<String>)context.get("statements")).add(Global.flipPossesives(p.toString())); 
+			}
+			
+			//Randomly pick from the response pool
+			return Global.randomListChoice(responsePool);
+		}
+	}
+	
 	
 	//Make the random convo starters in case the user wants a new topic.
 	public class RandomResponse implements Response {
