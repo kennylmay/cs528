@@ -356,17 +356,17 @@ public class Responders {
 																		 "Because I am all knowing."), "How do you know"));
 		
 		// What should we talk about questions
-		ret.add(makeWordMatchEntry(new RandomResponse(), "What should we talk about"));
-		ret.add(makeWordMatchEntry(new RandomResponse(), "What do you want to talk about"));
-		ret.add(makeWordMatchEntry(new RandomResponse(), "I don't know what to talk about"));
-		ret.add(makeWordMatchEntry(new RandomResponse(), "What do you wanna talk about"));
-		ret.add(makeWordMatchEntry(new RandomResponse(), "What should we talk about now"));
-		ret.add(makeWordMatchEntry(new RandomResponse(), "What would you like to talk about"));
-		ret.add(makeWordMatchEntry(new RandomResponse(), "talk about"));
+		ret.add( makeRegexEntry(new RandomResponse(), ".*talk about.*$"));
+		
+		// What would you like to do questions
+		ret.add( makeRegexEntry(new BasicRandomResponse("I like to make up responses for dumb questions."), ".*like to do.*$"));
 		
 		// What should I do questions
 		ret.add(makeWordMatchEntry(new BasicRandomResponse("Follow your heart.", 
 																	   	 "How should I know?"), "What should I do"));
+		// What should I do questions
+	    ret.add(makeWordMatchEntry(new BasicRandomResponse("Everything!", 
+																			   	 "Whatever you feel like I guess."), ".*what should i.*$"));
 		ret.add(makeWordMatchEntry(new BasicRandomResponse("I would try to think logically about the situation.", 
 																 		 "Not make a bad decision."), "What would you do"));
 		
