@@ -374,8 +374,8 @@ public class Responders {
 		ret.add(makeWordMatchEntry(new BasicRandomResponse("So so.", 
 																		 "Great!"), "How do you feel"));
 		
-		ret.add(makeWordMatchEntry(new BasicRandomResponse("I know all, ask me anything.", 
-																		 "Yeah, I feel like I did."), "How much do you"));
+		ret.add(makeWordMatchEntry(new BasicResponse(Global.randomChoice("A lot!", 
+																		 "Not so much.")), "How much do you"));
 		
 		ret.add(makeWordMatchEntry(new BasicRandomResponse("Correctly.", "I'm not a damn dictionary."), "How do you spell"));
 		ret.add(makeWordMatchEntry(new BasicRandomResponse("No.", 
@@ -394,12 +394,9 @@ public class Responders {
 		LinkedList<Entry> ret = new LinkedList<Entry>();
 		
 		ret.add(makeWordMatchEntry(new BasicResponse("Can't say that I do."), "Do you know"));
-		
-		
 		ret.add(makeHyperMatchEntry(new BasicRandomResponse("I am generally happy.", "I am good today.", "Meh."), "happy", POS.ADJECTIVE));
 		ret.add(makeHyperMatchEntry(new BasicRandomResponse("Why would I be sad?", "No I am happy.", "No, I am not sad."), "sad", POS.ADJECTIVE));
 		ret.add(makeHyperMatchEntry(new BasicRandomResponse("I can't be mad, I'm not human.", "Nope."), "mad", POS.ADJECTIVE));
-
 				
 		//Advanced response example: Are you....
 		Response AreYou = new Response() {
