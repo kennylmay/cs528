@@ -257,6 +257,7 @@ public class Responders {
 		ret.add( makeRegexEntry(new BasicResponse("How do you know what I want?"), "^.*you want to.*$"));
 		ret.add( makeRegexEntry(new BasicResponse("Well I want to go to Mars, that doesn't mean that I will."), "^I want to go.*$"));
 		ret.add( makeRegexEntry(new BasicResponse("You're very needy, aren't you?"), "^I need to.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("Well I want a million dollars."), "^.*I want you to .*$"));
 		ret.add( makeRegexEntry(new BasicResponse("It's probably best to look for help else where."), "^I need your help.*$"));
 		ret.add( makeRegexEntry(new BasicResponse("Don't you already have enough?"), "^I have to.*$"));
 		ret.add( makeRegexEntry(new BasicResponse("You thought wrong."), "^I thought you.*$"));
