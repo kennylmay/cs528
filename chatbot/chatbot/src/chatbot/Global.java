@@ -96,8 +96,8 @@ public class Global {
 			System.out.println("IO error reading input!");
 			System.exit(1);
 		}
-
-		return retString;
+		
+		return Character.toUpperCase(retString.charAt(0)) + retString.substring(1);
 	}
 
 	static String flipPossesives(String s) {
