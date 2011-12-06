@@ -6,6 +6,8 @@ import net.didion.jwnl.JWNLException;
 import net.didion.jwnl.data.IndexWord;
 import net.didion.jwnl.data.POS;
 import net.didion.jwnl.data.PointerType;
+import net.didion.jwnl.data.Synset;
+import net.didion.jwnl.data.Word;
 import net.didion.jwnl.data.relationship.RelationshipFinder;
 import net.didion.jwnl.data.relationship.RelationshipList;
 import net.didion.jwnl.dictionary.Dictionary;
@@ -31,7 +33,20 @@ public class WordRelations {
 			if (targetWord == null) {
 				return false;
 			}
+			
 			System.out.println("TARGET WORD" + targetWord.toString());
+			
+			Synset[] targetsyns = targetWord.getSenses();			
+			for (Synset syn : targetsyns){
+				for(Word word : syn.getWords()){
+					System.out.println(" TRYING! " + inputWord.getLemma() + " =? "+ word.getLemma());
+					if(inputWord.getLemma().equals(word.getLemma())){
+						System.out.println("FOUND! " + word.getLemma());
+						return true;
+					}
+				}
+			}
+			
 			RelationshipList list = RelationshipFinder.getInstance().findRelationships(inputWord.getSense(1), targetWord.getSense(1), PointerType.HYPERNYM);
 			
 			if (list.size() == 0){
