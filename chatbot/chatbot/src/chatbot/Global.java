@@ -191,7 +191,8 @@ public class Global {
     	Global.opposites.put("my", "your");
     	Global.opposites.put("mine", "yours");
     	Global.opposites.put("you are", "i am");
-    	
+    	Global.opposites.put("you're", "i am");
+    	Global.opposites.put("like you", "like me");
     	//Put in reverse order pairs
     	LinkedList<String> keys = new LinkedList<String>();
     	for(String key : Global.opposites.keySet()) {
