@@ -381,7 +381,7 @@ public class Responders {
 		ret.add(makeWordMatchEntry(new BasicRandomResponse("No.", 
 																		 "Nah."), "like me"));
 		ret.add(makeWordMatchEntry(new BasicResponse("O my yes!"), "sex"));
-		ret.add(makeWordMatchEntry(new BasicResponse("The time is" + 
+		ret.add(makeWordMatchEntry(new BasicResponse("The time is " + 
 		                           new SimpleDateFormat("hh:mm").format(new Date(Calendar.getInstance().getTimeInMillis())).toString()
 		                           + ", anything else I can do for you?"), "What time"));
 		return ret;
