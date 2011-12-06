@@ -24,6 +24,7 @@ public class chatbot {
 
 	public static void main(String[] args) {
 		
+		new UserInterface();
 		System.out.println("Initializing...");
 		Global.loadModels();
 		try {

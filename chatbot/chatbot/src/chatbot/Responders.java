@@ -86,7 +86,7 @@ public class Responders {
 		
 		//If no table, do a generic response
 		if(tableOfInterest == null) {
-			return Global.randomChoice("Pardon me?", "Come again?", "What was that?", "I don't understand.", "Hmmm...");
+			return  new RandomResponse().response(p, context);
 		}
 		
 		//Scan the table of interest for matches
@@ -275,6 +275,9 @@ public class Responders {
 		ret.add( makeRegexEntry(new BasicResponse("You seem very sure of this."), "^.*of course.*$"));
 		ret.add( makeRegexEntry(new BasicResponse("Positively!"), "^.*definitely.*$"));
 		ret.add( makeRegexEntry(new BasicResponse("Maybe I am, maybe I'm not."), "^.*you are.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("I'm glad we agree."), "^.*I agree.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("Do you?"), "^.*I do.*$"));
+		ret.add( makeRegexEntry(new BasicResponse("Making sense is a matter of perspective, don't you agree?"), "^.*make sense.*$"));
 
 		
 		return ret;
