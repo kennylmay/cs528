@@ -54,7 +54,7 @@ public class Entry {
 			
 			if(pos == POS.ADJECTIVE) {
 				  //Get all tags for nouns
-				  LinkedList<Parse> adjs = Global.findAllTags(p,new String[] {"JJ", "JJR", "JJS"});
+				  LinkedList<Parse> adjs = Global.findAllTags(p,new String[] {"JJ", "JJR", "JJS", "VBN"});
 				  
 				  //Try each adjective
 				  for(Parse adj : adjs) {
