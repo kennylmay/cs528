@@ -91,7 +91,9 @@ public class Global {
 		String retString = "";
 
 		try {
-			retString = stdin.readLine();
+			do {
+				retString = stdin.readLine();		
+			} while (retString.trim().equals(""));
 		} catch (IOException ioe) {
 			System.out.println("IO error reading input!");
 			System.exit(1);
